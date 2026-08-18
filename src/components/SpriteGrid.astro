@@ -692,6 +692,45 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     } catch (e) {}
   }
 
+  // 3. Short Retro Game Over / Game Lost Sound for returning to FALTANTE
+  function playGameOverSound() {
+    try {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      // Quick 3-note descending game over drop: G4 -> D#4 -> C4 with pitch slide down
+      const notes = [
+        { freq: 392.00, duration: 0.08 }, // G4
+        { freq: 311.13, duration: 0.08 }, // D#4 / Eb4
+        { freq: 261.63, duration: 0.14 }  // C4
+      ];
+
+      let noteTime = now;
+      notes.forEach((note, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sawtooth'; // Retro arcade buzz
+        osc.frequency.setValueAtTime(note.freq, noteTime);
+        
+        if (idx === notes.length - 1) {
+          osc.frequency.exponentialRampToValueAtTime(180, noteTime + note.duration);
+        }
+
+        gain.gain.setValueAtTime(0.10, noteTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(noteTime);
+        osc.stop(noteTime + note.duration);
+
+        noteTime += note.duration;
+      });
+    } catch (e) {}
+  }
+
   // Helper to spawn electric golden sparks burst on MAXIADO state
   function triggerGoldenSparks(card: HTMLElement) {
     const particleCount = 18;
@@ -747,6 +786,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         playMaxed1UpSound();
       } else {
         spriteStates.delete(id);
+        playGameOverSound();
       }
       updateUI();
     });
