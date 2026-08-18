@@ -862,6 +862,31 @@ body::after {
   }
 }
 
+/* GOLDEN SPARKS BURST ANIMATION FOR MASTERED / MAXIADO STATE */
+.spark-particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, var(--neon-yellow) 60%, transparent 100%);
+  box-shadow: 0 0 10px var(--neon-yellow), 0 0 18px #ffdd00, 0 0 25px rgba(255, 221, 0, 0.8);
+  z-index: 99;
+  animation: spark-fly 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+
+@keyframes spark-fly {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.2) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.1) rotate(var(--rot));
+  }
+}
+
 /* HOVER TOOLTIP ON SPRITE CARDS */
 .card-hover-tip {
   position: absolute;

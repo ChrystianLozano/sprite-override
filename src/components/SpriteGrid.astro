@@ -572,7 +572,39 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     }
   }
 
-  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch
+  // Helper to spawn electric golden sparks burst on MAXIADO state
+  function triggerGoldenSparks(card: HTMLElement) {
+    const particleCount = 18;
+    for (let i = 0; i < particleCount; i++) {
+      const spark = document.createElement('span');
+      spark.className = 'spark-particle';
+
+      const size = Math.random() * 8 + 4; // 4px to 12px
+      spark.style.width = `${size}px`;
+      spark.style.height = `${size}px`;
+
+      spark.style.left = `calc(50% - ${size / 2}px)`;
+      spark.style.top = `calc(50% - ${size / 2}px)`;
+
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * 110 + 35; // 35px to 145px
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      const rot = (Math.random() - 0.5) * 360;
+
+      spark.style.setProperty('--tx', `${tx}px`);
+      spark.style.setProperty('--ty', `${ty}px`);
+      spark.style.setProperty('--rot', `${rot}deg`);
+
+      card.appendChild(spark);
+
+      setTimeout(() => {
+        spark.remove();
+      }, 600);
+    }
+  }
+
+  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch & Sparks
   cards.forEach((card) => {
     card.addEventListener('click', () => {
       // Trigger instant Cyberpunk glitch visual effect
@@ -590,6 +622,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         spriteStates.set(id, 'marked');
       } else if (currentState === 'marked') {
         spriteStates.set(id, 'maxed');
+        triggerGoldenSparks(card as HTMLElement);
       } else {
         spriteStates.delete(id);
       }
