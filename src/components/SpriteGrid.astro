@@ -240,7 +240,8 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       legendObtained: 'OBTENIDO (MARCADO)',
       legendMaxed: 'MAXIADO (MÁXIMO)',
       modalTitle: 'GENERANDO PLANTILLA PNG...',
-      modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡'
+      modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡',
+      installApp: 'INSTALAR APP'
     },
     en: {
       docTitle: 'FORTNITE // SPRITES TEMPLATE | Sprite Tracker',
@@ -272,7 +273,8 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       legendObtained: 'OBTAINED (MARKED)',
       legendMaxed: 'MASTERED (MAX LEVEL)',
       modalTitle: 'GENERATING PNG TEMPLATE...',
-      modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️⚡'
+      modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️⚡',
+      installApp: 'INSTALL APP'
     }
   };
 
@@ -474,6 +476,9 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     const legMax = document.getElementById('i18n-legend-maxed');
     if (legMax) legMax.textContent = t.legendMaxed;
+
+    const installAppEl = document.getElementById('i18n-install-app');
+    if (installAppEl) installAppEl.textContent = t.installApp;
 
     // Update card titles, tooltips and attributes
     cards.forEach((card) => {
@@ -762,4 +767,43 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
   // Initial Language Setup
   applyLanguage(currentLang);
+
+  // Service Worker Registration for PWA support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch((err) => {
+        console.log('ServiceWorker registration error:', err);
+      });
+    });
+  }
+
+  // PWA Install Prompt Handler
+  let deferredPrompt: any = null;
+  const pwaInstallBtn = document.getElementById('pwa-install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (pwaInstallBtn) {
+      pwaInstallBtn.style.display = 'inline-flex';
+    }
+  });
+
+  if (pwaInstallBtn) {
+    pwaInstallBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          pwaInstallBtn.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+    deferredPrompt = null;
+  });
 </script>
