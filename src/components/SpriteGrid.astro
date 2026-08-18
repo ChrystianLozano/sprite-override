@@ -699,10 +699,35 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
           logging: false,
           useCORS: true,
           allowTaint: true,
+          windowWidth: 1280,
           onclone: (clonedDoc) => {
-            clonedDoc.querySelectorAll('.card-hover-tip').forEach((el) => {
-              (el as HTMLElement).style.display = 'none';
-            });
+            const clonedArea = clonedDoc.getElementById('template-capture-area');
+            if (clonedArea) {
+              clonedArea.style.width = '1200px';
+              clonedArea.style.maxWidth = '1200px';
+              clonedArea.style.margin = '0 auto';
+              clonedArea.style.padding = '2rem';
+              clonedArea.style.boxSizing = 'border-box';
+
+              const clonedHeader = clonedArea.querySelector<HTMLElement>('.template-watermark-header');
+              if (clonedHeader) {
+                clonedHeader.style.flexDirection = 'row';
+                clonedHeader.style.justifyContent = 'space-between';
+                clonedHeader.style.alignItems = 'center';
+              }
+
+              const clonedGrid = clonedArea.querySelector<HTMLElement>('.sprite-grid');
+              if (clonedGrid) {
+                clonedGrid.style.display = 'grid';
+                clonedGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
+                clonedGrid.style.gap = '1.75rem';
+              }
+
+              clonedArea.querySelectorAll('.card-hover-tip').forEach((el) => {
+                (el as HTMLElement).style.display = 'none';
+              });
+            }
+
             const clonedImgs = clonedDoc.querySelectorAll<HTMLImageElement>('.sprite-img');
             clonedImgs.forEach((img) => {
               img.style.objectFit = 'contain';
