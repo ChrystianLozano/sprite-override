@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CyberTerminalPreloader from '../components/CyberTerminalPreloader.astro';
 
 interface Props {
   title?: string;
@@ -20,10 +21,11 @@ const ogImageUrl = `${siteUrl}/og-image.png`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={siteUrl} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <title id="dynamic-meta-title">{title}</title>
+    <meta id="dynamic-meta-desc" name="description" content={description} />
+    <meta name="author" content="Chrystian Fabian Lozano Ramirez" />
+    <meta name="robots" content="index, follow" />
+    <link id="dynamic-canonical" rel="canonical" href={siteUrl} />
     <meta name="theme-color" content="#060913" />
 
     <!-- Favicons & Icons for Google Search & iOS -->
@@ -80,6 +82,7 @@ const ogImageUrl = `${siteUrl}/og-image.png`;
     </script>
   </head>
   <body>
+    <CyberTerminalPreloader />
     <slot />
   </body>
 </html>

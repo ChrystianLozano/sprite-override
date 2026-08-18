@@ -1,0 +1,97 @@
+---
+---
+<!-- CYBERPUNK HACKING TERMINAL PRELOADER -->
+<div id="cyber-preloader" class="cyber-preloader-overlay">
+  <div class="terminal-scanline"></div>
+  <div class="terminal-box">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="terminal-title">SYSTEM_OVERRIDE // C7S4_TERMINAL_V2</div>
+      <div class="terminal-badge">LIVE</div>
+    </div>
+    <div class="terminal-body">
+      <div id="terminal-lines" class="terminal-lines">
+        <!-- Dynamic hacking logs inserted via JS -->
+      </div>
+      <div class="terminal-progress-container">
+        <div class="terminal-progress-text">
+          <span id="term-status-label">OVERRIDE IN PROGRESS...</span>
+          <span id="term-percent">0%</span>
+        </div>
+        <div class="terminal-progress-bar-bg">
+          <div id="term-progress-bar-fill" class="terminal-progress-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Hacking Terminal Script Log Stream
+  const terminalMessages = [
+    { text: "INITIALIZING OVERRIDE PROTOCOL...", delay: 150 },
+    { text: "BYPASSING SECURITY GATEWAY [127.0.0.1:4321]...", status: "OK", delay: 380 },
+    { text: "DECRYPTING C7S4 SPRITE DATABASE...", status: "OK", delay: 620 },
+    { text: "INJECTING GLITCH MODULES [FORTNITE.MUDO.GAMES]...", status: "OK", delay: 880 },
+    { text: "SYSTEM OVERRIDE 100% COMPLETE. WELCOME OPERATOR.", status: "GRANTED", delay: 1120 }
+  ];
+
+  const linesContainer = document.getElementById('terminal-lines');
+  const progressBarFill = document.getElementById('term-progress-bar-fill');
+  const percentText = document.getElementById('term-percent');
+  const preloader = document.getElementById('cyber-preloader');
+
+  function runHackingSequence() {
+    terminalMessages.forEach((msg, idx) => {
+      setTimeout(() => {
+        if (!linesContainer) return;
+        
+        const lineEl = document.createElement('div');
+        lineEl.className = 'term-line';
+        lineEl.innerHTML = `
+          <span class="term-prefix">&gt;</span>
+          <span class="term-text">${msg.text}</span>
+          ${msg.status ? `<span class="term-status-ok">[${msg.status}]</span>` : ''}
+        `;
+        linesContainer.appendChild(lineEl);
+
+        const progressPercent = Math.min(100, Math.round(((idx + 1) / terminalMessages.length) * 100));
+        if (progressBarFill) progressBarFill.style.width = `${progressPercent}%`;
+        if (percentText) percentText.textContent = `${progressPercent}%`;
+
+        // When hacking sequence completes, hide terminal after 300ms
+        if (idx === terminalMessages.length - 1) {
+          setTimeout(() => {
+            if (preloader) {
+              preloader.classList.add('preloader-hidden');
+              setTimeout(() => {
+                preloader.style.display = 'none';
+              }, 550);
+            }
+          }, 350);
+        }
+      }, msg.delay);
+    });
+
+    // Safety fallback: Ensure preloader always hides after max 2.2s
+    setTimeout(() => {
+      if (preloader && preloader.style.display !== 'none') {
+        preloader.classList.add('preloader-hidden');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 550);
+      }
+    }, 2200);
+  }
+
+  // Run sequence
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runHackingSequence);
+  } else {
+    runHackingSequence();
+  }
+</script>
