@@ -616,6 +616,82 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     }
   }
 
+  // Web Audio API Synthesizer for Zero-Latency Retro Sound Effects
+  let audioCtx: AudioContext | null = null;
+
+  function getAudioContext(): AudioContext {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      audioCtx = new AudioContextClass();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  // 1. Smooth Pleasant Chime for OBTENIDO
+  function playObtainedSound() {
+    try {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(659.25, now); // E5
+      osc.frequency.setValueAtTime(987.77, now + 0.07); // B5
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.28);
+    } catch (e) {}
+  }
+
+  // 2. Iconic 8-Bit Mario 1-UP Extra Life Sound for MAXIADO / MASTERED
+  function playMaxed1UpSound() {
+    try {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      // Authentic 6-note 1UP sequence: E6, G6, E7, C7, D7, G7
+      const notes = [
+        { freq: 1318.51, duration: 0.07 }, // E6
+        { freq: 1567.98, duration: 0.07 }, // G6
+        { freq: 2637.02, duration: 0.07 }, // E7
+        { freq: 2093.00, duration: 0.07 }, // C7
+        { freq: 2349.32, duration: 0.07 }, // D7
+        { freq: 3135.96, duration: 0.16 }  // G7
+      ];
+
+      let noteTime = now;
+      notes.forEach((note) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'square'; // Authentic NES 8-bit retro pulse
+        osc.frequency.setValueAtTime(note.freq, noteTime);
+
+        gain.gain.setValueAtTime(0.10, noteTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(noteTime);
+        osc.stop(noteTime + note.duration);
+
+        noteTime += note.duration;
+      });
+    } catch (e) {}
+  }
+
   // Helper to spawn electric golden sparks burst on MAXIADO state
   function triggerGoldenSparks(card: HTMLElement) {
     const particleCount = 18;
@@ -648,7 +724,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     }
   }
 
-  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch & Sparks
+  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch, Audio & Sparks
   cards.forEach((card) => {
     card.addEventListener('click', () => {
       // Trigger instant Cyberpunk glitch visual effect
@@ -664,9 +740,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
       if (currentState === 'unmarked') {
         spriteStates.set(id, 'marked');
+        playObtainedSound();
       } else if (currentState === 'marked') {
         spriteStates.set(id, 'maxed');
         triggerGoldenSparks(card as HTMLElement);
+        playMaxed1UpSound();
       } else {
         spriteStates.delete(id);
       }
