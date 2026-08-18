@@ -95,7 +95,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       <!-- Filter Tabs -->
       <div class="cyber-filters">
         <button class="cyber-tab active" data-filter="all"><span id="i18n-tab-all">TODOS</span> ({sprites.length})</button>
-        <button class="cyber-tab" data-filter="marked"><span id="i18n-tab-marked">✓ MARCADOS</span> (<span id="filter-marked-count">0</span>)</button>
+        <button class="cyber-tab" data-filter="marked"><span id="i18n-tab-marked">✓ OBTENIDOS</span> (<span id="filter-marked-count">0</span>)</button>
         <button class="cyber-tab maxed-tab" data-filter="maxed"><span id="i18n-tab-maxed">👑 MAXIADOS</span> (<span id="filter-maxed-count">0</span>)</button>
         <button class="cyber-tab unmarked-tab" data-filter="unmarked"><span id="i18n-tab-unmarked">🔥 FALTANTES</span> (<span id="filter-unmarked-count">{sprites.length}</span>)</button>
       </div>
@@ -223,7 +223,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       missingLabel: 'FALTANTES:',
       downloadBtn: 'DESCARGAR PLANTILLA',
       tabAll: 'TODOS',
-      tabMarked: '✓ MARCADOS',
+      tabMarked: '✓ OBTENIDOS',
       tabMaxed: '👑 MAXIADOS',
       tabUnmarked: '🔥 FALTANTES',
       btnSelectAll: 'MARCAR OBTENIDOS',
@@ -255,7 +255,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       missingLabel: 'MISSING:',
       downloadBtn: 'DOWNLOAD TEMPLATE',
       tabAll: 'ALL',
-      tabMarked: '✓ MARKED',
+      tabMarked: '✓ OBTAINED',
       tabMaxed: '👑 MASTERED',
       tabUnmarked: '🔥 MISSING',
       btnSelectAll: 'MARK OBTAINED',
@@ -532,11 +532,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         if (starIcon) starIcon.style.display = 'none';
       }
 
-      // Filter Visibility
+      // Filter Visibility: "OBTENIDOS" includes both marked and maxed spirits
       const titleMatches = (card.dataset.title || '').includes(currentSearch.toLowerCase());
       let filterMatches = true;
 
-      if (currentFilter === 'marked') filterMatches = (state === 'marked');
+      if (currentFilter === 'marked') filterMatches = (state === 'marked' || state === 'maxed');
       if (currentFilter === 'maxed') filterMatches = (state === 'maxed');
       if (currentFilter === 'unmarked') filterMatches = (state === 'unmarked');
 
@@ -556,7 +556,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     if (maxedCountEl) maxedCountEl.textContent = maxedCount.toString();
     if (unmarkedCountEl) unmarkedCountEl.textContent = unmarkedCount.toString();
 
-    if (filterMarkedCountEl) filterMarkedCountEl.textContent = markedCount.toString();
+    if (filterMarkedCountEl) filterMarkedCountEl.textContent = (markedCount + maxedCount).toString();
     if (filterMaxedCountEl) filterMaxedCountEl.textContent = maxedCount.toString();
     if (filterUnmarkedCountEl) filterUnmarkedCountEl.textContent = unmarkedCount.toString();
 
@@ -740,7 +740,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         });
 
         const mainTitleWord = currentLang === 'es' ? 'glitch' : 'override';
-        const filterSuffix = currentFilter === 'marked' ? 'marcados' : currentFilter === 'maxed' ? 'maxiados' : currentFilter === 'unmarked' ? 'faltantes' : 'todos';
+        const filterSuffix = currentFilter === 'marked' ? 'obtenidos' : currentFilter === 'maxed' ? 'maxiados' : currentFilter === 'unmarked' ? 'faltantes' : 'todos';
 
         canvas.toBlob((blob) => {
           if (blob) {
