@@ -1,0 +1,23 @@
+{
+  "name": "fortnite-sprites-template",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.15.0",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "@types/file-saver": "^2.0.7",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,647 @@
+---
+// Dynamically import all sprite images from src/assets/sprites/ during build/compile time
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/sprites/*.{webp,png,jpg,jpeg,svg}', { eager: true });
+
+const spriteTranslations: Record<string, { es: string; en: string }> = {
+  'espiritu-agua-water-sprite-fortnite.webp': { es: 'Espíritu Agua', en: 'Water Sprite' },
+  'espiritu-aura-aura-sprite-fortnite.webp': { es: 'Espíritu Aura', en: 'Aura Sprite' },
+  'espiritu-delantero-striker-sprite-fortnite.webp': { es: 'Espíritu Delantero', en: 'Striker Sprite' },
+  'espiritu-demonio-demon-sprite-fortnite.webp': { es: 'Espíritu Demonio', en: 'Demon Sprite' },
+  'espiritu-fantasma-ghost-sprite-fortnite.webp': { es: 'Espíritu Fantasma', en: 'Ghost Sprite' },
+  'espiritu-fuego-fire-sprite-fortnite.webp': { es: 'Espíritu Fuego', en: 'Fire Sprite' },
+  'espiritu-jefe-boss-sprite-fortnite.webp': { es: 'Espíritu Jefe', en: 'Boss Sprite' },
+  'espiritu-mani-quemado-burnt-peanut-sprite-fortnite.webp': { es: 'Espíritu Maní Quemado', en: 'Burnt Peanut Sprite' },
+  'espiritu-onirico-dream-sprite-fortnite.webp': { es: 'Espíritu Onírico', en: 'Dream Sprite' },
+  'espiritu-parca-grim-reaper-sprite-fortnite.webp': { es: 'Espíritu Parca', en: 'Grim Reaper Sprite' },
+  'espiritu-pato-duck-sprite-fortnite.webp': { es: 'Espíritu Pato', en: 'Duck Sprite' },
+  'espiritu-pez-fishy-sprite-fortnite.webp': { es: 'Espíritu Pez', en: 'Fishy Sprite' },
+  'espiritu-punk-punk-sprite-fortnite.webp': { es: 'Espíritu Punk', en: 'Punk Sprite' },
+  'espiritu-punto-cero-zero-point-sprite-fortnite.webp': { es: 'Espíritu Punto Cero', en: 'Zero Point Sprite' },
+  'espiritu-rey-king-sprite-fortnite.webp': { es: 'Espíritu Rey', en: 'King Sprite' },
+  'espiritu-tierra-earth-sprite-fortnite.webp': { es: 'Espíritu Tierra', en: 'Earth Sprite' },
+};
+
+function parseSpriteTitles(filename: string): { titleEs: string; titleEn: string } {
+  if (spriteTranslations[filename]) {
+    return { titleEs: spriteTranslations[filename].es, titleEn: spriteTranslations[filename].en };
+  }
+
+  const clean = filename.replace(/\.[^/.]+$/, '').replace(/-fortnite$/i, '');
+  const match = clean.match(/^espiritu-(.+)-(.+)-sprite$/i);
+
+  if (match) {
+    const rawEs = match[1].replace(/-/g, ' ');
+    const rawEn = match[2].replace(/-/g, ' ');
+    const titleEs = 'Espíritu ' + rawEs.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const titleEn = rawEn.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' Sprite';
+    return { titleEs, titleEn };
+  }
+
+  const words = clean.replace(/-/g, ' ').split(' ');
+  const formatted = words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  return { titleEs: formatted, titleEn: formatted };
+}
+
+const sprites = Object.entries(imageModules).map(([path, mod]) => {
+  const filename = path.split('/').pop() || '';
+  const { titleEs, titleEn } = parseSpriteTitles(filename);
+
+  return {
+    id: filename,
+    filename,
+    titleEs,
+    titleEn,
+    imageSrc: mod.default.src,
+    imageMetadata: mod.default,
+  };
+});
+---
+
+<!-- Floating Sticky Control HUD -->
+<div class="sticky-controls-wrapper">
+  <div class="sticky-controls-container">
+    <!-- Action Controls & Stats Bar -->
+    <div class="cyber-stats-bar">
+      <div class="cyber-progress-box">
+        <div class="cyber-progress-header">
+          <span id="i18n-progress-title">PROGRESO DE COLECCIÓN</span>
+          <span id="progress-percent" style="color: var(--neon-cyan);">0%</span>
+        </div>
+        <div class="cyber-bar-bg">
+          <div id="progress-bar" class="cyber-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="cyber-stats-count">
+        <div><span id="i18n-obtained-label">OBTENIDOS:</span> <strong id="marked-count" style="color: var(--neon-green);">0</strong></div>
+        <div><span id="i18n-maxed-label">MAXIADOS:</span> <strong id="maxed-count" style="color: var(--neon-yellow);">0</strong></div>
+        <div><span id="i18n-missing-label">FALTANTES:</span> <strong id="unmarked-count" style="color: var(--neon-magenta);">0</strong></div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button id="btn-download-png" class="btn-cyber" title="Descargar plantilla según la pestaña activa">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span id="i18n-download-btn">DESCARGAR PLANTILLA</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Toolbar Section -->
+    <div class="cyber-toolbar">
+      <!-- Filter Tabs -->
+      <div class="cyber-filters">
+        <button class="cyber-tab active" data-filter="all"><span id="i18n-tab-all">TODOS</span> ({sprites.length})</button>
+        <button class="cyber-tab" data-filter="marked"><span id="i18n-tab-marked">✓ MARCADOS</span> (<span id="filter-marked-count">0</span>)</button>
+        <button class="cyber-tab maxed-tab" data-filter="maxed"><span id="i18n-tab-maxed">👑 MAXIADOS</span> (<span id="filter-maxed-count">0</span>)</button>
+        <button class="cyber-tab unmarked-tab" data-filter="unmarked"><span id="i18n-tab-unmarked">🔥 FALTANTES</span> (<span id="filter-unmarked-count">{sprites.length}</span>)</button>
+      </div>
+
+      <!-- Quick Selection Helpers -->
+      <div class="quick-buttons-box" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button id="btn-select-all" class="btn-cyber-dark" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">MARCAR OBTENIDOS</button>
+        <button id="btn-select-maxed" class="btn-cyber-dark" style="font-size: 0.75rem; padding: 0.4rem 0.8rem; color: var(--neon-yellow); border-color: rgba(221, 255, 0, 0.4);">MARCAR MAXIADOS</button>
+        <button id="btn-deselect-all" class="btn-cyber-dark" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">DESMARCAR TODOS</button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="cyber-search-box">
+        <input type="text" id="search-input" class="cyber-search-input" placeholder="BUSCAR ESPÍRITU..." />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Template Container (Capturable for PNG Export) -->
+<main style="max-width: 1200px; margin: 0 auto; padding: 0 0.5rem 4rem;">
+  <div id="template-capture-area" class="template-card-container">
+    <div class="template-watermark-header">
+      <div class="template-info">
+        <h2><span class="fortnite-logo-text">FORTNITE</span> // <span id="i18n-template-title">PLANTILLA DE ESPÍRITUS</span></h2>
+        <div class="template-brand-row">
+          <a href="https://mudo.games/" target="_blank" rel="noopener noreferrer" class="mudo-template-brand">mudo.games</a>
+          <span id="i18n-epic-partner-text" class="epic-partner-pill">
+            Apóyame usando el código <strong style="color: var(--neon-magenta);">MUDO</strong> en la tienda de Fortnite <span class="epic-tag">#EpicPartner</span>
+          </span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 1.25rem; flex-wrap: wrap; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span style="width: 12px; height: 12px; background: var(--neon-magenta); box-shadow: 0 0 10px var(--neon-magenta); display: inline-block;"></span>
+          <span id="i18n-legend-missing" style="color: var(--neon-magenta);">FALTANTE (DESTACADO)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span style="width: 12px; height: 12px; background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); display: inline-block;"></span>
+          <span id="i18n-legend-obtained" style="color: var(--neon-green);">OBTENIDO (MARCADO)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span style="width: 12px; height: 12px; background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow); display: inline-block;"></span>
+          <span id="i18n-legend-maxed" style="color: var(--neon-yellow);">MAXIADO (MÁXIMO)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprites Grid -->
+    <div id="sprite-grid" class="sprite-grid">
+      {sprites.map((sprite) => (
+        <article 
+          class="sprite-card unmarked" 
+          data-id={sprite.id}
+          data-title-es={sprite.titleEs}
+          data-title-en={sprite.titleEn}
+          data-title={sprite.titleEs.toLowerCase()}
+          data-filename={sprite.filename}
+          data-imgsrc={sprite.imageSrc}
+        >
+          <div class="card-header-overlay">
+            <span class="sprite-badge">
+              <span class="status-icon">🔥</span>
+              <span class="status-text">¡ESPÍRITU FALTANTE!</span>
+            </span>
+            <div class="checkbox-custom">
+              <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="star-icon" style="display: none; font-size: 13px; font-weight: 900;">👑</span>
+            </div>
+          </div>
+
+          <div class="sprite-image-wrapper">
+            <img 
+              src={sprite.imageSrc} 
+              alt={sprite.titleEs} 
+              width={sprite.imageMetadata.width}
+              height={sprite.imageMetadata.height}
+              class="sprite-img" 
+              loading="eager"
+            />
+          </div>
+
+          <div class="card-hover-tip">
+            <span class="hover-tip-text">💡 Clic: FALTANTE ➔ OBTENIDO ➔ MAXIADO</span>
+          </div>
+
+          <div class="sprite-info">
+            <h3 class="sprite-title">{sprite.titleEs}</h3>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</main>
+
+<!-- Modal Indicator for Exporting -->
+<div id="modal-export" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="cyber-spinner"></div>
+    <h3 id="modal-title" style="font-family: var(--font-hero); font-size: 1.3rem; margin-bottom: 0.5rem; text-transform: uppercase; color: var(--neon-cyan);">GENERANDO PLANTILLA PNG...</h3>
+    <p id="modal-desc" style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem; text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);">
+      USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡
+    </p>
+  </div>
+</div>
+
+<script>
+  import html2canvas from 'html2canvas';
+  import { saveAs } from 'file-saver';
+
+  // Translations Dictionary
+  const i18nDict: Record<string, Record<string, string>> = {
+    es: {
+      heroTitle: 'GLITCH',
+      navSeason: 'CAPÍTULO 7 • TEMPORADA 4',
+      heroSubtitle: 'CAPÍTULO 7 | TEMPORADA 4',
+      slogan: 'ROMPE LAS REGLAS • CAMBIA EL JUEGO',
+      progressTitle: 'PROGRESO DE COLECCIÓN',
+      obtainedLabel: 'OBTENIDOS:',
+      maxedLabel: 'MAXIADOS:',
+      missingLabel: 'FALTANTES:',
+      downloadBtn: 'DESCARGAR PLANTILLA',
+      tabAll: 'TODOS',
+      tabMarked: '✓ MARCADOS',
+      tabMaxed: '👑 MAXIADOS',
+      tabUnmarked: '🔥 FALTANTES',
+      btnSelectAll: 'MARCAR OBTENIDOS',
+      btnSelectMaxed: 'MARCAR MAXIADOS',
+      btnDeselectAll: 'DESMARCAR TODOS',
+      searchPlaceholder: 'BUSCAR ESPÍRITU...',
+      templateTitle: 'PLANTILLA DE ESPÍRITUS',
+      epicPartnerText: 'Apóyame usando el código <strong style="color: var(--neon-magenta);">MUDO</strong> en la tienda de Fortnite <span class="epic-tag">#EpicPartner</span>',
+      cardHoverTip: '💡 Clic: FALTANTE ➔ OBTENIDO ➔ MAXIADO',
+      missingBadge: '¡ESPÍRITU FALTANTE!',
+      obtainedBadge: 'OBTENIDO',
+      maxedBadge: 'MAXIADO',
+      legendMissing: 'FALTANTE (DESTACADO)',
+      legendObtained: 'OBTENIDO (MARCADO)',
+      legendMaxed: 'MAXIADO (MÁXIMO)',
+      modalTitle: 'GENERANDO PLANTILLA PNG...',
+      modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡'
+    },
+    en: {
+      heroTitle: 'OVERRIDE',
+      navSeason: 'CHAPTER 7 • SEASON 4',
+      heroSubtitle: 'CHAPTER 7 | SEASON 4',
+      slogan: 'BREAK THE RULES • CHANGE THE GAME',
+      progressTitle: 'COLLECTION PROGRESS',
+      obtainedLabel: 'OBTAINED:',
+      maxedLabel: 'MASTERED:',
+      missingLabel: 'MISSING:',
+      downloadBtn: 'DOWNLOAD TEMPLATE',
+      tabAll: 'ALL',
+      tabMarked: '✓ MARKED',
+      tabMaxed: '👑 MASTERED',
+      tabUnmarked: '🔥 MISSING',
+      btnSelectAll: 'MARK OBTAINED',
+      btnSelectMaxed: 'MARK MASTERED',
+      btnDeselectAll: 'DESELECT ALL',
+      searchPlaceholder: 'SEARCH SPRITE...',
+      templateTitle: 'SPRITES TEMPLATE',
+      epicPartnerText: 'Support me using code <strong style="color: var(--neon-magenta);">MUDO</strong> in the Fortnite item shop <span class="epic-tag">#EpicPartner</span>',
+      cardHoverTip: '💡 Click: MISSING ➔ OBTAINED ➔ MASTERED',
+      missingBadge: 'MISSING SPRITE!',
+      obtainedBadge: 'OBTAINED',
+      maxedBadge: 'MASTERED',
+      legendMissing: 'MISSING (HIGHLIGHTED)',
+      legendObtained: 'OBTAINED (MARKED)',
+      legendMaxed: 'MASTERED (MAX LEVEL)',
+      modalTitle: 'GENERATING PNG TEMPLATE...',
+      modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️⚡'
+    }
+  };
+
+  // 3-State Storage: 'unmarked' | 'marked' | 'maxed'
+  type SpriteState = 'unmarked' | 'marked' | 'maxed';
+  const STORAGE_KEY_V2 = 'fortnite_sprites_state_v2';
+  let spriteStates = new Map<string, SpriteState>();
+
+  // Load saved state (with backwards compatibility for v1)
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_V2);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (typeof parsed === 'object' && parsed !== null) {
+        Object.entries(parsed).forEach(([id, st]) => {
+          if (st === 'marked' || st === 'maxed') {
+            spriteStates.set(id, st as SpriteState);
+          }
+        });
+      }
+    } else {
+      // Check legacy v1 state
+      const legacy = localStorage.getItem('fortnite_marked_sprites_override_v1');
+      if (legacy) {
+        const parsed = JSON.parse(legacy);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((id: string) => spriteStates.set(id, 'marked'));
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Error loading saved state', e);
+  }
+
+  // Detect Language
+  let currentLang = (() => {
+    try {
+      const saved = localStorage.getItem('fortnite_sprites_lang');
+      if (saved === 'es' || saved === 'en') return saved;
+    } catch (e) {}
+    const userLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'es';
+    return userLang.toLowerCase().startsWith('es') ? 'es' : 'en';
+  })();
+
+  // DOM Elements
+  const cards = document.querySelectorAll<HTMLElement>('.sprite-card');
+  const progressBar = document.getElementById('progress-bar');
+  const progressPercent = document.getElementById('progress-percent');
+  const markedCountEl = document.getElementById('marked-count');
+  const maxedCountEl = document.getElementById('maxed-count');
+  const unmarkedCountEl = document.getElementById('unmarked-count');
+  const filterMarkedCountEl = document.getElementById('filter-marked-count');
+  const filterMaxedCountEl = document.getElementById('filter-maxed-count');
+  const filterUnmarkedCountEl = document.getElementById('filter-unmarked-count');
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.cyber-tab');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+
+  const btnSelectAll = document.getElementById('btn-select-all');
+  const btnSelectMaxed = document.getElementById('btn-select-maxed');
+  const btnDeselectAll = document.getElementById('btn-deselect-all');
+  const btnDownloadPng = document.getElementById('btn-download-png');
+
+  const modalExport = document.getElementById('modal-export');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+
+  let currentFilter = 'all';
+  let currentSearch = '';
+
+  // Apply Language to DOM
+  function applyLanguage(lang: string) {
+    currentLang = lang;
+    try {
+      localStorage.setItem('fortnite_sprites_lang', lang);
+    } catch (e) {}
+
+    document.documentElement.lang = lang;
+    const t = i18nDict[lang] || i18nDict['es'];
+
+    // Active state of switcher buttons
+    const btnEs = document.getElementById('lang-btn-es');
+    const btnEn = document.getElementById('lang-btn-en');
+    if (btnEs) btnEs.classList.toggle('active', lang === 'es');
+    if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+
+    // Hero title: GLITCH for Spanish, OVERRIDE for English
+    const glitchTitle = document.querySelector('.glitch-title');
+    if (glitchTitle) {
+      glitchTitle.textContent = t.heroTitle;
+      glitchTitle.setAttribute('data-text', t.heroTitle);
+    }
+
+    const navSeason = document.getElementById('nav-season-text');
+    if (navSeason) navSeason.textContent = t.navSeason;
+
+    const heroSub = document.getElementById('hero-subtitle-text');
+    if (heroSub) heroSub.textContent = t.heroSubtitle;
+
+    const heroSlogan = document.getElementById('hero-slogan-pill');
+    if (heroSlogan) heroSlogan.textContent = t.slogan;
+
+    const progTitle = document.getElementById('i18n-progress-title');
+    if (progTitle) progTitle.textContent = t.progressTitle;
+
+    const obtLabel = document.getElementById('i18n-obtained-label');
+    if (obtLabel) obtLabel.textContent = t.obtainedLabel;
+
+    const maxLabel = document.getElementById('i18n-maxed-label');
+    if (maxLabel) maxLabel.textContent = t.maxedLabel;
+
+    const missLabel = document.getElementById('i18n-missing-label');
+    if (missLabel) missLabel.textContent = t.missingLabel;
+
+    const dlBtn = document.getElementById('i18n-download-btn');
+    if (dlBtn) dlBtn.textContent = t.downloadBtn;
+
+    const tabAll = document.getElementById('i18n-tab-all');
+    if (tabAll) tabAll.textContent = t.tabAll;
+
+    const tabMarked = document.getElementById('i18n-tab-marked');
+    if (tabMarked) tabMarked.textContent = t.tabMarked;
+
+    const tabMaxed = document.getElementById('i18n-tab-maxed');
+    if (tabMaxed) tabMaxed.textContent = t.tabMaxed;
+
+    const tabUnmarked = document.getElementById('i18n-tab-unmarked');
+    if (tabUnmarked) tabUnmarked.textContent = t.tabUnmarked;
+
+    const btnSelAll = document.getElementById('btn-select-all');
+    if (btnSelAll) btnSelAll.textContent = t.btnSelectAll;
+
+    const btnSelMax = document.getElementById('btn-select-maxed');
+    if (btnSelMax) btnSelMax.textContent = t.btnSelectMaxed;
+
+    const btnDeselAll = document.getElementById('btn-deselect-all');
+    if (btnDeselAll) btnDeselAll.textContent = t.btnDeselectAll;
+
+    if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+
+    const tmplTitle = document.getElementById('i18n-template-title');
+    if (tmplTitle) tmplTitle.textContent = t.templateTitle;
+
+    const epicPartnerEl = document.getElementById('i18n-epic-partner-text');
+    if (epicPartnerEl) epicPartnerEl.innerHTML = t.epicPartnerText;
+
+    const legMiss = document.getElementById('i18n-legend-missing');
+    if (legMiss) legMiss.textContent = t.legendMissing;
+
+    const legObt = document.getElementById('i18n-legend-obtained');
+    if (legObt) legObt.textContent = t.legendObtained;
+
+    const legMax = document.getElementById('i18n-legend-maxed');
+    if (legMax) legMax.textContent = t.legendMaxed;
+
+    // Update card titles, tooltips and attributes
+    cards.forEach((card) => {
+      const cardTitleEl = card.querySelector('.sprite-title');
+      const text = card.getAttribute(`data-title-${lang}`) || card.getAttribute('data-title-es') || '';
+      if (cardTitleEl) cardTitleEl.textContent = text;
+      card.dataset.title = text.toLowerCase();
+
+      const hoverTipEl = card.querySelector('.hover-tip-text');
+      if (hoverTipEl) hoverTipEl.textContent = t.cardHoverTip;
+    });
+
+    updateUI();
+  }
+
+  // Update UI Cards and Statistics
+  function updateUI() {
+    const total = cards.length;
+    let markedCount = 0;
+    let maxedCount = 0;
+    const t = i18nDict[currentLang] || i18nDict['es'];
+
+    cards.forEach((card) => {
+      const id = card.dataset.id || '';
+      const state = spriteStates.get(id) || 'unmarked';
+
+      const badgeText = card.querySelector('.status-text');
+      const badgeIcon = card.querySelector('.status-icon');
+      const checkIcon = card.querySelector<HTMLElement>('.check-icon');
+      const starIcon = card.querySelector<HTMLElement>('.star-icon');
+
+      card.classList.remove('unmarked', 'marked', 'maxed');
+
+      if (state === 'marked') {
+        markedCount++;
+        card.classList.add('marked');
+
+        if (badgeText) badgeText.textContent = t.obtainedBadge;
+        if (badgeIcon) badgeIcon.textContent = '✓';
+        if (checkIcon) checkIcon.style.display = 'block';
+        if (starIcon) starIcon.style.display = 'none';
+      } else if (state === 'maxed') {
+        maxedCount++;
+        card.classList.add('maxed');
+
+        if (badgeText) badgeText.textContent = t.maxedBadge;
+        if (badgeIcon) badgeIcon.textContent = '👑';
+        if (checkIcon) checkIcon.style.display = 'none';
+        if (starIcon) starIcon.style.display = 'inline-block';
+      } else {
+        card.classList.add('unmarked');
+
+        if (badgeText) badgeText.textContent = t.missingBadge;
+        if (badgeIcon) badgeIcon.textContent = '🔥';
+        if (checkIcon) checkIcon.style.display = 'none';
+        if (starIcon) starIcon.style.display = 'none';
+      }
+
+      // Filter Visibility
+      const titleMatches = (card.dataset.title || '').includes(currentSearch.toLowerCase());
+      let filterMatches = true;
+
+      if (currentFilter === 'marked') filterMatches = (state === 'marked');
+      if (currentFilter === 'maxed') filterMatches = (state === 'maxed');
+      if (currentFilter === 'unmarked') filterMatches = (state === 'unmarked');
+
+      if (titleMatches && filterMatches) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    const unmarkedCount = total - (markedCount + maxedCount);
+    const percent = total > 0 ? Math.round(((markedCount + maxedCount) / total) * 100) : 0;
+
+    if (progressBar) progressBar.style.width = `${percent}%`;
+    if (progressPercent) progressPercent.textContent = `${percent}%`;
+    if (markedCountEl) markedCountEl.textContent = markedCount.toString();
+    if (maxedCountEl) maxedCountEl.textContent = maxedCount.toString();
+    if (unmarkedCountEl) unmarkedCountEl.textContent = unmarkedCount.toString();
+
+    if (filterMarkedCountEl) filterMarkedCountEl.textContent = markedCount.toString();
+    if (filterMaxedCountEl) filterMaxedCountEl.textContent = maxedCount.toString();
+    if (filterUnmarkedCountEl) filterUnmarkedCountEl.textContent = unmarkedCount.toString();
+
+    // Save to LocalStorage
+    try {
+      const stateObj: Record<string, string> = {};
+      spriteStates.forEach((val, key) => {
+        stateObj[key] = val;
+      });
+      localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(stateObj));
+    } catch (e) {
+      console.error('Error saving state', e);
+    }
+  }
+
+  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const id = card.dataset.id || '';
+      const currentState = spriteStates.get(id) || 'unmarked';
+
+      if (currentState === 'unmarked') {
+        spriteStates.set(id, 'marked');
+      } else if (currentState === 'marked') {
+        spriteStates.set(id, 'maxed');
+      } else {
+        spriteStates.delete(id);
+      }
+      updateUI();
+    });
+  });
+
+  // Filter Buttons
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter || 'all';
+      updateUI();
+    });
+  });
+
+  // Search Input Handler
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = (e.target as HTMLInputElement).value;
+      updateUI();
+    });
+  }
+
+  // Quick Selection Helpers
+  if (btnSelectAll) {
+    btnSelectAll.addEventListener('click', () => {
+      cards.forEach((card) => {
+        const id = card.dataset.id;
+        if (id) spriteStates.set(id, 'marked');
+      });
+      updateUI();
+    });
+  }
+
+  if (btnSelectMaxed) {
+    btnSelectMaxed.addEventListener('click', () => {
+      cards.forEach((card) => {
+        const id = card.dataset.id;
+        if (id) spriteStates.set(id, 'maxed');
+      });
+      updateUI();
+    });
+  }
+
+  if (btnDeselectAll) {
+    btnDeselectAll.addEventListener('click', () => {
+      spriteStates.clear();
+      updateUI();
+    });
+  }
+
+  // Download PNG Template
+  if (btnDownloadPng) {
+    btnDownloadPng.addEventListener('click', async () => {
+      const captureArea = document.getElementById('template-capture-area');
+      if (!captureArea) return;
+
+      const t = i18nDict[currentLang] || i18nDict['es'];
+
+      if (modalExport && modalTitle && modalDesc) {
+        modalTitle.textContent = t.modalTitle;
+        modalDesc.innerHTML = t.modalDesc;
+        modalExport.classList.add('active');
+      }
+
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        const canvas = await html2canvas(captureArea, {
+          backgroundColor: '#060913',
+          scale: 2,
+          logging: false,
+          useCORS: true,
+          allowTaint: true,
+          onclone: (clonedDoc) => {
+            clonedDoc.querySelectorAll('.card-hover-tip').forEach((el) => {
+              (el as HTMLElement).style.display = 'none';
+            });
+            const clonedImgs = clonedDoc.querySelectorAll<HTMLImageElement>('.sprite-img');
+            clonedImgs.forEach((img) => {
+              img.style.objectFit = 'contain';
+              img.style.width = 'auto';
+              img.style.height = 'auto';
+              img.style.maxWidth = '100%';
+              img.style.maxHeight = '100%';
+            });
+          }
+        });
+
+        const mainTitleWord = currentLang === 'es' ? 'glitch' : 'override';
+        const filterSuffix = currentFilter === 'marked' ? 'marcados' : currentFilter === 'maxed' ? 'maxiados' : currentFilter === 'unmarked' ? 'faltantes' : 'todos';
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            saveAs(blob, `fortnite-${mainTitleWord}-sprites-${filterSuffix}-${Date.now()}.png`);
+          }
+        }, 'image/png');
+      } catch (err) {
+        console.error('Error generating PNG export', err);
+        alert('Ocurrió un error al generar la imagen PNG.');
+      } finally {
+        if (modalExport) modalExport.classList.remove('active');
+      }
+    });
+  }
+
+  // Language Switcher Events
+  document.getElementById('lang-btn-es')?.addEventListener('click', () => applyLanguage('es'));
+  document.getElementById('lang-btn-en')?.addEventListener('click', () => applyLanguage('en'));
+
+  // Initial Language Setup
+  applyLanguage(currentLang);
+</script>
