@@ -211,6 +211,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   // Translations Dictionary
   const i18nDict: Record<string, Record<string, string>> = {
     es: {
+      docTitle: 'FORTNITE // PLANTILLA DE ESPÍRITUS | Rastreador de Espíritus',
       heroTitle: 'GLITCH',
       navSeason: 'CAPÍTULO 7 • TEMPORADA 4',
       heroSubtitle: 'CAPÍTULO 7 | TEMPORADA 4',
@@ -241,6 +242,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡'
     },
     en: {
+      docTitle: 'FORTNITE // SPRITES TEMPLATE | Sprite Tracker',
       heroTitle: 'OVERRIDE',
       navSeason: 'CHAPTER 7 • SEASON 4',
       heroSubtitle: 'CHAPTER 7 | SEASON 4',
@@ -347,6 +349,10 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     document.documentElement.lang = lang;
     const t = i18nDict[lang] || i18nDict['es'];
+
+    if (t.docTitle) {
+      document.title = t.docTitle;
+    }
 
     // Active state of switcher buttons
     const btnEs = document.getElementById('lang-btn-es');
