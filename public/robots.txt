@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fortnite.mudo.games/sitemap-index.xml
+Sitemap: https://fortnite.mudo.games/sitemap-0.xml
