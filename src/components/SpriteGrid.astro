@@ -212,6 +212,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   const i18nDict: Record<string, Record<string, string>> = {
     es: {
       docTitle: 'FORTNITE // PLANTILLA DE ESPÍRITUS | Rastreador de Espíritus',
+      metaDesc: 'Plantilla interactiva de Espíritus de Fortnite con selector multilenguaje, estado Maxiado y descarga en PNG.',
       heroTitle: 'GLITCH',
       navSeason: 'CAPÍTULO 7 • TEMPORADA 4',
       heroSubtitle: 'CAPÍTULO 7 | TEMPORADA 4',
@@ -243,6 +244,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     },
     en: {
       docTitle: 'FORTNITE // SPRITES TEMPLATE | Sprite Tracker',
+      metaDesc: 'Interactive Fortnite Sprites Template & Tracker with multilingual support, Mastered state, and HD PNG export.',
       heroTitle: 'OVERRIDE',
       navSeason: 'CHAPTER 7 • SEASON 4',
       heroSubtitle: 'CHAPTER 7 | SEASON 4',
@@ -352,6 +354,50 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     if (t.docTitle) {
       document.title = t.docTitle;
+    }
+
+    // Dynamic SEO & Open Graph Meta Tags update based on active language
+    const metaDescEl = document.querySelector('meta[name="description"]');
+    if (metaDescEl && t.metaDesc) metaDescEl.setAttribute('content', t.metaDesc);
+
+    const ogTitleEl = document.querySelector('meta[property="og:title"]');
+    if (ogTitleEl && t.docTitle) ogTitleEl.setAttribute('content', t.docTitle);
+
+    const ogDescEl = document.querySelector('meta[property="og:description"]');
+    if (ogDescEl && t.metaDesc) ogDescEl.setAttribute('content', t.metaDesc);
+
+    const ogLocaleEl = document.querySelector('meta[property="og:locale"]');
+    if (ogLocaleEl) ogLocaleEl.setAttribute('content', lang === 'es' ? 'es_ES' : 'en_US');
+
+    const twTitleEl = document.querySelector('meta[name="twitter:title"]');
+    if (twTitleEl && t.docTitle) twTitleEl.setAttribute('content', t.docTitle);
+
+    const twDescEl = document.querySelector('meta[name="twitter:description"]');
+    if (twDescEl && t.metaDesc) twDescEl.setAttribute('content', t.metaDesc);
+
+    // Update JSON-LD Structured Data script
+    const jsonLdEl = document.querySelector('script[type="application/ld+json"]');
+    if (jsonLdEl && t.docTitle && t.metaDesc) {
+      jsonLdEl.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": t.docTitle,
+        "url": "https://fortnite.mudo.games",
+        "description": t.metaDesc,
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "All",
+        "author": {
+          "@type": "Person",
+          "name": "Chrystian Fabian Lozano Ramirez",
+          "url": "https://chrystian.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "mudo.games",
+          "url": "https://mudo.games/"
+        },
+        "image": "https://fortnite.mudo.games/og-image.png"
+      });
     }
 
     // Active state of switcher buttons
