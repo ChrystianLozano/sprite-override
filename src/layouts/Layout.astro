@@ -10,6 +10,9 @@ const {
   title = "FORTNITE // PLANTILLA DE ESPÍRITUS | Rastreador de Espíritus", 
   description = "Plantilla interactiva de Espíritus de Fortnite con selector multilenguaje, estado Maxiado y descarga en PNG." 
 } = Astro.props;
+
+const siteUrl = "https://fortnite.mudo.games";
+const ogImageUrl = `${siteUrl}/og-image.png`;
 ---
 
 <!DOCTYPE html>
@@ -17,10 +20,63 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={siteUrl} />
+    <meta name="theme-color" content="#060913" />
+
+    <!-- Favicons & Icons for Google Search & iOS -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph (Facebook, Discord, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="mudo.games" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:secure_url" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@mudo_" />
+    <meta name="twitter:creator" content="@mudo_" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "FORTNITE // PLANTILLA DE ESPÍRITUS | Rastreador de Espíritus",
+        "url": "https://fortnite.mudo.games",
+        "description": "Plantilla interactiva de Espíritus de Fortnite con selector multilenguaje, estado Maxiado y descarga en PNG.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "All",
+        "author": {
+          "@type": "Person",
+          "name": "Chrystian Fabian Lozano Ramirez",
+          "url": "https://chrystian.dev/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "mudo.games",
+          "url": "https://mudo.games/"
+        },
+        "image": "https://fortnite.mudo.games/og-image.png"
+      }
+    </script>
   </head>
   <body>
     <slot />
