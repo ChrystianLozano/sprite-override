@@ -204,6 +204,25 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   </div>
 </div>
 
+<!-- Non-Intrusive PWA Install Toast Banner -->
+<div id="install-toast-banner" class="cyber-toast-banner">
+  <div class="toast-header">
+    <h4 id="i18n-toast-title" class="toast-title">📱 GUARDA TU COLECCIÓN</h4>
+    <button id="toast-close-btn" class="toast-close-btn" aria-label="Cerrar notificación">&times;</button>
+  </div>
+  <div id="i18n-toast-body" class="toast-body">
+    Instala esta app en tu pantalla de inicio para acceder en 1 clic y mantener tus espíritus guardados siempre.
+  </div>
+  <div class="toast-actions">
+    <button id="toast-install-action" class="btn-cyber" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+      <span id="i18n-toast-btn">INSTALAR APP 📲</span>
+    </button>
+    <button id="toast-dismiss-action" class="btn-cyber-dark" style="font-size: 0.75rem; padding: 0.4rem 0.75rem;">
+      <span id="i18n-toast-later">MÁS TARDE</span>
+    </button>
+  </div>
+</div>
+
 <script>
   import html2canvas from 'html2canvas';
   import { saveAs } from 'file-saver';
@@ -241,7 +260,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       legendMaxed: 'MAXIADO (MÁXIMO)',
       modalTitle: 'GENERANDO PLANTILLA PNG...',
       modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡',
-      installApp: 'INSTALAR APP'
+      installApp: 'INSTALAR APP',
+      toastTitle: '📱 GUARDA TU COLECCIÓN',
+      toastBody: 'Instala esta app en tu pantalla de inicio para acceder en 1 clic y mantener tus espíritus guardados siempre.',
+      toastBtn: 'INSTALAR APP 📲',
+      toastLater: 'MÁS TARDE'
     },
     en: {
       docTitle: 'FORTNITE // SPRITES TEMPLATE | Sprite Tracker',
@@ -274,7 +297,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       legendMaxed: 'MASTERED (MAX LEVEL)',
       modalTitle: 'GENERATING PNG TEMPLATE...',
       modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️⚡',
-      installApp: 'INSTALL APP'
+      installApp: 'INSTALL APP',
+      toastTitle: '📱 KEEP YOUR COLLECTION SAFE',
+      toastBody: 'Install this app to your home screen for 1-tap access and keep your sprites collection safe.',
+      toastBtn: 'INSTALL APP 📲',
+      toastLater: 'LATER'
     }
   };
 
@@ -479,6 +506,18 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     const installAppEl = document.getElementById('i18n-install-app');
     if (installAppEl) installAppEl.textContent = t.installApp;
+
+    const toastTitleEl = document.getElementById('i18n-toast-title');
+    if (toastTitleEl) toastTitleEl.textContent = t.toastTitle;
+
+    const toastBodyEl = document.getElementById('i18n-toast-body');
+    if (toastBodyEl) toastBodyEl.textContent = t.toastBody;
+
+    const toastBtnEl = document.getElementById('i18n-toast-btn');
+    if (toastBtnEl) toastBtnEl.textContent = t.toastBtn;
+
+    const toastLaterEl = document.getElementById('i18n-toast-later');
+    if (toastLaterEl) toastLaterEl.textContent = t.toastLater;
 
     // Update card titles, tooltips and attributes
     cards.forEach((card) => {
@@ -804,6 +843,55 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
   window.addEventListener('appinstalled', () => {
     if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+    const toastBanner = document.getElementById('install-toast-banner');
+    if (toastBanner) toastBanner.classList.remove('active');
     deferredPrompt = null;
   });
+
+  // Non-Intrusive PWA Toast Notification Trigger
+  const TOAST_DISMISSED_KEY = 'fortnite_sprites_install_toast_closed';
+  const toastBanner = document.getElementById('install-toast-banner');
+  const toastCloseBtn = document.getElementById('toast-close-btn');
+  const toastInstallBtn = document.getElementById('toast-install-action');
+  const toastDismissBtn = document.getElementById('toast-dismiss-action');
+
+  function dismissToast() {
+    if (toastBanner) toastBanner.classList.remove('active');
+    try {
+      localStorage.setItem(TOAST_DISMISSED_KEY, 'true');
+    } catch (e) {}
+  }
+
+  if (toastCloseBtn) toastCloseBtn.addEventListener('click', dismissToast);
+  if (toastDismissBtn) toastDismissBtn.addEventListener('click', dismissToast);
+
+  if (toastInstallBtn) {
+    toastInstallBtn.addEventListener('click', async () => {
+      dismissToast();
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+        }
+        deferredPrompt = null;
+      } else {
+        // Fallback info for iOS / browsers without beforeinstallprompt
+        alert(currentLang === 'es' 
+          ? 'Para instalar en tu móvil:\n• En Safari (iPhone): Toca Compartir (⎋) ➔ "Agregar a inicio"\n• En Android: Toca Opciones (⋮) ➔ "Instalar aplicación"'
+          : 'To install on your device:\n• On Safari (iPhone): Tap Share (⎋) ➔ "Add to Home Screen"\n• On Android: Tap Menu (⋮) ➔ "Install app"'
+        );
+      }
+    });
+  }
+
+  // Trigger toast after 18 seconds of interaction if not previously dismissed
+  const isDismissed = localStorage.getItem(TOAST_DISMISSED_KEY) === 'true';
+  if (!isDismissed) {
+    setTimeout(() => {
+      if (toastBanner && !localStorage.getItem(TOAST_DISMISSED_KEY)) {
+        toastBanner.classList.add('active');
+      }
+    }, 18000);
+  }
 </script>
