@@ -572,9 +572,17 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     }
   }
 
-  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked
+  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch
   cards.forEach((card) => {
     card.addEventListener('click', () => {
+      // Trigger instant Cyberpunk glitch visual effect
+      card.classList.remove('is-glitching');
+      void card.offsetWidth; // Force CSS reflow to restart animation
+      card.classList.add('is-glitching');
+      setTimeout(() => {
+        card.classList.remove('is-glitching');
+      }, 400);
+
       const id = card.dataset.id || '';
       const currentState = spriteStates.get(id) || 'unmarked';
 

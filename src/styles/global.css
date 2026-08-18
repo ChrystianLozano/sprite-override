@@ -819,6 +819,49 @@ body::after {
   box-shadow: 0 0 10px var(--neon-yellow);
 }
 
+/* CLICK GLITCH ANIMATION ON CARDS */
+.sprite-card.is-glitching {
+  animation: card-glitch-anim 0.38s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  z-index: 30 !important;
+}
+
+@keyframes card-glitch-anim {
+  0% {
+    transform: translate(0, 0) scale(0.97);
+    box-shadow: 0 0 30px var(--neon-magenta), -8px 0 var(--neon-cyan);
+    filter: contrast(180%) hue-rotate(90deg);
+  }
+  20% {
+    transform: translate(-6px, 4px) scale(1.03);
+    box-shadow: -10px 0 var(--neon-magenta), 10px 0 var(--neon-cyan);
+    filter: contrast(220%) hue-rotate(-90deg);
+    clip-path: polygon(0 15%, 100% 15%, 100% 85%, 0 85%);
+  }
+  40% {
+    transform: translate(6px, -4px) scale(0.98);
+    box-shadow: 10px 0 var(--neon-cyan), -10px 0 var(--neon-magenta);
+    filter: contrast(200%) invert(30%);
+    clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%);
+  }
+  60% {
+    transform: translate(-3px, -2px) scale(1.02);
+    box-shadow: 0 0 35px var(--neon-yellow);
+    filter: contrast(160%) hue-rotate(45deg);
+    clip-path: polygon(0 5%, 100% 5%, 100% 95%, 0 95%);
+  }
+  80% {
+    transform: translate(3px, 2px) scale(1.01);
+    box-shadow: -4px 0 var(--neon-cyan), 4px 0 var(--neon-magenta);
+    filter: contrast(120%);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    box-shadow: none;
+    filter: none;
+    clip-path: none;
+  }
+}
+
 /* HOVER TOOLTIP ON SPRITE CARDS */
 .card-hover-tip {
   position: absolute;
