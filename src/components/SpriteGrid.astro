@@ -176,7 +176,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
               width={sprite.imageMetadata.width}
               height={sprite.imageMetadata.height}
               class="sprite-img" 
-              loading="eager"
+              loading="lazy"
             />
           </div>
 
@@ -1012,4 +1012,26 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       }
     }, 18000);
   }
+
+  // Handle Lazy Load + Glitch Reveal Effect for Sprite Images
+  const spriteImgs = document.querySelectorAll<HTMLImageElement>('.sprite-img');
+  spriteImgs.forEach((img) => {
+    const wrapper = img.closest('.sprite-image-wrapper');
+    if (wrapper) wrapper.classList.add('is-loading');
+
+    function onImageLoaded() {
+      if (wrapper) wrapper.classList.remove('is-loading');
+      img.classList.add('is-loaded');
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
+      onImageLoaded();
+    } else {
+      img.addEventListener('load', onImageLoaded);
+      img.addEventListener('error', () => {
+        if (wrapper) wrapper.classList.remove('is-loading');
+        img.classList.add('is-loaded');
+      });
+    }
+  });
 </script>

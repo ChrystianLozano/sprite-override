@@ -1067,6 +1067,30 @@ body::after {
   width: 100%;
   position: relative;
   overflow: hidden;
+  background: rgba(4, 7, 14, 0.4);
+}
+
+/* CYBERPUNK SKELETON LOADING SCANNER ANIMATION */
+.sprite-image-wrapper.is-loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 242, 254, 0.02) 0%,
+    rgba(0, 242, 254, 0.22) 50%,
+    rgba(255, 0, 127, 0.18) 75%,
+    rgba(0, 242, 254, 0.02) 100%
+  );
+  background-size: 200% 100%;
+  animation: cyber-skeleton-scan 1.2s infinite ease-in-out;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes cyber-skeleton-scan {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .sprite-img {
@@ -1079,6 +1103,40 @@ body::after {
   display: block;
   margin: 0 auto;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.sprite-img.is-loaded {
+  opacity: 1;
+  animation: glitch-image-reveal 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes glitch-image-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(1.06) skewX(8deg);
+    filter: drop-shadow(6px 0 var(--neon-magenta)) drop-shadow(-6px 0 var(--neon-cyan)) contrast(180%);
+    clip-path: polygon(0 20%, 100% 20%, 100% 80%, 0 80%);
+  }
+  30% {
+    opacity: 0.7;
+    transform: scale(0.97) skewX(-5deg);
+    filter: drop-shadow(-4px 0 var(--neon-magenta)) drop-shadow(4px 0 var(--neon-cyan)) contrast(140%);
+    clip-path: polygon(0 50%, 100% 50%, 100% 90%, 0 90%);
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(1.02) skewX(2deg);
+    filter: drop-shadow(3px 0 var(--neon-cyan)) drop-shadow(0 0 15px rgba(0, 242, 254, 0.8));
+    clip-path: polygon(0 5%, 100% 5%, 100% 95%, 0 95%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) skewX(0deg);
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+    clip-path: none;
+  }
 }
 
 .sprite-info {
