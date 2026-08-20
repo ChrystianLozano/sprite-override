@@ -3,6 +3,7 @@
 const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/sprites/*.{webp,png,jpg,jpeg,svg}', { eager: true });
 
 const spriteTranslations: Record<string, { es: string; en: string }> = {
+  // Espíritus Originales
   'espiritu-agua-water-sprite-fortnite.webp': { es: 'Espíritu Agua', en: 'Water Sprite' },
   'espiritu-aura-aura-sprite-fortnite.webp': { es: 'Espíritu Aura', en: 'Aura Sprite' },
   'espiritu-delantero-striker-sprite-fortnite.webp': { es: 'Espíritu Delantero', en: 'Striker Sprite' },
@@ -19,6 +20,66 @@ const spriteTranslations: Record<string, { es: string; en: string }> = {
   'espiritu-punto-cero-zero-point-sprite-fortnite.webp': { es: 'Espíritu Punto Cero', en: 'Zero Point Sprite' },
   'espiritu-rey-king-sprite-fortnite.webp': { es: 'Espíritu Rey', en: 'King Sprite' },
   'espiritu-tierra-earth-sprite-fortnite.webp': { es: 'Espíritu Tierra', en: 'Earth Sprite' },
+
+  // Arbustín / Bushranger
+  'espiritu-arbustin-bushranger-sprite-fortnite.webp': { es: 'Espíritu Arbustín', en: 'Bushranger Sprite' },
+  'espiritu-arbustin-dorado-bushranger-gold-sprite-fortnite.webp': { es: 'Espíritu Arbustín Dorado', en: 'Bushranger Gold Sprite' },
+  'espiritu-arbustin-maestro-trucos-bushranger-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Arbustín Maestro de Trucos', en: 'Bushranger Cheatmaster Sprite' },
+
+  // Blaster 8-Bits / 8-Bit Blaster
+  'espiritu-blaster-8-bits-eightbitblaster-sprite-fortnite.webp': { es: 'Espíritu Blaster 8-Bits', en: '8-Bit Blaster Sprite' },
+  'espiritu-blaster-8-bits-dorado-eightbitblaster-gold-sprite-fortnite.webp': { es: 'Espíritu Blaster 8-Bits Dorado', en: '8-Bit Blaster Gold Sprite' },
+  'espiritu-blaster-8-bits-maestro-trucos-eightbitblaster-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Blaster 8-Bits Maestro de Trucos', en: '8-Bit Blaster Cheatmaster Sprite' },
+
+  // Corona / Crown
+  'espiritu-corona-crown-sprite-fortnite.webp': { es: 'Espíritu Corona', en: 'Crown Sprite' },
+  'espiritu-corona-dorada-crown-gold-sprite-fortnite.webp': { es: 'Espíritu Corona Dorada', en: 'Crown Gold Sprite' },
+  'espiritu-corona-maestro-trucos-crown-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Corona Maestro de Trucos', en: 'Crown Cheatmaster Sprite' },
+
+  // Enano / Dwarf
+  'espiritu-enano-dwarf-sprite-fortnite.webp': { es: 'Espíritu Enano', en: 'Dwarf Sprite' },
+  'espiritu-enano-dorado-dwarf-gold-sprite-fortnite.webp': { es: 'Espíritu Enano Dorado', en: 'Dwarf Gold Sprite' },
+  'espiritu-enano-maestro-trucos-dwarf-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Enano Maestro de Trucos', en: 'Dwarf Cheatmaster Sprite' },
+
+  // Explorador de Tormenta / Stormscout
+  'espiritu-explorador-tormenta-stormscout-sprite-fortnite.webp': { es: 'Espíritu Explorador de Tormenta', en: 'Stormscout Sprite' },
+  'espiritu-explorador-tormenta-dorado-stormscout-gold-sprite-fortnite.webp': { es: 'Espíritu Explorador de Tormenta Dorado', en: 'Stormscout Gold Sprite' },
+  'espiritu-explorador-tormenta-maestro-trucos-stormscout-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Explorador de Tormenta Maestro de Trucos', en: 'Stormscout Cheatmaster Sprite' },
+
+  // Jazz Jackrabbit
+  'espiritu-jazz-jackrabbit-jazz-jackrabbit-sprite-fortnite.webp': { es: 'Espíritu Jazz Jackrabbit', en: 'Jazz Jackrabbit Sprite' },
+  'espiritu-jazz-jackrabbit-dorado-jazz-jackrabbit-gold-sprite-fortnite.webp': { es: 'Espíritu Jazz Jackrabbit Dorado', en: 'Jazz Jackrabbit Gold Sprite' },
+  'espiritu-jazz-jackrabbit-maestro-trucos-jazz-jackrabbit-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Jazz Jackrabbit Maestro de Trucos', en: 'Jazz Jackrabbit Cheatmaster Sprite' },
+
+  // Jonesy
+  'espiritu-jonesy-jonesy-sprite-fortnite.webp': { es: 'Espíritu Jonesy', en: 'Jonesy Sprite' },
+  'espiritu-jonesy-dorado-jonesy-gold-sprite-fortnite.webp': { es: 'Espíritu Jonesy Dorado', en: 'Jonesy Gold Sprite' },
+  'espiritu-jonesy-maestro-trucos-jonesy-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Jonesy Maestro de Trucos', en: 'Jonesy Cheatmaster Sprite' },
+
+  // Killswitch
+  'espiritu-killswitch-killswitch-sprite-fortnite.webp': { es: 'Espíritu Killswitch', en: 'Killswitch Sprite' },
+  'espiritu-killswitch-dorado-killswitch-gold-sprite-fortnite.webp': { es: 'Espíritu Killswitch Dorado', en: 'Killswitch Gold Sprite' },
+  'espiritu-killswitch-maestro-trucos-killswitch-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Killswitch Maestro de Trucos', en: 'Killswitch Cheatmaster Sprite' },
+
+  // Klombo
+  'espiritu-klombo-klombo-sprite-fortnite.webp': { es: 'Espíritu Klombo', en: 'Klombo Sprite' },
+  'espiritu-klombo-dorado-klombo-gold-sprite-fortnite.webp': { es: 'Espíritu Klombo Dorado', en: 'Klombo Gold Sprite' },
+  'espiritu-klombo-maestro-trucos-klombo-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Klombo Maestro de Trucos', en: 'Klombo Cheatmaster Sprite' },
+
+  // Narrowflea Escriba / Narrowflea Scribe
+  'espiritu-narrowflea-escriba-narrowflea-scribe-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Escriba', en: 'Narrowflea Scribe Sprite' },
+  'espiritu-narrowflea-escriba-dorado-narrowflea-scribe-gold-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Escriba Dorado', en: 'Narrowflea Scribe Gold Sprite' },
+  'espiritu-narrowflea-escriba-maestro-trucos-narrowflea-scribe-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Escriba Maestro de Trucos', en: 'Narrowflea Scribe Cheatmaster Sprite' },
+
+  // Narrowflea Mono / Narrowflea Monkey
+  'espiritu-narrowflea-mono-narrowflea-monkey-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Mono', en: 'Narrowflea Monkey Sprite' },
+  'espiritu-narrowflea-mono-dorado-narrowflea-monkey-gold-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Mono Dorado', en: 'Narrowflea Monkey Gold Sprite' },
+  'espiritu-narrowflea-mono-maestro-trucos-narrowflea-monkey-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Mono Maestro de Trucos', en: 'Narrowflea Monkey Cheatmaster Sprite' },
+
+  // Narrowflea Obsidiana / Narrowflea Obsidian
+  'espiritu-narrowflea-obsidiana-narrowflea-obsidian-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Obsidiana', en: 'Narrowflea Obsidian Sprite' },
+  'espiritu-narrowflea-obsidiana-dorada-narrowflea-obsidian-gold-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Obsidiana Dorada', en: 'Narrowflea Obsidian Gold Sprite' },
+  'espiritu-narrowflea-obsidiana-maestro-trucos-narrowflea-obsidian-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Narrowflea Obsidiana Maestro de Trucos', en: 'Narrowflea Obsidian Cheatmaster Sprite' },
 };
 
 function parseSpriteTitles(filename: string): { titleEs: string; titleEn: string } {
@@ -27,16 +88,6 @@ function parseSpriteTitles(filename: string): { titleEs: string; titleEn: string
   }
 
   const clean = filename.replace(/\.[^/.]+$/, '').replace(/-fortnite$/i, '');
-  const match = clean.match(/^espiritu-(.+)-(.+)-sprite$/i);
-
-  if (match) {
-    const rawEs = match[1].replace(/-/g, ' ');
-    const rawEn = match[2].replace(/-/g, ' ');
-    const titleEs = 'Espíritu ' + rawEs.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    const titleEn = rawEn.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' Sprite';
-    return { titleEs, titleEn };
-  }
-
   const words = clean.replace(/-/g, ' ').split(' ');
   const formatted = words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   return { titleEs: formatted, titleEn: formatted };
