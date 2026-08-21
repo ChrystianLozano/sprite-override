@@ -227,7 +227,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
               width={sprite.imageMetadata.width}
               height={sprite.imageMetadata.height}
               class="sprite-img" 
-              loading="lazy"
+              loading="eager"
             />
           </div>
 
@@ -889,6 +889,50 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     });
   }
 
+  // Helper to ensure all images in a container are loaded, decoded and visible before canvas capture
+  async function ensureAllImagesLoaded(container: HTMLElement): Promise<void> {
+    const imgs = Array.from(container.querySelectorAll<HTMLImageElement>('.sprite-img'));
+    const loadPromises = imgs.map((img) => {
+      img.loading = 'eager';
+      const wrapper = img.closest('.sprite-image-wrapper');
+
+      function markAsLoaded() {
+        if (wrapper) wrapper.classList.remove('is-loading');
+        img.classList.add('is-loaded');
+      }
+
+      if (img.complete && img.naturalWidth > 0) {
+        markAsLoaded();
+        return Promise.resolve();
+      }
+
+      return new Promise<void>((resolve) => {
+        let isDone = false;
+        const done = () => {
+          if (!isDone) {
+            isDone = true;
+            markAsLoaded();
+            img.removeEventListener('load', done);
+            img.removeEventListener('error', done);
+            resolve();
+          }
+        };
+
+        img.addEventListener('load', done);
+        img.addEventListener('error', done);
+
+        // Safety fallback timer (max 3 seconds per image)
+        setTimeout(done, 3000);
+
+        if (img.decode) {
+          img.decode().then(done).catch(() => {});
+        }
+      });
+    });
+
+    await Promise.all(loadPromises);
+  }
+
   // Download PNG Template
   if (btnDownloadPng) {
     btnDownloadPng.addEventListener('click', async () => {
@@ -904,6 +948,8 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       }
 
       try {
+        // Preload and decode all images so offscreen images are fully fetched and rendered before capture
+        await ensureAllImagesLoaded(captureArea);
         await new Promise((resolve) => setTimeout(resolve, 200));
 
         const canvas = await html2canvas(captureArea, {
@@ -939,10 +985,24 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
               clonedArea.querySelectorAll('.card-hover-tip').forEach((el) => {
                 (el as HTMLElement).style.display = 'none';
               });
+
+              // Clean up image loading skeleton state inside cloned document
+              clonedArea.querySelectorAll('.sprite-image-wrapper').forEach((w) => {
+                w.classList.remove('is-loading');
+              });
             }
 
             const clonedImgs = clonedDoc.querySelectorAll<HTMLImageElement>('.sprite-img');
             clonedImgs.forEach((img) => {
+              img.loading = 'eager';
+              img.decoding = 'sync';
+              img.classList.add('is-loaded');
+              img.style.opacity = '1';
+              img.style.animation = 'none';
+              img.style.transition = 'none';
+              img.style.transform = 'none';
+              img.style.clipPath = 'none';
+              img.style.filter = 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7))';
               img.style.objectFit = 'contain';
               img.style.width = 'auto';
               img.style.height = 'auto';
