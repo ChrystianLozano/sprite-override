@@ -156,6 +156,23 @@ const spriteTranslations: Record<string, { es: string; en: string }> = {
   'espiritu-estanque-hacker-pond-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Estanque Hacker', en: 'Pond Cheatmaster Sprite' },
   'espiritu-estanque-hacker-de-botin-loot-hacker-pond-sprite-fortnite.webp': { es: 'Espíritu Estanque Hacker de Botín', en: 'Pond Loot Hacker Sprite' },
   'espiritu-estanque-cazarreompensas-bounty-hunter-pond-sprite-fortnite.webp': { es: 'Espíritu Estanque Cazarrecompensas', en: 'Pond Bounty Hunter Sprite' },
+
+  // Cumpleañero / Birthday
+  'espiritu-cumpleanero-birthday-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero', en: 'Birthday Sprite' },
+  'espiritu-cumpleanero-dorado-birthday-gold-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Dorado', en: 'Birthday Gold Sprite' },
+  'espiritu-cumpleanero-hacker-birthday-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker', en: 'Birthday Cheatmaster Sprite' },
+  'espiritu-cumpleanero-hacker-de-botin-birthday-loot-hacker-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker de Botín', en: 'Birthday Loot Hacker Sprite' },
+  'espiritu-cumpleanero-cazarrecompensas-birthday-bounty-hunter-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Cazarrecompensas', en: 'Birthday Bounty Hunter Sprite' },
+
+  // Cumpleañero Aliases (con tilde o nombres alternativos)
+  'espiritu-cumpleañero-birthday-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero', en: 'Birthday Sprite' },
+  'espiritu-cumpleañero-dorado-birthday-gold-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Dorado', en: 'Birthday Gold Sprite' },
+  'espiritu-cumpleañero-hacker-birthday-cheatmaster-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker', en: 'Birthday Cheatmaster Sprite' },
+  'espiritu-cumpleañero-hacker-birthday-morgana-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker', en: 'Birthday Cheatmaster Sprite' },
+  'espiritu-cumpleañero-hacker-de-botin-birthday-loot-hacker-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker de Botín', en: 'Birthday Loot Hacker Sprite' },
+  'espiritu-cumpleañero-hacker-de-botin-birthday-cheatmaster-morgana-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Hacker de Botín', en: 'Birthday Loot Hacker Sprite' },
+  'espiritu-cumpleañero-cazarrecompensas-birthday-bounty-hunter-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Cazarrecompensas', en: 'Birthday Bounty Hunter Sprite' },
+  'espiritu-cumpleañero-azarrecompensas-birthday-bounty-hunter-sprite-fortnite.webp': { es: 'Espíritu Cumpleañero Cazarrecompensas', en: 'Birthday Bounty Hunter Sprite' },
 };
 
 function parseSpriteTitles(filename: string): { titleEs: string; titleEn: string } {
@@ -176,6 +193,7 @@ const familyOrder = [
   'blinky',
   'corona',
   'crash-bandicoot',
+  'cumpleanero',
   'estanque',
   'explorador-tormenta',
   'jackrabbit',
@@ -195,6 +213,7 @@ const familyOrder = [
 function getFamily(filename: string): string {
   if (filename.includes('victorioso') || filename.includes('corona')) return 'corona';
   if (filename.includes('crash')) return 'crash-bandicoot';
+  if (filename.includes('cumple')) return 'cumpleanero';
   for (const f of familyOrder) {
     if (filename.includes(f)) return f;
   }
@@ -202,7 +221,7 @@ function getFamily(filename: string): string {
 }
 
 function getTier(filename: string): number {
-  if (filename.includes('cazarreompensas') || filename.includes('cazarrecompensas') || filename.includes('bounty-hunter')) return 5;
+  if (filename.includes('cazarreompensas') || filename.includes('cazarrecompensas') || filename.includes('bounty-hunter') || filename.includes('azarrecompensas')) return 5;
   if (filename.includes('botin') || filename.includes('loot-hacker')) return 4;
   if (filename.includes('hacker') || filename.includes('cheatmaster')) return 3;
   if (filename.includes('dorado') || filename.includes('dorada') || filename.includes('gold')) return 2;
