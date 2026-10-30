@@ -1,25 +1,35 @@
 ---
 ---
-<!-- CYBERPUNK HACKING TERMINAL PRELOADER -->
+<!-- TREASURE HUNTERS MULTIVERSE STYLE-SHIFT PRELOADER -->
 <div id="cyber-preloader" class="cyber-preloader-overlay">
-  <div class="terminal-scanline"></div>
+  <div class="preloader-halftone-bg"></div>
   <div class="terminal-box">
     <div class="terminal-header">
-      <div class="terminal-dots">
-        <span class="dot dot-red"></span>
-        <span class="dot dot-yellow"></span>
-        <span class="dot dot-green"></span>
+      <div class="terminal-title">
+        <span class="compass-spin">🧭</span> CAZATESOROS.EXE // トレジャーハンターズ
       </div>
-      <div class="terminal-title">SYSTEM_OVERRIDE // C7S4_TERMINAL_V2</div>
-      <div class="terminal-badge">LIVE</div>
+      <div class="retro-window-controls">
+        <span class="win-btn">□</span>
+        <span class="win-btn">_</span>
+        <span class="win-btn win-close">X</span>
+      </div>
     </div>
+
     <div class="terminal-body">
-      <div id="terminal-lines" class="terminal-lines">
-        <!-- Dynamic hacking logs inserted via JS -->
+      <!-- Dynamic Font-Shifting Teaser Logo (Inspired by estio1-estio6) -->
+      <div class="preloader-logo-stage">
+        <span class="preloader-katakana">フォートナイト • トレジャーハンターズ</span>
+        <div id="preloader-style-word" class="preloader-style-word style-step-1">FORTNITE</div>
+        <div class="preloader-sub-pill">THE GREATEST ADVENTURE OF ALL TIME</div>
       </div>
+
+      <div id="terminal-lines" class="terminal-lines">
+        <!-- Dynamic adventure logs inserted via JS -->
+      </div>
+
       <div class="terminal-progress-container">
         <div class="terminal-progress-text">
-          <span id="term-status-label">OVERRIDE IN PROGRESS...</span>
+          <span id="term-status-label">ABRIendo COFRE DEL TESORO...</span>
           <span id="term-percent">0%</span>
         </div>
         <div class="terminal-progress-bar-bg">
@@ -31,29 +41,33 @@
 </div>
 
 <script>
-  // Hacking Terminal Script Log Stream
   const terminalMessages = [
-    { text: "INITIALIZING OVERRIDE PROTOCOL...", delay: 150 },
-    { text: "BYPASSING SECURITY GATEWAY [127.0.0.1:4321]...", status: "OK", delay: 380 },
-    { text: "DECRYPTING C7S4 SPRITE DATABASE...", status: "OK", delay: 620 },
-    { text: "INJECTING GLITCH MODULES [FORTNITE.MUDO.GAMES]...", status: "OK", delay: 880 },
-    { text: "SYSTEM OVERRIDE 100% COMPLETE. WELCOME OPERATOR.", status: "GRANTED", delay: 1120 }
+    { text: "DESPLEGANDO MAPA DEL TESORO [CAPÍTULO 7 • MINI TEMPORADA]...", status: "MAPA OK", styleClass: "style-step-1", delay: 120 },
+    { text: "CARGANDO ARTE POP-ART, PUNK ZINE & MANGA HALFTONE...", status: "6 ESTILOS", styleClass: "style-step-2", delay: 320 },
+    { text: "LOCALIZANDO ESPÍRITUS Y COFRES LEGENDARIOS...", status: "LISTO", styleClass: "style-step-3", delay: 540 },
+    { text: "SINCRONIZANDO PLANTILLA [FORTNITE.MUDO.GAMES]...", status: "100%", styleClass: "style-step-4", delay: 760 },
+    { text: "¡BIENVENIDO A CAZATESOROS!", status: "ZARPAR 🏴‍☠️", styleClass: "style-step-5", delay: 980 }
   ];
 
   const linesContainer = document.getElementById('terminal-lines');
   const progressBarFill = document.getElementById('term-progress-bar-fill');
   const percentText = document.getElementById('term-percent');
   const preloader = document.getElementById('cyber-preloader');
+  const styleWord = document.getElementById('preloader-style-word');
 
-  function runHackingSequence() {
+  function runTreasureSequence() {
     terminalMessages.forEach((msg, idx) => {
       setTimeout(() => {
         if (!linesContainer) return;
-        
+
+        if (styleWord && msg.styleClass) {
+          styleWord.className = `preloader-style-word ${msg.styleClass}`;
+        }
+
         const lineEl = document.createElement('div');
         lineEl.className = 'term-line';
         lineEl.innerHTML = `
-          <span class="term-prefix">&gt;</span>
+          <span class="term-prefix">✦</span>
           <span class="term-text">${msg.text}</span>
           ${msg.status ? `<span class="term-status-ok">[${msg.status}]</span>` : ''}
         `;
@@ -63,35 +77,32 @@
         if (progressBarFill) progressBarFill.style.width = `${progressPercent}%`;
         if (percentText) percentText.textContent = `${progressPercent}%`;
 
-        // When hacking sequence completes, hide terminal after 300ms
         if (idx === terminalMessages.length - 1) {
           setTimeout(() => {
             if (preloader) {
               preloader.classList.add('preloader-hidden');
               setTimeout(() => {
-                preloader.style.display = 'none';
-              }, 550);
+                preloader.remove();
+              }, 450);
             }
-          }, 350);
+          }, 250);
         }
       }, msg.delay);
     });
 
-    // Safety fallback: Ensure preloader always hides after max 2.2s
     setTimeout(() => {
-      if (preloader && preloader.style.display !== 'none') {
+      if (preloader && preloader.isConnected) {
         preloader.classList.add('preloader-hidden');
         setTimeout(() => {
-          preloader.style.display = 'none';
-        }, 550);
+          preloader.remove();
+        }, 450);
       }
-    }, 2200);
+    }, 1800);
   }
 
-  // Run sequence
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runHackingSequence);
+    document.addEventListener('DOMContentLoaded', runTreasureSequence);
   } else {
-    runHackingSequence();
+    runTreasureSequence();
   }
 </script>

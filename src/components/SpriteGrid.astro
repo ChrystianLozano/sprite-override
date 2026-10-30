@@ -1,6 +1,11 @@
 ---
+import { getSpriteSeason } from '../data/seasons';
+
 // Dynamically import all sprite images from src/assets/sprites/ during build/compile time
-const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/sprites/*.{webp,png,jpg,jpeg,svg}', { eager: true });
+const imageModules = import.meta.glob<{ default: ImageMetadata }>([
+  '/src/assets/sprites/*.{webp,png,jpg,jpeg,svg}',
+  '/src/assets/sprites/**/*.{webp,png,jpg,jpeg,svg}'
+], { eager: true });
 
 const spriteTranslations: Record<string, { es: string; en: string }> = {
   // Espíritus Originales
@@ -404,15 +409,57 @@ function getTier(filename: string): number {
   return 1;
 }
 
+function getBountyReward(filename: string, tier: number): string {
+  let hash = 0;
+  for (let i = 0; i < filename.length; i++) {
+    hash = ((hash << 5) - hash + filename.charCodeAt(i)) | 0;
+  }
+  const absHash = Math.abs(hash);
+
+  if (tier === 7) return '1,000,000,000-';
+  if (tier === 2) {
+    // Dorado / Gold
+    const millions = 500 + (absHash % 490);
+    return `${millions},000,000-`;
+  }
+  if (tier === 5) {
+    // Cazarrecompensas / Bounty Hunter
+    const millions = 300 + (absHash % 450);
+    return `${millions},500,000-`;
+  }
+  if (tier === 4 || tier === 3) {
+    // Hacker / Loot Hacker
+    const millions = 110 + (absHash % 240);
+    const thousands = String(100 + (absHash % 899)).padStart(3, '0');
+    return `${millions},${thousands},000-`;
+  }
+  if (tier === 6) {
+    // Dulce o Truco
+    const millions = 65 + (absHash % 95);
+    return `${millions},000,000-`;
+  }
+  // Base sprites (like reference 10,032,023- / 15,000,000-)
+  const millions = 10 + (absHash % 45);
+  const mid = String(absHash % 999).padStart(3, '0');
+  const low = String((absHash >> 3) % 999).padStart(3, '0');
+  return `${millions},${mid},${low}-`;
+}
+
 const sprites = Object.entries(imageModules).map(([path, mod]) => {
   const filename = path.split('/').pop() || '';
   const { titleEs, titleEn } = parseSpriteTitles(filename);
+  const tier = getTier(filename);
+  const bountyReward = getBountyReward(filename, tier);
+  const season = getSpriteSeason(filename, path);
 
   return {
     id: filename,
     filename,
     titleEs,
     titleEn,
+    tier,
+    bountyReward,
+    season,
     imageSrc: mod.default.src,
     imageMetadata: mod.default,
   };
@@ -433,6 +480,9 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   }
   return a.filename.localeCompare(b.filename);
 });
+
+const c7s4Count = sprites.filter((s) => s.season === 'c7s4').length;
+const c7s5Count = sprites.filter((s) => s.season === 'c7s5').length;
 ---
 
 <!-- Floating Sticky Control HUD -->
@@ -468,14 +518,39 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       </div>
     </div>
 
+    <!-- Season Filter Section -->
+    <div class="cyber-season-bar">
+      <div class="season-filter-group">
+        <div class="season-filter-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span id="i18n-season-filter-label">TEMPORADA:</span>
+        </div>
+        <div class="cyber-season-tabs">
+          <button class="cyber-season-tab active" data-season="c7s5" title="Nueva Mini Temporada (C7S5)">
+            <span class="season-pill-new" id="i18n-season-new-pill">NUEVA</span>
+            <span>C7S5</span>
+            <span class="season-tab-count">(<span id="count-c7s5">{c7s5Count}</span>)</span>
+          </button>
+          <button class="cyber-season-tab" data-season="c7s4" title="Temporada Pasada (C7S4)">
+            <span>C7S4</span>
+            <span class="season-tab-count">(<span id="count-c7s4">{c7s4Count}</span>)</span>
+          </button>
+          <button class="cyber-season-tab" data-season="all" title="Ver todas las temporadas">
+            <span id="i18n-season-all">TODAS</span>
+            <span class="season-tab-count">(<span id="count-season-all">{sprites.length}</span>)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Filter Toolbar Section -->
     <div class="cyber-toolbar">
       <!-- Filter Tabs -->
       <div class="cyber-filters">
-        <button class="cyber-tab active" data-filter="all"><span id="i18n-tab-all">TODOS</span> ({sprites.length})</button>
+        <button class="cyber-tab active" data-filter="all"><span id="i18n-tab-all">TODOS</span> (<span id="filter-all-count">{c7s5Count}</span>)</button>
         <button class="cyber-tab" data-filter="marked"><span id="i18n-tab-marked">✓ OBTENIDOS</span> (<span id="filter-marked-count">0</span>)</button>
         <button class="cyber-tab maxed-tab" data-filter="maxed"><span id="i18n-tab-maxed">👑 MAXIADOS</span> (<span id="filter-maxed-count">0</span>)</button>
-        <button class="cyber-tab unmarked-tab" data-filter="unmarked"><span id="i18n-tab-unmarked">🔥 FALTANTES</span> (<span id="filter-unmarked-count">{sprites.length}</span>)</button>
+        <button class="cyber-tab unmarked-tab" data-filter="unmarked"><span id="i18n-tab-unmarked">🔥 FALTANTES</span> (<span id="filter-unmarked-count">{c7s5Count}</span>)</button>
       </div>
 
       <!-- Quick Selection Helpers -->
@@ -496,8 +571,15 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 <!-- Main Template Container (Capturable for PNG Export) -->
 <main style="max-width: 1200px; margin: 0 auto; padding: 0 0.5rem 4rem;">
   <div id="template-capture-area" class="template-card-container">
+    <div class="template-top-rainbow-bar" aria-hidden="true"></div>
+    <!-- Watermark Header with Retro Window Controls & Treasure Hunters Identity -->
     <div class="template-watermark-header">
       <div class="template-info">
+        <div class="template-season-eyebrow">
+          <span class="eyebrow-katakana">トレジャーハンターズ</span>
+          <span class="eyebrow-dot">✦</span>
+          <span id="i18n-template-season-tag">CAZATESOROS // MINI TEMPORADA</span>
+        </div>
         <h2><span class="fortnite-logo-text">FORTNITE</span> // <span id="i18n-template-title">PLANTILLA DE ESPÍRITUS</span></h2>
         <div class="template-brand-row">
           <a href="https://fortnite.mudo.games/" target="_blank" rel="noopener noreferrer" class="mudo-template-brand">fortnite.mudo.games</a>
@@ -506,34 +588,54 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
           </span>
         </div>
       </div>
-      <div style="display: flex; gap: 1.25rem; flex-wrap: wrap; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+      <div class="template-legend-row" style="display: flex; gap: 1.25rem; flex-wrap: wrap; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
         <div style="display: flex; align-items: center; gap: 0.4rem;">
-          <span style="width: 12px; height: 12px; background: var(--neon-magenta); box-shadow: 0 0 10px var(--neon-magenta); display: inline-block;"></span>
-          <span id="i18n-legend-missing" style="color: var(--neon-magenta);">FALTANTE (DESTACADO)</span>
+          <span style="width: 12px; height: 12px; background: var(--neon-magenta); border: 1.5px solid #000; box-shadow: 2px 2px 0 #000; display: inline-block;"></span>
+          <span id="i18n-legend-missing" style="color: var(--neon-magenta);">FALTANTE (POR CAZAR)</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.4rem;">
-          <span style="width: 12px; height: 12px; background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); display: inline-block;"></span>
-          <span id="i18n-legend-obtained" style="color: var(--neon-green);">OBTENIDO (MARCADO)</span>
+          <span style="width: 12px; height: 12px; background: var(--neon-green); border: 1.5px solid #000; box-shadow: 2px 2px 0 #000; display: inline-block;"></span>
+          <span id="i18n-legend-obtained" style="color: var(--neon-green);">OBTENIDO (CAPTURADO)</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.4rem;">
-          <span style="width: 12px; height: 12px; background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow); display: inline-block;"></span>
-          <span id="i18n-legend-maxed" style="color: var(--neon-yellow);">MAXIADO (MÁXIMO)</span>
+          <span style="width: 12px; height: 12px; background: var(--neon-yellow); border: 1.5px solid #000; box-shadow: 2px 2px 0 #000; display: inline-block;"></span>
+          <span id="i18n-legend-maxed" style="color: var(--neon-yellow);">MAXIADO (TESORO 👑)</span>
         </div>
       </div>
     </div>
 
+    <!-- Empty State for Season with 0 items (e.g. C7S5 on initial launch) -->
+    <div id="c7s5-empty-state" class="cyber-empty-state" style="display: none;">
+      <div class="empty-state-badge">⚡ MINI TEMPORADA C7S5 ⚡</div>
+      <div class="empty-state-icon">🏴‍☠️</div>
+      <h3 id="i18n-empty-title" class="empty-state-title">PRÓXIMAMENTE // ESPÍRITUS C7S5</h3>
+      <p id="i18n-empty-desc" class="empty-state-desc">
+        Aún no hay espíritus registrados para la nueva mini temporada C7S5. ¡Se agregarán en cuanto estén disponibles en Fortnite!
+      </p>
+      <button id="btn-switch-to-c7s4" class="btn-cyber" type="button">
+        <span id="i18n-empty-btn">👉 VER ESPÍRITUS DE C7S4 ({c7s4Count})</span>
+      </button>
+    </div>
+
     <!-- Sprites Grid -->
     <div id="sprite-grid" class="sprite-grid">
-      {sprites.map((sprite) => (
+      {sprites.map((sprite, index) => (
         <article 
           class="sprite-card unmarked" 
           data-id={sprite.id}
+          data-tier={sprite.tier}
+          data-season={sprite.season}
           data-title-es={sprite.titleEs}
           data-title-en={sprite.titleEn}
           data-title={sprite.titleEs.toLowerCase()}
           data-filename={sprite.filename}
           data-imgsrc={sprite.imageSrc}
         >
+          <!-- Wanted Poster Top Header (Visible on 'unmarked' POR CAZAR status) -->
+          <div class="wanted-poster-top">
+            <span class="wanted-header-text">SE BUSCA</span>
+          </div>
+
           <div class="card-header-overlay">
             <span class="sprite-badge">
               <span class="status-icon">🔥</span>
@@ -554,7 +656,8 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
               width={sprite.imageMetadata.width}
               height={sprite.imageMetadata.height}
               class="sprite-img" 
-              loading="eager"
+              loading={index < 12 ? "eager" : "lazy"}
+              decoding="async"
             />
           </div>
 
@@ -563,7 +666,14 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
           </div>
 
           <div class="sprite-info">
+            <div class="wanted-dead-alive">VIVO O MUERTO</div>
             <h3 class="sprite-title">{sprite.titleEs}</h3>
+            <div class="wanted-bounty-footer">
+              <div class="wanted-footer-stamp">
+                <span class="wanted-stamp-lines"></span>
+                <span class="wanted-stamp-label">HUNTERS</span>
+              </div>
+            </div>
           </div>
         </article>
       ))}
@@ -608,13 +718,20 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   // Translations Dictionary
   const i18nDict: Record<string, Record<string, string>> = {
     es: {
-      docTitle: 'FORTNITE // PLANTILLA DE ESPÍRITUS | Rastreador de Espíritus',
-      metaDesc: 'Plantilla interactiva de Espíritus de Fortnite con selector multilenguaje, estado Maxiado y descarga en PNG.',
-      heroTitle: 'GLITCH',
-      navSeason: 'CAPÍTULO 7 • TEMPORADA 4',
-      heroSubtitle: 'CAPÍTULO 7 | TEMPORADA 4',
-      slogan: 'ROMPE LAS REGLAS • CAMBIA EL JUEGO',
-      progressTitle: 'PROGRESO DE COLECCIÓN',
+      docTitle: 'FORTNITE // CAZATESOROS | Plantilla de Espíritus',
+      metaDesc: 'Plantilla interactiva de Espíritus de Fortnite: Cazatesoros con selector de estilos Pop-Art/Mapa/Punk, estado Maxiado y descarga en PNG.',
+      heroTitle: 'CAZATESOROS',
+      navSeason: '🏴‍☠️ CAPÍTULO 7 • MINI TEMPORADA',
+      heroSubtitle: 'CAPÍTULO 7 | MINI TEMPORADA',
+      slogan: 'LA MAYOR AVENTURA DE TODOS LOS TIEMPOS',
+      styleTreasure: 'OFICIAL',
+      styleMap: 'MAPA',
+      promoWindowTitle: 'ARTE PROMO // CAZATESOROS',
+      promoBadge: '⚡ MINI TEMPORADA • CAZATESOROS',
+      estilosLabel: '🎨 ESTILOS DE LA NUEVA TEMPORADA (CLIC PARA CAMBIAR ESTILO Y VER ARTE):',
+      resetPromoBtn: '🏴‍☠️ VER ARTE PROMO PRINCIPAL',
+      templateSeasonTag: 'CAZATESOROS // MINI TEMPORADA',
+      progressTitle: 'PROGRESO DEL TESORO',
       obtainedLabel: 'OBTENIDOS:',
       maxedLabel: 'MAXIADOS:',
       missingLabel: 'FALTANTES:',
@@ -623,6 +740,12 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       tabMarked: '✓ OBTENIDOS',
       tabMaxed: '👑 MAXIADOS',
       tabUnmarked: '🔥 FALTANTES',
+      seasonFilterLabel: 'TEMPORADA:',
+      seasonAll: 'TODAS',
+      seasonNewPill: 'NUEVA',
+      emptyTitle: 'PRÓXIMAMENTE // ESPÍRITUS C7S5',
+      emptyDesc: 'Aún no hay espíritus registrados para la nueva mini temporada C7S5. ¡Se agregarán en cuanto estén disponibles en Fortnite!',
+      emptyBtn: '👉 VER ESPÍRITUS DE C7S4',
       btnSelectAll: 'MARCAR OBTENIDOS',
       btnSelectMaxed: 'MARCAR MAXIADOS',
       btnDeselectAll: 'DESMARCAR TODOS',
@@ -630,28 +753,37 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       templateTitle: 'PLANTILLA DE ESPÍRITUS',
       epicPartnerText: 'Apóyame usando el código <strong style="color: var(--neon-magenta);">MUDO</strong> en la tienda de Fortnite <span class="epic-tag">#EpicPartner</span>',
       cardHoverTip: '💡 Clic: FALTANTE ➔ OBTENIDO ➔ MAXIADO',
-      missingBadge: '¡ESPÍRITU FALTANTE!',
+      missingBadge: '¡POR CAZAR!',
       obtainedBadge: 'OBTENIDO',
       maxedBadge: 'MAXIADO',
-      legendMissing: 'FALTANTE (DESTACADO)',
-      legendObtained: 'OBTENIDO (MARCADO)',
-      legendMaxed: 'MAXIADO (MÁXIMO)',
-      modalTitle: 'GENERANDO PLANTILLA PNG...',
-      modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️⚡',
+      wantedHeader: 'SE BUSCA',
+      wantedDeadAlive: 'VIVO O MUERTO',
+      legendMissing: 'FALTANTE (POR CAZAR)',
+      legendObtained: 'OBTENIDO (CAPTURADO)',
+      legendMaxed: 'MAXIADO (TESORO 👑)',
+      modalTitle: 'GENERANDO MAPA DE PLANTILLA PNG...',
+      modalDesc: 'USA CÓDIGO <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> EN LA TIENDA 🛍️🏴‍☠️',
       installApp: 'INSTALAR APP',
-      toastTitle: '📱 GUARDA TU COLECCIÓN',
+      toastTitle: '🏴‍☠️ GUARDA TU TESORO DE ESPÍRITUS',
       toastBody: 'Instala esta app en tu pantalla de inicio para acceder en 1 clic y mantener tus espíritus guardados siempre.',
       toastBtn: 'INSTALAR APP 📲',
       toastLater: 'MÁS TARDE'
     },
     en: {
-      docTitle: 'FORTNITE // SPRITES TEMPLATE | Sprite Tracker',
-      metaDesc: 'Interactive Fortnite Sprites Template & Tracker with multilingual support, Mastered state, and HD PNG export.',
-      heroTitle: 'OVERRIDE',
-      navSeason: 'CHAPTER 7 • SEASON 4',
-      heroSubtitle: 'CHAPTER 7 | SEASON 4',
-      slogan: 'BREAK THE RULES • CHANGE THE GAME',
-      progressTitle: 'COLLECTION PROGRESS',
+      docTitle: 'FORTNITE // TREASURE HUNTERS | Sprites Template & Tracker',
+      metaDesc: 'Interactive Fortnite Treasure Hunters Sprites Template & Tracker with Pop-Art/Map/Punk styles, Mastered state, and HD PNG export.',
+      heroTitle: 'TREASURE HUNTERS',
+      navSeason: '🏴‍☠️ CHAPTER 7 • MINI SEASON',
+      heroSubtitle: 'CHAPTER 7 | MINI SEASON',
+      slogan: 'THE GREATEST ADVENTURE OF ALL TIME',
+      styleTreasure: 'OFFICIAL',
+      styleMap: 'MAP',
+      promoWindowTitle: 'PROMO ART // TREASURE HUNTERS',
+      promoBadge: '⚡ MINI SEASON • TREASURE HUNTERS',
+      estilosLabel: '🎨 NEW SEASON ART STYLES (CLICK TO SWITCH THEME & PREVIEW ART):',
+      resetPromoBtn: '🏴‍☠️ VIEW MAIN PROMO ART',
+      templateSeasonTag: 'TREASURE HUNTERS // MINI SEASON',
+      progressTitle: 'TREASURE PROGRESS',
       obtainedLabel: 'OBTAINED:',
       maxedLabel: 'MASTERED:',
       missingLabel: 'MISSING:',
@@ -660,6 +792,12 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       tabMarked: '✓ OBTAINED',
       tabMaxed: '👑 MASTERED',
       tabUnmarked: '🔥 MISSING',
+      seasonFilterLabel: 'SEASON:',
+      seasonAll: 'ALL',
+      seasonNewPill: 'NEW',
+      emptyTitle: 'COMING SOON // C7S5 SPRITES',
+      emptyDesc: 'No sprites registered for the new C7S5 mini season yet. They will be added as soon as they drop in Fortnite!',
+      emptyBtn: '👉 VIEW C7S4 SPRITES',
       btnSelectAll: 'MARK OBTAINED',
       btnSelectMaxed: 'MARK MASTERED',
       btnDeselectAll: 'DESELECT ALL',
@@ -667,16 +805,18 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       templateTitle: 'SPRITES TEMPLATE',
       epicPartnerText: 'Support me using code <strong style="color: var(--neon-magenta);">MUDO</strong> in the Fortnite item shop <span class="epic-tag">#EpicPartner</span>',
       cardHoverTip: '💡 Click: MISSING ➔ OBTAINED ➔ MASTERED',
-      missingBadge: 'MISSING SPRITE!',
+      missingBadge: 'BOUNTY TARGET!',
       obtainedBadge: 'OBTAINED',
       maxedBadge: 'MASTERED',
-      legendMissing: 'MISSING (HIGHLIGHTED)',
-      legendObtained: 'OBTAINED (MARKED)',
-      legendMaxed: 'MASTERED (MAX LEVEL)',
-      modalTitle: 'GENERATING PNG TEMPLATE...',
-      modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️⚡',
+      wantedHeader: 'WANTED',
+      wantedDeadAlive: 'DEAD OR ALIVE',
+      legendMissing: 'MISSING (BOUNTY)',
+      legendObtained: 'OBTAINED (CAPTURED)',
+      legendMaxed: 'MASTERED (TREASURE 👑)',
+      modalTitle: 'GENERATING PNG TREASURE TEMPLATE...',
+      modalDesc: 'USE CODE <span style="color: var(--neon-magenta); text-shadow: 0 0 12px var(--neon-magenta);">MUDO</span> IN THE ITEM SHOP 🛍️🏴‍☠️',
       installApp: 'INSTALL APP',
-      toastTitle: '📱 KEEP YOUR COLLECTION SAFE',
+      toastTitle: '🏴‍☠️ KEEP YOUR TREASURE SAFE',
       toastBody: 'Install this app to your home screen for 1-tap access and keep your sprites collection safe.',
       toastBtn: 'INSTALL APP 📲',
       toastLater: 'LATER'
@@ -731,11 +871,23 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   const markedCountEl = document.getElementById('marked-count');
   const maxedCountEl = document.getElementById('maxed-count');
   const unmarkedCountEl = document.getElementById('unmarked-count');
+  const filterAllCountEl = document.getElementById('filter-all-count');
   const filterMarkedCountEl = document.getElementById('filter-marked-count');
   const filterMaxedCountEl = document.getElementById('filter-maxed-count');
   const filterUnmarkedCountEl = document.getElementById('filter-unmarked-count');
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.cyber-tab');
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
+
+  // Season Filter Elements
+  const seasonBtns = document.querySelectorAll<HTMLButtonElement>('.cyber-season-tab');
+  const seasonFilterLabelEl = document.getElementById('i18n-season-filter-label');
+  const seasonAllEl = document.getElementById('i18n-season-all');
+  const seasonNewPillEl = document.getElementById('i18n-season-new-pill');
+  const emptyStateEl = document.getElementById('c7s5-empty-state');
+  const emptyTitleEl = document.getElementById('i18n-empty-title');
+  const emptyDescEl = document.getElementById('i18n-empty-desc');
+  const emptyBtnEl = document.getElementById('i18n-empty-btn');
+  const btnSwitchToC7s4 = document.getElementById('btn-switch-to-c7s4');
 
   const btnSelectAll = document.getElementById('btn-select-all');
   const btnSelectMaxed = document.getElementById('btn-select-maxed');
@@ -746,6 +898,7 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
 
+  let currentSeason: 'c7s5' | 'c7s4' | 'all' = 'c7s5';
   let currentFilter = 'all';
   let currentSearch = '';
 
@@ -813,11 +966,17 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     if (btnEs) btnEs.classList.toggle('active', lang === 'es');
     if (btnEn) btnEn.classList.toggle('active', lang === 'en');
 
-    // Hero title: GLITCH for Spanish, OVERRIDE for English
-    const glitchTitle = document.querySelector('.glitch-title');
+    // Hero title: CAZATESOROS / TREASURE HUNTERS
+    const glitchTitle = document.querySelector<HTMLElement>('.glitch-title');
     if (glitchTitle) {
-      glitchTitle.textContent = t.heroTitle;
-      glitchTitle.setAttribute('data-text', t.heroTitle);
+      if (glitchTitle.classList.contains('title-font-cubic')) {
+        glitchTitle.textContent = lang === 'es' ? 'cazatesoros' : 'treasure hunters';
+      } else if (glitchTitle.classList.contains('title-font-verypunk')) {
+        glitchTitle.textContent = lang === 'es' ? 'CAZATeSOROS' : 'TREASuRE HunTERS';
+      } else {
+        glitchTitle.textContent = t.heroTitle;
+      }
+      glitchTitle.setAttribute('data-text', glitchTitle.textContent || t.heroTitle);
     }
 
     const navSeason = document.getElementById('nav-season-text');
@@ -828,6 +987,27 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     const heroSlogan = document.getElementById('hero-slogan-pill');
     if (heroSlogan) heroSlogan.textContent = t.slogan;
+
+    const styleTreasureEl = document.getElementById('i18n-style-treasure');
+    if (styleTreasureEl && t.styleTreasure) styleTreasureEl.textContent = t.styleTreasure;
+
+    const styleMapEl = document.getElementById('i18n-style-map');
+    if (styleMapEl && t.styleMap) styleMapEl.textContent = t.styleMap;
+
+    const promoWinTitleEl = document.getElementById('i18n-promo-window-title');
+    if (promoWinTitleEl && t.promoWindowTitle) promoWinTitleEl.textContent = t.promoWindowTitle;
+
+    const promoBadgeEl = document.getElementById('i18n-promo-badge');
+    if (promoBadgeEl && t.promoBadge) promoBadgeEl.textContent = t.promoBadge;
+
+    const estilosLabelEl = document.getElementById('i18n-estilos-label');
+    if (estilosLabelEl && t.estilosLabel) estilosLabelEl.textContent = t.estilosLabel;
+
+    const resetPromoBtnEl = document.getElementById('btn-reset-promo-art');
+    if (resetPromoBtnEl && t.resetPromoBtn) resetPromoBtnEl.textContent = t.resetPromoBtn;
+
+    const tmplSeasonTagEl = document.getElementById('i18n-template-season-tag');
+    if (tmplSeasonTagEl && t.templateSeasonTag) tmplSeasonTagEl.textContent = t.templateSeasonTag;
 
     const progTitle = document.getElementById('i18n-progress-title');
     if (progTitle) progTitle.textContent = t.progressTitle;
@@ -855,6 +1035,16 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
     const tabUnmarked = document.getElementById('i18n-tab-unmarked');
     if (tabUnmarked) tabUnmarked.textContent = t.tabUnmarked;
+
+    if (seasonFilterLabelEl && t.seasonFilterLabel) seasonFilterLabelEl.textContent = t.seasonFilterLabel;
+    if (seasonAllEl && t.seasonAll) seasonAllEl.textContent = t.seasonAll;
+    if (seasonNewPillEl && t.seasonNewPill) seasonNewPillEl.textContent = t.seasonNewPill;
+    if (emptyTitleEl && t.emptyTitle) emptyTitleEl.textContent = t.emptyTitle;
+    if (emptyDescEl && t.emptyDesc) emptyDescEl.textContent = t.emptyDesc;
+    if (emptyBtnEl && t.emptyBtn) {
+      const count4 = cardRefs.filter(c => c.season === 'c7s4').length;
+      emptyBtnEl.textContent = `${t.emptyBtn} (${count4})`;
+    }
 
     const btnSelAll = document.getElementById('btn-select-all');
     if (btnSelAll) btnSelAll.textContent = t.btnSelectAll;
@@ -897,83 +1087,136 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     const toastLaterEl = document.getElementById('i18n-toast-later');
     if (toastLaterEl) toastLaterEl.textContent = t.toastLater;
 
-    // Update card titles, tooltips and attributes
-    cards.forEach((card) => {
-      const cardTitleEl = card.querySelector('.sprite-title');
-      const text = card.getAttribute(`data-title-${lang}`) || card.getAttribute('data-title-es') || '';
-      if (cardTitleEl) cardTitleEl.textContent = text;
-      card.dataset.title = text.toLowerCase();
-
-      const hoverTipEl = card.querySelector('.hover-tip-text');
-      if (hoverTipEl) hoverTipEl.textContent = t.cardHoverTip;
+    // Update card titles, tooltips and attributes using pre-cached references
+    cardRefs.forEach((ref) => {
+      const text = lang === 'en' ? ref.titleEnRaw : ref.titleEsRaw;
+      if (ref.cardTitleEl) ref.cardTitleEl.textContent = text;
+      ref.card.dataset.title = text.toLowerCase();
+      if (ref.hoverTipEl) ref.hoverTipEl.textContent = t.cardHoverTip;
+      if (ref.wantedHeaderEl && t.wantedHeader) ref.wantedHeaderEl.textContent = t.wantedHeader;
+      if (ref.wantedDeadAliveEl && t.wantedDeadAlive) ref.wantedDeadAliveEl.textContent = t.wantedDeadAlive;
     });
 
     updateUI();
   }
 
-  // Update UI Cards and Statistics
-  function updateUI() {
-    const total = cards.length;
+  // Pre-cache card DOM references once to avoid 600+ querySelector calls per interaction
+  interface CardRef {
+    card: HTMLElement;
+    id: string;
+    season: string;
+    titleEsRaw: string;
+    titleEnRaw: string;
+    titleEsLower: string;
+    titleEnLower: string;
+    cardTitleEl: HTMLElement | null;
+    hoverTipEl: HTMLElement | null;
+    wantedHeaderEl: HTMLElement | null;
+    wantedDeadAliveEl: HTMLElement | null;
+    badgeText: HTMLElement | null;
+    badgeIcon: HTMLElement | null;
+    checkIcon: HTMLElement | null;
+    starIcon: HTMLElement | null;
+  }
+
+  const cardRefMap = new Map<HTMLElement, CardRef>();
+  const cardRefs: CardRef[] = Array.from(cards).map((card) => {
+    const id = card.dataset.id || '';
+    const season = card.dataset.season || 'c7s4';
+    const titleEsRaw = card.getAttribute('data-title-es') || '';
+    const titleEnRaw = card.getAttribute('data-title-en') || titleEsRaw;
+    const ref: CardRef = {
+      card,
+      id,
+      season,
+      titleEsRaw,
+      titleEnRaw,
+      titleEsLower: titleEsRaw.toLowerCase(),
+      titleEnLower: titleEnRaw.toLowerCase(),
+      cardTitleEl: card.querySelector<HTMLElement>('.sprite-title'),
+      hoverTipEl: card.querySelector<HTMLElement>('.hover-tip-text'),
+      wantedHeaderEl: card.querySelector<HTMLElement>('.wanted-header-text'),
+      wantedDeadAliveEl: card.querySelector<HTMLElement>('.wanted-dead-alive'),
+      badgeText: card.querySelector<HTMLElement>('.status-text'),
+      badgeIcon: card.querySelector<HTMLElement>('.status-icon'),
+      checkIcon: card.querySelector<HTMLElement>('.check-icon'),
+      starIcon: card.querySelector<HTMLElement>('.star-icon')
+    };
+    cardRefMap.set(card, ref);
+    return ref;
+  });
+
+  function syncSingleCardDOM(ref: CardRef, t: Record<string, string>, searchNormalized: string) {
+    const state = spriteStates.get(ref.id) || 'unmarked';
+    const { card, badgeText, badgeIcon, checkIcon, starIcon } = ref;
+
+    card.classList.remove('unmarked', 'marked', 'maxed');
+
+    if (state === 'marked') {
+      card.classList.add('marked');
+      if (badgeText) badgeText.textContent = t.obtainedBadge;
+      if (badgeIcon) badgeIcon.textContent = '✓';
+      if (checkIcon) checkIcon.style.display = 'block';
+      if (starIcon) starIcon.style.display = 'none';
+    } else if (state === 'maxed') {
+      card.classList.add('maxed');
+      if (badgeText) badgeText.textContent = t.maxedBadge;
+      if (badgeIcon) badgeIcon.textContent = '👑';
+      if (checkIcon) checkIcon.style.display = 'none';
+      if (starIcon) starIcon.style.display = 'inline-block';
+    } else {
+      card.classList.add('unmarked');
+      if (badgeText) badgeText.textContent = t.missingBadge;
+      if (badgeIcon) badgeIcon.textContent = '🔥';
+      if (checkIcon) checkIcon.style.display = 'none';
+      if (starIcon) starIcon.style.display = 'none';
+    }
+
+    const seasonMatches = currentSeason === 'all' || ref.season === currentSeason;
+
+    const titleMatches =
+      !searchNormalized ||
+      ref.titleEsLower.includes(searchNormalized) ||
+      ref.titleEnLower.includes(searchNormalized);
+
+    let filterMatches = true;
+    if (currentFilter === 'marked') filterMatches = state === 'marked' || state === 'maxed';
+    else if (currentFilter === 'maxed') filterMatches = state === 'maxed';
+    else if (currentFilter === 'unmarked') filterMatches = state === 'unmarked';
+
+    const shouldShow = seasonMatches && titleMatches && filterMatches;
+    const nextDisplay = shouldShow ? 'flex' : 'none';
+    if (card.style.display !== nextDisplay) {
+      card.style.display = nextDisplay;
+    }
+  }
+
+  let saveTimer: ReturnType<typeof setTimeout> | null = null;
+  function scheduleSaveState() {
+    if (saveTimer !== null) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        const stateObj: Record<string, string> = {};
+        spriteStates.forEach((val, key) => {
+          stateObj[key] = val;
+        });
+        localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(stateObj));
+      } catch (e) {
+        console.error('Error saving state', e);
+      }
+    }, 120);
+  }
+
+  function updateStatsCounters() {
+    const seasonCards = cardRefs.filter((ref) => currentSeason === 'all' || ref.season === currentSeason);
+    const total = seasonCards.length;
     let markedCount = 0;
     let maxedCount = 0;
-    const t = i18nDict[currentLang] || i18nDict['es'];
 
-    cards.forEach((card) => {
-      const id = card.dataset.id || '';
-      const state = spriteStates.get(id) || 'unmarked';
-
-      const badgeText = card.querySelector('.status-text');
-      const badgeIcon = card.querySelector('.status-icon');
-      const checkIcon = card.querySelector<HTMLElement>('.check-icon');
-      const starIcon = card.querySelector<HTMLElement>('.star-icon');
-
-      card.classList.remove('unmarked', 'marked', 'maxed');
-
-      if (state === 'marked') {
-        markedCount++;
-        card.classList.add('marked');
-
-        if (badgeText) badgeText.textContent = t.obtainedBadge;
-        if (badgeIcon) badgeIcon.textContent = '✓';
-        if (checkIcon) checkIcon.style.display = 'block';
-        if (starIcon) starIcon.style.display = 'none';
-      } else if (state === 'maxed') {
-        maxedCount++;
-        card.classList.add('maxed');
-
-        if (badgeText) badgeText.textContent = t.maxedBadge;
-        if (badgeIcon) badgeIcon.textContent = '👑';
-        if (checkIcon) checkIcon.style.display = 'none';
-        if (starIcon) starIcon.style.display = 'inline-block';
-      } else {
-        card.classList.add('unmarked');
-
-        if (badgeText) badgeText.textContent = t.missingBadge;
-        if (badgeIcon) badgeIcon.textContent = '🔥';
-        if (checkIcon) checkIcon.style.display = 'none';
-        if (starIcon) starIcon.style.display = 'none';
-      }
-
-      // Filter Visibility: "OBTENIDOS" includes both marked and maxed spirits
-      const searchNormalized = currentSearch.trim().toLowerCase();
-      const titleEs = (card.getAttribute('data-title-es') || '').toLowerCase();
-      const titleEn = (card.getAttribute('data-title-en') || '').toLowerCase();
-      const currentTitle = (card.dataset.title || '').toLowerCase();
-      const titleMatches = !searchNormalized || 
-        titleEs.includes(searchNormalized) || 
-        titleEn.includes(searchNormalized) || 
-        currentTitle.includes(searchNormalized);
-      let filterMatches = true;
-
-      if (currentFilter === 'marked') filterMatches = (state === 'marked' || state === 'maxed');
-      if (currentFilter === 'maxed') filterMatches = (state === 'maxed');
-      if (currentFilter === 'unmarked') filterMatches = (state === 'unmarked');
-
-      if (titleMatches && filterMatches) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+    seasonCards.forEach((ref) => {
+      const state = spriteStates.get(ref.id) || 'unmarked';
+      if (state === 'marked') markedCount++;
+      else if (state === 'maxed') maxedCount++;
     });
 
     const unmarkedCount = total - (markedCount + maxedCount);
@@ -985,20 +1228,28 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     if (maxedCountEl) maxedCountEl.textContent = maxedCount.toString();
     if (unmarkedCountEl) unmarkedCountEl.textContent = unmarkedCount.toString();
 
+    if (filterAllCountEl) filterAllCountEl.textContent = total.toString();
     if (filterMarkedCountEl) filterMarkedCountEl.textContent = (markedCount + maxedCount).toString();
     if (filterMaxedCountEl) filterMaxedCountEl.textContent = maxedCount.toString();
     if (filterUnmarkedCountEl) filterUnmarkedCountEl.textContent = unmarkedCount.toString();
 
-    // Save to LocalStorage
-    try {
-      const stateObj: Record<string, string> = {};
-      spriteStates.forEach((val, key) => {
-        stateObj[key] = val;
-      });
-      localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(stateObj));
-    } catch (e) {
-      console.error('Error saving state', e);
+    if (emptyStateEl) {
+      emptyStateEl.style.display = total === 0 ? 'flex' : 'none';
     }
+
+    scheduleSaveState();
+  }
+
+  // Update all UI Cards and Statistics (used on filter/search/bulk actions)
+  function updateUI() {
+    const t = i18nDict[currentLang] || i18nDict['es'];
+    const searchNormalized = currentSearch.trim().toLowerCase();
+
+    cardRefs.forEach((ref) => {
+      syncSingleCardDOM(ref, t, searchNormalized);
+    });
+
+    updateStatsCounters();
   }
 
   // Web Audio API Synthesizer for Zero-Latency Retro Sound Effects
@@ -1015,167 +1266,265 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     return audioCtx;
   }
 
-  // 1. Smooth Pleasant Chime for OBTENIDO
+  // 1. Pirate Cutlass Slash + Gold Doubloon / Belly Coin Clink for OBTENIDO (CAZADO)
   function playObtainedSound() {
     try {
       const ctx = getAudioContext();
       const now = ctx.currentTime;
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      // A) Quick metallic sword/cutlass unsheathe swish
+      const swishOsc = ctx.createOscillator();
+      const swishGain = ctx.createGain();
+      swishOsc.type = 'triangle';
+      swishOsc.frequency.setValueAtTime(950, now);
+      swishOsc.frequency.exponentialRampToValueAtTime(2800, now + 0.055);
+      swishGain.gain.setValueAtTime(0.06, now);
+      swishGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+      swishOsc.connect(swishGain);
+      swishGain.connect(ctx.destination);
+      swishOsc.start(now);
+      swishOsc.stop(now + 0.06);
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(659.25, now); // E5
-      osc.frequency.setValueAtTime(987.77, now + 0.07); // B5
+      // B) Double Gold Doubloon / Belly Coin Clink (Metallic Harmonic Bell Ring)
+      const coinHits = [
+        { time: now + 0.04, f1: 2093.0, f2: 3135.96, dur: 0.18 }, // First gold coin clink
+        { time: now + 0.11, f1: 2637.02, f2: 4186.01, dur: 0.28 } // Second higher gold coin ring
+      ];
 
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.28);
+      coinHits.forEach((coin) => {
+        [coin.f1, coin.f2].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, coin.time);
+          gain.gain.setValueAtTime(idx === 0 ? 0.11 : 0.06, coin.time);
+          gain.gain.exponentialRampToValueAtTime(0.001, coin.time + coin.dur);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(coin.time);
+          osc.stop(coin.time + coin.dur);
+        });
+      });
     } catch (e) {}
   }
 
-  // 2. Iconic 8-Bit Mario 1-UP Extra Life Sound for MAXIADO / MASTERED
+  // 2. One Piece / Grand Line Pirate Treasure Chest Fanfare for MAXIADO (TESORO LEGENDARIO)
   function playMaxed1UpSound() {
     try {
       const ctx = getAudioContext();
       const now = ctx.currentTime;
 
-      // Authentic 6-note 1UP sequence: E6, G6, E7, C7, D7, G7
-      const notes = [
-        { freq: 1318.51, duration: 0.07 }, // E6
-        { freq: 1567.98, duration: 0.07 }, // G6
-        { freq: 2637.02, duration: 0.07 }, // E7
-        { freq: 2093.00, duration: 0.07 }, // C7
-        { freq: 2349.32, duration: 0.07 }, // D7
-        { freq: 3135.96, duration: 0.16 }  // G7
+      // Triumphant Pirate Brass / Accordion Sea-Shanty Fanfare (D5 -> F5 -> G5 -> A5 -> G5 -> A5 -> D6!)
+      const fanfareNotes = [
+        { freq: 587.33, duration: 0.085, gap: 0.09 },  // D5
+        { freq: 698.46, duration: 0.085, gap: 0.09 },  // F5
+        { freq: 783.99, duration: 0.085, gap: 0.09 },  // G5
+        { freq: 880.00, duration: 0.13,  gap: 0.14 },  // A5
+        { freq: 783.99, duration: 0.075, gap: 0.08 },  // G5
+        { freq: 880.00, duration: 0.075, gap: 0.08 },  // A5
+        { freq: 1174.66, duration: 0.34, gap: 0.35 }   // D6 (Grand Treasure Finale!)
       ];
 
       let noteTime = now;
-      notes.forEach((note) => {
-        const osc = ctx.createOscillator();
+      fanfareNotes.forEach((note, idx) => {
+        // Warm brass lead + octave harmonic
+        const oscLead = ctx.createOscillator();
+        const oscHarm = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
         const gain = ctx.createGain();
 
-        osc.type = 'square'; // Authentic NES 8-bit retro pulse
-        osc.frequency.setValueAtTime(note.freq, noteTime);
+        oscLead.type = 'sawtooth';
+        oscHarm.type = 'triangle';
+        oscLead.frequency.setValueAtTime(note.freq, noteTime);
+        oscHarm.frequency.setValueAtTime(note.freq * 0.5, noteTime);
 
-        gain.gain.setValueAtTime(0.10, noteTime);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2400, noteTime);
+
+        const peakGain = idx === fanfareNotes.length - 1 ? 0.13 : 0.095;
+        gain.gain.setValueAtTime(0.01, noteTime);
+        gain.gain.linearRampToValueAtTime(peakGain, noteTime + 0.015);
         gain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.duration);
 
-        osc.connect(gain);
+        oscLead.connect(filter);
+        oscHarm.connect(filter);
+        filter.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start(noteTime);
-        osc.stop(noteTime + note.duration);
+        oscLead.start(noteTime);
+        oscHarm.start(noteTime);
+        oscLead.stop(noteTime + note.duration);
+        oscHarm.stop(noteTime + note.duration);
 
-        noteTime += note.duration;
+        noteTime += note.gap;
+      });
+
+      // Sparkling Gold Treasure Shimmer at the end of the fanfare
+      const shimmerStart = now + 0.52;
+      [2349.32, 2959.96, 3520.0, 4698.63].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const t = shimmerStart + i * 0.045;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.06, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.22);
       });
     } catch (e) {}
   }
 
-  // 3. Short Retro Game Over / Game Lost Sound for returning to FALTANTE
+  // 3. One Piece "DON!!" (どん!!) Taiko Drum + Wanted Poster Paper Slap for returning to POR CAZAR
   function playGameOverSound() {
     try {
       const ctx = getAudioContext();
       const now = ctx.currentTime;
 
-      // Quick 3-note descending game over drop: G4 -> D#4 -> C4 with pitch slide down
-      const notes = [
-        { freq: 392.00, duration: 0.08 }, // G4
-        { freq: 311.13, duration: 0.08 }, // D#4 / Eb4
-        { freq: 261.63, duration: 0.14 }  // C4
-      ];
+      // A) Crisp Parchment Poster Slap (Noise burst filtered around 1.1kHz)
+      const bufferSize = Math.floor(ctx.sampleRate * 0.055);
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const bandpass = ctx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.setValueAtTime(1100, now);
+      bandpass.Q.setValueAtTime(1.8, now);
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.18, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+      noise.connect(bandpass);
+      bandpass.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noise.start(now);
 
-      let noteTime = now;
-      notes.forEach((note, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+      // B) Iconic Deep "DON!!" Taiko Drum / Pirate Cannon Impact
+      const drumOsc = ctx.createOscillator();
+      const subOsc = ctx.createOscillator();
+      const drumGain = ctx.createGain();
 
-        osc.type = 'sawtooth'; // Retro arcade buzz
-        osc.frequency.setValueAtTime(note.freq, noteTime);
-        
-        if (idx === notes.length - 1) {
-          osc.frequency.exponentialRampToValueAtTime(180, noteTime + note.duration);
-        }
+      drumOsc.type = 'triangle';
+      subOsc.type = 'sine';
 
-        gain.gain.setValueAtTime(0.10, noteTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, noteTime + note.duration);
+      drumOsc.frequency.setValueAtTime(145, now);
+      drumOsc.frequency.exponentialRampToValueAtTime(46, now + 0.28);
 
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+      subOsc.frequency.setValueAtTime(92, now);
+      subOsc.frequency.exponentialRampToValueAtTime(36, now + 0.32);
 
-        osc.start(noteTime);
-        osc.stop(noteTime + note.duration);
+      drumGain.gain.setValueAtTime(0.22, now);
+      drumGain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
 
-        noteTime += note.duration;
-      });
+      drumOsc.connect(drumGain);
+      subOsc.connect(drumGain);
+      drumGain.connect(ctx.destination);
+
+      drumOsc.start(now);
+      subOsc.start(now);
+      drumOsc.stop(now + 0.34);
+      subOsc.stop(now + 0.34);
     } catch (e) {}
   }
 
-  // Helper to spawn electric golden sparks burst on MAXIADO state
+  // Helper to spawn lightweight golden sparks burst on MAXIADO state
   function triggerGoldenSparks(card: HTMLElement) {
-    const particleCount = 18;
+    const particleCount = 8;
+    const frag = document.createDocumentFragment();
+    const sparks: HTMLSpanElement[] = [];
+
     for (let i = 0; i < particleCount; i++) {
       const spark = document.createElement('span');
       spark.className = 'spark-particle';
 
-      const size = Math.random() * 8 + 4; // 4px to 12px
+      const size = Math.random() * 6 + 4;
       spark.style.width = `${size}px`;
       spark.style.height = `${size}px`;
-
       spark.style.left = `calc(50% - ${size / 2}px)`;
       spark.style.top = `calc(50% - ${size / 2}px)`;
 
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * 110 + 35; // 35px to 145px
+      const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.4;
+      const distance = Math.random() * 80 + 35;
       const tx = Math.cos(angle) * distance;
       const ty = Math.sin(angle) * distance;
-      const rot = (Math.random() - 0.5) * 360;
+      const rot = (Math.random() - 0.5) * 180;
 
       spark.style.setProperty('--tx', `${tx}px`);
       spark.style.setProperty('--ty', `${ty}px`);
       spark.style.setProperty('--rot', `${rot}deg`);
 
-      card.appendChild(spark);
-
-      setTimeout(() => {
-        spark.remove();
-      }, 600);
+      frag.appendChild(spark);
+      sparks.push(spark);
     }
+
+    card.appendChild(frag);
+    setTimeout(() => {
+      sparks.forEach((s) => s.remove());
+    }, 520);
   }
 
-  // Card click handler: cycles Unmarked -> Marked -> Maxed -> Unmarked + trigger Glitch, Audio & Sparks
-  cards.forEach((card) => {
-    card.addEventListener('click', () => {
-      // Trigger instant Cyberpunk glitch visual effect
-      card.classList.remove('is-glitching');
-      void card.offsetWidth; // Force CSS reflow to restart animation
+  // Event Delegation on Grid: updates ONLY the clicked card instead of all 162 cards
+  const spriteGridEl = document.getElementById('sprite-grid');
+  if (spriteGridEl) {
+    spriteGridEl.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement | null;
+      const card = target?.closest<HTMLElement>('.sprite-card');
+      if (!card) return;
+
+      const ref = cardRefMap.get(card);
+      if (!ref) return;
+
       card.classList.add('is-glitching');
       setTimeout(() => {
         card.classList.remove('is-glitching');
-      }, 400);
+      }, 340);
 
-      const id = card.dataset.id || '';
-      const currentState = spriteStates.get(id) || 'unmarked';
+      const currentState = spriteStates.get(ref.id) || 'unmarked';
 
       if (currentState === 'unmarked') {
-        spriteStates.set(id, 'marked');
+        spriteStates.set(ref.id, 'marked');
         playObtainedSound();
       } else if (currentState === 'marked') {
-        spriteStates.set(id, 'maxed');
-        triggerGoldenSparks(card as HTMLElement);
+        spriteStates.set(ref.id, 'maxed');
+        triggerGoldenSparks(card);
         playMaxed1UpSound();
       } else {
-        spriteStates.delete(id);
+        spriteStates.delete(ref.id);
         playGameOverSound();
       }
-      updateUI();
+
+      const t = i18nDict[currentLang] || i18nDict['es'];
+      syncSingleCardDOM(ref, t, currentSearch.trim().toLowerCase());
+      updateStatsCounters();
+    });
+  }
+
+  // Season Filter Buttons
+  function setSeason(season: 'c7s5' | 'c7s4' | 'all') {
+    currentSeason = season;
+    seasonBtns.forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.season === season);
+    });
+    updateUI();
+  }
+
+  seasonBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const season = (btn.dataset.season || 'all') as 'c7s5' | 'c7s4' | 'all';
+      setSeason(season);
     });
   });
+
+  if (btnSwitchToC7s4) {
+    btnSwitchToC7s4.addEventListener('click', () => {
+      setSeason('c7s4');
+    });
+  }
 
   // Filter Buttons
   filterBtns.forEach((btn) => {
@@ -1187,11 +1536,15 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
     });
   });
 
-  // Search Input Handler
+  // Search Input Handler (Debounced to avoid layout thrashing on fast typing)
+  let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       currentSearch = (e.target as HTMLInputElement).value;
-      updateUI();
+      if (searchDebounceTimer !== null) clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        updateUI();
+      }, 90);
     });
   }
 
@@ -1199,8 +1552,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   if (btnSelectAll) {
     btnSelectAll.addEventListener('click', () => {
       cards.forEach((card) => {
-        const id = card.dataset.id;
-        if (id) spriteStates.set(id, 'marked');
+        const season = card.dataset.season || 'c7s4';
+        if (currentSeason === 'all' || season === currentSeason) {
+          const id = card.dataset.id;
+          if (id) spriteStates.set(id, 'marked');
+        }
       });
       updateUI();
     });
@@ -1209,8 +1565,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   if (btnSelectMaxed) {
     btnSelectMaxed.addEventListener('click', () => {
       cards.forEach((card) => {
-        const id = card.dataset.id;
-        if (id) spriteStates.set(id, 'maxed');
+        const season = card.dataset.season || 'c7s4';
+        if (currentSeason === 'all' || season === currentSeason) {
+          const id = card.dataset.id;
+          if (id) spriteStates.set(id, 'maxed');
+        }
       });
       updateUI();
     });
@@ -1218,25 +1577,24 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
   if (btnDeselectAll) {
     btnDeselectAll.addEventListener('click', () => {
-      spriteStates.clear();
+      cards.forEach((card) => {
+        const season = card.dataset.season || 'c7s4';
+        if (currentSeason === 'all' || season === currentSeason) {
+          const id = card.dataset.id;
+          if (id) spriteStates.delete(id);
+        }
+      });
       updateUI();
     });
   }
 
-  // Helper to ensure all images in a container are loaded, decoded and visible before canvas capture
+  // Helper to ensure all images in a container are loaded and decoded before canvas capture
   async function ensureAllImagesLoaded(container: HTMLElement): Promise<void> {
     const imgs = Array.from(container.querySelectorAll<HTMLImageElement>('.sprite-img'));
     const loadPromises = imgs.map((img) => {
       img.loading = 'eager';
-      const wrapper = img.closest('.sprite-image-wrapper');
-
-      function markAsLoaded() {
-        if (wrapper) wrapper.classList.remove('is-loading');
-        img.classList.add('is-loaded');
-      }
 
       if (img.complete && img.naturalWidth > 0) {
-        markAsLoaded();
         return Promise.resolve();
       }
 
@@ -1245,7 +1603,6 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         const done = () => {
           if (!isDone) {
             isDone = true;
-            markAsLoaded();
             img.removeEventListener('load', done);
             img.removeEventListener('error', done);
             resolve();
@@ -1275,6 +1632,15 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
 
       const t = i18nDict[currentLang] || i18nDict['es'];
 
+      const visibleCards = Array.from(captureArea.querySelectorAll<HTMLElement>('.sprite-card')).filter(
+        (c) => c.style.display !== 'none'
+      );
+      const cardCount = visibleCards.length;
+      if (cardCount === 0) {
+        alert(currentLang === 'es' ? 'No hay espíritus visibles en esta vista para descargar.' : 'No visible sprites in this view to download.');
+        return;
+      }
+
       if (modalExport && modalTitle && modalDesc) {
         modalTitle.textContent = t.modalTitle;
         modalDesc.innerHTML = t.modalDesc;
@@ -1286,43 +1652,106 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
         await ensureAllImagesLoaded(captureArea);
         await new Promise((resolve) => setTimeout(resolve, 200));
 
+        const activeTheme = document.documentElement.dataset.styleTheme || 'treasure';
+        const exportBgMap: Record<string, string> = {
+          treasure: '#091426',
+          popart: '#24123b',
+          parchment: '#1b2c47',
+          manga: '#060609',
+          punk: '#1d0b29',
+          bubble: '#1f0c24'
+        };
+
+        // Determine column count and exact target width based on number of visible cards
+        const columns = Math.min(Math.max(cardCount, 1), 5);
+        let targetWidth = 1240;
+        if (columns === 1) targetWidth = 460;
+        else if (columns === 2) targetWidth = 660;
+        else if (columns === 3) targetWidth = 920;
+        else if (columns === 4) targetWidth = 1120;
+        else targetWidth = 1240;
+
         const canvas = await html2canvas(captureArea, {
-          backgroundColor: '#060913',
+          backgroundColor: exportBgMap[activeTheme] || '#091426',
           scale: 2,
           logging: false,
           useCORS: true,
           allowTaint: true,
-          windowWidth: 1280,
+          width: targetWidth,
+          windowWidth: targetWidth,
+          scrollX: 0,
+          scrollY: 0,
           onclone: (clonedDoc) => {
+            // Ensure cloned document and body match the target width to prevent mobile viewport clipping
+            clonedDoc.documentElement.style.width = `${targetWidth}px`;
+            clonedDoc.documentElement.style.minWidth = `${targetWidth}px`;
+            clonedDoc.body.style.width = `${targetWidth}px`;
+            clonedDoc.body.style.minWidth = `${targetWidth}px`;
+            clonedDoc.body.style.margin = '0';
+            clonedDoc.body.style.padding = '0';
+            clonedDoc.body.style.overflow = 'visible';
+
+            const clonedMain = clonedDoc.querySelector('main');
+            if (clonedMain) {
+              clonedMain.style.width = `${targetWidth}px`;
+              clonedMain.style.maxWidth = `${targetWidth}px`;
+              clonedMain.style.margin = '0 auto';
+              clonedMain.style.padding = '0';
+            }
+
             const clonedArea = clonedDoc.getElementById('template-capture-area');
             if (clonedArea) {
-              clonedArea.style.width = '1200px';
-              clonedArea.style.maxWidth = '1200px';
+              clonedArea.style.width = `${targetWidth}px`;
+              clonedArea.style.maxWidth = `${targetWidth}px`;
               clonedArea.style.margin = '0 auto';
-              clonedArea.style.padding = '2rem';
+              clonedArea.style.padding = '1.75rem';
               clonedArea.style.boxSizing = 'border-box';
 
-              const clonedHeader = clonedArea.querySelector<HTMLElement>('.template-watermark-header');
-              if (clonedHeader) {
-                clonedHeader.style.flexDirection = 'row';
-                clonedHeader.style.justifyContent = 'space-between';
-                clonedHeader.style.alignItems = 'center';
+              // Top rainbow line spans 100% seamlessly
+              const clonedTopBar = clonedArea.querySelector<HTMLElement>('.template-top-rainbow-bar');
+              if (clonedTopBar) {
+                clonedTopBar.style.width = '100%';
+                clonedTopBar.style.left = '0';
+                clonedTopBar.style.right = '0';
               }
 
+              // Balanced watermark header layout
+              const clonedHeader = clonedArea.querySelector<HTMLElement>('.template-watermark-header');
+              if (clonedHeader) {
+                clonedHeader.style.display = 'flex';
+                clonedHeader.style.flexDirection = targetWidth < 800 ? 'column' : 'row';
+                clonedHeader.style.justifyContent = 'space-between';
+                clonedHeader.style.alignItems = targetWidth < 800 ? 'flex-start' : 'flex-end';
+                clonedHeader.style.gap = '1.25rem';
+                clonedHeader.style.width = '100%';
+                clonedHeader.style.marginBottom = '1.85rem';
+              }
+
+              const clonedLegend = clonedArea.querySelector<HTMLElement>('.template-legend-row');
+              if (clonedLegend) {
+                clonedLegend.style.display = 'flex';
+                clonedLegend.style.flexDirection = 'row';
+                clonedLegend.style.flexWrap = targetWidth < 700 ? 'wrap' : 'nowrap';
+                clonedLegend.style.gap = '1rem';
+                clonedLegend.style.alignItems = 'center';
+              }
+
+              // Symmetrical grid columns with no blank ghost tracks
               const clonedGrid = clonedArea.querySelector<HTMLElement>('.sprite-grid');
               if (clonedGrid) {
                 clonedGrid.style.display = 'grid';
-                clonedGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
-                clonedGrid.style.gap = '1.75rem';
+                clonedGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                clonedGrid.style.gap = '1.5rem';
+                clonedGrid.style.width = '100%';
               }
 
               clonedArea.querySelectorAll('.card-hover-tip').forEach((el) => {
                 (el as HTMLElement).style.display = 'none';
               });
 
-              // Clean up image loading skeleton state inside cloned document
-              clonedArea.querySelectorAll('.sprite-image-wrapper').forEach((w) => {
-                w.classList.remove('is-loading');
+              clonedArea.querySelectorAll<HTMLElement>('.sprite-card').forEach((c) => {
+                c.style.contentVisibility = 'visible';
+                c.style.contain = 'none';
               });
             }
 
@@ -1330,13 +1759,11 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
             clonedImgs.forEach((img) => {
               img.loading = 'eager';
               img.decoding = 'sync';
-              img.classList.add('is-loaded');
               img.style.opacity = '1';
               img.style.animation = 'none';
               img.style.transition = 'none';
               img.style.transform = 'none';
-              img.style.clipPath = 'none';
-              img.style.filter = 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7))';
+              img.style.filter = 'none';
               img.style.objectFit = 'contain';
               img.style.width = 'auto';
               img.style.height = 'auto';
@@ -1346,12 +1773,13 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
           }
         });
 
-        const mainTitleWord = currentLang === 'es' ? 'glitch' : 'override';
+        const mainTitleWord = currentLang === 'es' ? 'cazatesoros' : 'treasure-hunters';
+        const seasonSuffix = currentSeason === 'all' ? 'todas' : currentSeason;
         const filterSuffix = currentFilter === 'marked' ? 'obtenidos' : currentFilter === 'maxed' ? 'maxiados' : currentFilter === 'unmarked' ? 'faltantes' : 'todos';
 
         canvas.toBlob((blob) => {
           if (blob) {
-            saveAs(blob, `fortnite-${mainTitleWord}-sprites-${filterSuffix}-${Date.now()}.png`);
+            saveAs(blob, `fortnite-${mainTitleWord}-${seasonSuffix}-${filterSuffix}-${Date.now()}.png`);
           }
         }, 'image/png');
       } catch (err) {
@@ -1366,6 +1794,117 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
   // Language Switcher Events
   document.getElementById('lang-btn-es')?.addEventListener('click', () => applyLanguage('es'));
   document.getElementById('lang-btn-en')?.addEventListener('click', () => applyLanguage('en'));
+
+  // Random Multiverse Style on Entry + Style Shift on Every Click
+  const validThemes = ['treasure', 'popart', 'parchment', 'manga', 'punk', 'bubble'];
+  let currentTheme = validThemes[Math.floor(Math.random() * validThemes.length)];
+
+  function applyStyleTheme(theme: string) {
+    currentTheme = theme;
+    document.documentElement.dataset.styleTheme = theme;
+  }
+
+  function pickRandomDifferentTheme(): string {
+    const others = validThemes.filter((t) => t !== currentTheme);
+    return others[Math.floor(Math.random() * others.length)];
+  }
+
+  // Apply random theme when user enters the page
+  applyStyleTheme(currentTheme);
+
+  // Allow switching theme only when clicking the Hero Banner or Season Pill (avoids full-DOM CSS variable recalculation on every card click)
+  document.querySelector('.hero-banner')?.addEventListener('click', () => {
+    applyStyleTheme(pickRandomDifferentTheme());
+  });
+  document.getElementById('nav-season-text')?.addEventListener('click', () => {
+    applyStyleTheme(pickRandomDifferentTheme());
+  });
+
+  // Animated TREASURE HUNTERS Title: Cycles Font & Style Every 5 Seconds when visible
+  const heroMainTitleEl = document.querySelector<HTMLElement>('.treasure-main-title');
+  const titleFontStyles = [
+    'title-font-burbank',
+    'title-font-gold',
+    'title-font-halftone',
+    'title-font-punk',
+    'title-font-bubble',
+    'title-font-blocks',
+    'title-font-popart',
+    'title-font-verypunk',
+    'title-font-graffiti',
+    'title-font-cubic'
+  ];
+  let currentTitleStyleIdx = 0;
+  let titleCycleInterval: ReturnType<typeof setInterval> | null = null;
+  let isHeroTitleVisible = true;
+
+  function cycleHeroTitleStyle() {
+    if (!heroMainTitleEl || !isHeroTitleVisible || document.hidden) return;
+    heroMainTitleEl.classList.remove(...titleFontStyles, 'is-title-morphing');
+
+    currentTitleStyleIdx = (currentTitleStyleIdx + 1) % titleFontStyles.length;
+    const nextClass = titleFontStyles[currentTitleStyleIdx];
+
+    const isEs = currentLang === 'es';
+    if (nextClass === 'title-font-cubic') {
+      heroMainTitleEl.textContent = isEs ? 'cazatesoros' : 'treasure hunters';
+    } else if (nextClass === 'title-font-verypunk') {
+      heroMainTitleEl.textContent = isEs ? 'CAZATeSOROS' : 'TREASuRE HunTERS';
+    } else {
+      heroMainTitleEl.textContent = isEs ? 'CAZATESOROS' : 'TREASURE HUNTERS';
+    }
+    heroMainTitleEl.setAttribute('data-text', heroMainTitleEl.textContent || '');
+
+    heroMainTitleEl.classList.add(nextClass, 'is-title-morphing');
+
+    setTimeout(() => {
+      heroMainTitleEl.classList.remove('is-title-morphing');
+    }, 340);
+  }
+
+  function startTitleCycle() {
+    if (titleCycleInterval !== null) return;
+    titleCycleInterval = setInterval(cycleHeroTitleStyle, 5000);
+  }
+
+  function stopTitleCycle() {
+    if (titleCycleInterval !== null) {
+      clearInterval(titleCycleInterval);
+      titleCycleInterval = null;
+    }
+    heroMainTitleEl?.classList.remove('is-title-morphing');
+  }
+
+  if (heroMainTitleEl) {
+    heroMainTitleEl.classList.add(titleFontStyles[0]);
+
+    if ('IntersectionObserver' in window) {
+      const titleObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isHeroTitleVisible = entry.isIntersecting;
+            if (entry.isIntersecting && !document.hidden) {
+              startTitleCycle();
+            } else {
+              stopTitleCycle();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      titleObserver.observe(heroMainTitleEl);
+    } else {
+      startTitleCycle();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopTitleCycle();
+      } else if (isHeroTitleVisible) {
+        startTitleCycle();
+      }
+    });
+  }
 
   // Initial Language Setup
   applyLanguage(currentLang);
@@ -1457,26 +1996,4 @@ const sprites = Object.entries(imageModules).map(([path, mod]) => {
       }
     }, 18000);
   }
-
-  // Handle Lazy Load + Glitch Reveal Effect for Sprite Images
-  const spriteImgs = document.querySelectorAll<HTMLImageElement>('.sprite-img');
-  spriteImgs.forEach((img) => {
-    const wrapper = img.closest('.sprite-image-wrapper');
-    if (wrapper) wrapper.classList.add('is-loading');
-
-    function onImageLoaded() {
-      if (wrapper) wrapper.classList.remove('is-loading');
-      img.classList.add('is-loaded');
-    }
-
-    if (img.complete && img.naturalWidth > 0) {
-      onImageLoaded();
-    } else {
-      img.addEventListener('load', onImageLoaded);
-      img.addEventListener('error', () => {
-        if (wrapper) wrapper.classList.remove('is-loading');
-        img.classList.add('is-loaded');
-      });
-    }
-  });
 </script>

@@ -1,16 +1,48 @@
 ---
 ---
-<!-- Fortnite Game Navigation Bar -->
+<!-- Dynamic Multiverse Pure CSS & SVG Background Stage (Changes on every click!) -->
+<div class="multiverse-bg-stage" aria-hidden="true">
+  <div class="bg-layer-art"></div>
+  <div class="bg-layer-halftone"></div>
+  <div class="bg-layer-panels"></div>
+  <div class="bg-layer-decor">
+    <!-- Pirate Compass Rose SVG (Treasure & Parchment Map styles) -->
+    <svg class="bg-compass-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1.8" stroke-dasharray="6 4" />
+      <circle cx="100" cy="100" r="72" stroke="currentColor" stroke-width="1.2" />
+      <circle cx="100" cy="100" r="18" stroke="currentColor" stroke-width="1.8" />
+      <path d="M100 4 L114 86 L196 100 L114 114 L100 196 L86 114 L4 100 L86 86 Z" stroke="currentColor" stroke-width="1.8" fill="currentColor" fill-opacity="0.1" />
+      <path d="M32 32 L92 84 L168 32 L116 92 L168 168 L108 116 L32 168 L84 108 Z" stroke="currentColor" stroke-width="1" />
+    </svg>
+
+    <!-- Comic Starburst Explosion SVG (Bubble & Pop-Art styles) -->
+    <svg class="bg-starburst-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="250,10 295,140 420,45 355,175 490,180 375,255 485,350 345,330 390,475 275,380 230,495 195,365 75,455 135,320 10,310 125,235 20,130 160,165 125,25 225,135" stroke="currentColor" stroke-width="3" fill="currentColor" fill-opacity="0.06" />
+    </svg>
+
+    <!-- Punk Crown & Graffiti X-Spray SVG (Punk Zine style) -->
+    <svg class="bg-punk-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 310 L90 110 L175 220 L230 70 L295 215 L365 120 L330 310 Z" stroke="currentColor" stroke-width="6" fill="currentColor" fill-opacity="0.05" />
+      <path d="M35 75 L135 175 M135 75 L35 175" stroke="#ff2a85" stroke-width="8" stroke-linecap="round" stroke-opacity="0.35" />
+    </svg>
+  </div>
+</div>
+
+<!-- Fortnite Treasure Hunters Navigation Bar -->
 <nav class="fortnite-nav">
   <div class="nav-container">
     <div class="nav-brand">
-      <a href="https://fortnite.mudo.games/" target="_blank" rel="noopener noreferrer" class="mudo-brand-logo" data-text="fortnite.mudo.games">fortnite.mudo.games</a>
+      <a href="https://fortnite.mudo.games/" target="_blank" rel="noopener noreferrer" class="mudo-brand-logo" data-text="fortnite.mudo.games">
+        fortnite.mudo.games
+      </a>
+      <span class="nav-katakana-tag">トレジャー</span>
     </div>
     
-    <div class="nav-status" style="display: flex; align-items: center; gap: 1.25rem;">
-      <div id="nav-season-text" style="font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); letter-spacing: 1px;">
-        CAPÍTULO 7 • TEMPORADA 4
+    <div class="nav-status">
+      <div id="nav-season-text" class="nav-season-pill">
+        🏴‍☠️ CAPÍTULO 7 • MINI TEMPORADA
       </div>
+
       <div class="lang-switcher">
         <button id="lang-btn-es" class="lang-btn active" data-lang="es">ES</button>
         <span class="lang-divider">|</span>
@@ -29,26 +61,30 @@
   </div>
 </nav>
 
-<!-- Hero Banner: FORTNITE GLITCH / OVERRIDE -->
+<!-- Hero Banner: FORTNITE TREASURE HUNTERS / トレジャーハンターズ -->
 <section class="hero-banner">
-  <div class="fn-chapter-title">
-    <span class="fortnite-logo-text">FORTNITE</span>
-    <span class="chapter-dot">•</span>
-    <span id="hero-subtitle-text">CAPÍTULO 7 | TEMPORADA 4</span>
-  </div>
+  <div class="hero-identity-col">
+    <div class="fn-chapter-title">
+      <span class="fortnite-logo-badge">
+        <span class="fortnite-logo-text">FORTNITE</span>
+        <span class="fn-katakana-slash">フォートナイト</span>
+      </span>
+      <span class="chapter-dot">✦</span>
+      <span id="hero-subtitle-text">CAPÍTULO 7 | MINI TEMPORADA</span>
+    </div>
 
-  <div class="glitch-wrapper">
-    <!-- Chromatic Aberration Glitch Title (GLITCH in Spanish, OVERRIDE in English) -->
-    <h1 class="glitch-title" data-text="GLITCH">GLITCH</h1>
-    
-    <!-- Color Glitch Block Cuts (Yellow, Magenta, Green) -->
-    <span class="glitch-block-1"></span>
-    <span class="glitch-block-2"></span>
-  </div>
+    <!-- Official CAZATESOROS / トレジャーハンターズ Monumental Lockup -->
+    <div class="glitch-wrapper treasure-lockup">
+      <div class="katakana-gold-top" aria-hidden="true">トレジャー</div>
+      <h1 class="glitch-title treasure-main-title" data-text="CAZATESOROS">CAZATESOROS</h1>
+      <div class="katakana-gold-bottom" aria-hidden="true">ハンターズ</div>
+    </div>
 
-  <div>
-    <div id="hero-slogan-pill" class="slogan-pill">
-      ROMPE LAS REGLAS • CAMBIA EL JUEGO
+    <!-- Brush-Stroke Slogan Banner ("THE GREATEST ADVENTURE OF ALL TIME") -->
+    <div class="slogan-banner-wrapper">
+      <div id="hero-slogan-pill" class="slogan-pill">
+        LA MAYOR AVENTURA DE TODOS LOS TIEMPOS
+      </div>
     </div>
   </div>
 </section>

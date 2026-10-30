@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fortnite-sprites-v1';
+const CACHE_NAME = 'fortnite-sprites-treasure-hunters-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

@@ -1,39 +1,196 @@
 /* ==========================================================================
-   CYBERPUNK GLITCH ART - FORTNITE CHAPTER 7 SEASON 4: OVERRIDE DESIGN SYSTEM
+   FORTNITE CHAPTER 7 MINI-SEASON: TREASURE HUNTERS (トレジャーハンターズ)
+   AAA MULTIVERSE DESIGN SYSTEM — 6 ATMOSPHERIC STYLES
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700;800&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:wght@600;700;800&family=Dela+Gothic+One&family=Rubik:ital,wght@0,600;0,800;0,900;1,900&display=swap');
 
+/* Custom Season Fonts from /new/fonts */
 @font-face {
   font-family: 'Burbank Big Condensed';
-  src: url('/Burbank Big Condensed Black.otf') format('opentype');
+  src: url('/fonts/Burbank Big Condensed Black.otf') format('opentype'),
+       url('/Burbank Big Condensed Black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
-:root {
-  /* Cyberpunk Palette */
-  --bg-deep: #060913;
-  --bg-card: #0c1222;
-  --bg-card-alt: #0a0e1c;
-  --bg-overlay: rgba(6, 9, 19, 0.92);
+@font-face {
+  font-family: 'Thirties Gold';
+  src: url('/fonts/Thirties Gold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --neon-magenta: #ff007f;
-  --neon-cyan: #00f2fe;
-  --neon-yellow: #ddff00;
-  --neon-purple: #9d4edd;
-  --neon-green: #00ff88;
+@font-face {
+  font-family: 'Halftone Nium';
+  src: url('/fonts/Halftone Nium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PopArt';
+  src: url('/fonts/PopArt-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anonymous Punk';
+  src: url('/fonts/Anonymous Punk.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Very Punk';
+  src: url('/fonts/Very very punk font.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Attack Graffiti';
+  src: url('/fonts/aAttackGraffiti.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Game Bubble';
+  src: url('/fonts/Game Bubble.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Abstract Blocks';
+  src: url('/fonts/AbstractBlocks.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cubic Block';
+  src: url('/fonts/cubicblock.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   THEME PALETTES (6 COHESIVE AAA UNIVERSES)
+   ========================================================================== */
+:root,
+:root[data-style-theme="treasure"] {
+  --bg-deep: #060f1e;
+  --bg-card: #0c1b33;
+  --bg-card-alt: rgba(9, 20, 38, 0.96);
+  --bg-overlay: rgba(6, 15, 30, 0.97);
+
+  --accent-primary: #ffd026;
+  --neon-yellow: #ffd026;
+  --neon-cyan: #2ae8ff;
+  --neon-magenta: #ff2a85;
+  --neon-purple: #9b30ff;
+  --neon-green: #23f79b;
 
   --text-main: #ffffff;
-  --text-muted: #8b9bb4;
+  --text-muted: #9cb6d9;
 
-  --font-fortnite: 'Burbank Big Condensed', 'Orbitron', sans-serif;
-  --font-hero: 'Orbitron', sans-serif;
-  --font-display: 'Chakra Petch', sans-serif;
-  --font-body: 'Rajdhani', sans-serif;
+  --font-fortnite: 'Burbank Big Condensed', 'Rubik', sans-serif;
+  --font-hero: 'Burbank Big Condensed', 'Rubik', sans-serif;
+  --font-display: 'Chakra Petch', 'Rubik', sans-serif;
+  --font-body: 'Rubik', 'Chakra Petch', sans-serif;
+  --font-katakana: 'Dela Gothic One', sans-serif;
+}
 
-  --border-neon-cyan: 0 0 10px rgba(0, 242, 254, 0.6), inset 0 0 10px rgba(0, 242, 254, 0.2);
-  --border-neon-magenta: 0 0 15px rgba(255, 0, 127, 0.7), inset 0 0 10px rgba(255, 0, 127, 0.3);
+/* ESTILO 1: POP-ART Y2K CYBER-COMIC */
+:root[data-style-theme="popart"] {
+  --bg-deep: #120824;
+  --bg-card: #1d0e38;
+  --bg-card-alt: rgba(24, 11, 46, 0.96);
+  --bg-overlay: rgba(18, 8, 36, 0.97);
+
+  --accent-primary: #4ddbff;
+  --neon-yellow: #ffae33;
+  --neon-cyan: #4ddbff;
+  --neon-magenta: #f038eb;
+  --neon-purple: #b53dff;
+  --neon-green: #23f79b;
+  --text-muted: #d9b8f7;
+}
+
+/* ESTILO 2 & 3: ROYAL PIRATE CARTOGRAPHY & GOLD */
+:root[data-style-theme="parchment"] {
+  --bg-deep: #0c1524;
+  --bg-card: #132238;
+  --bg-card-alt: rgba(16, 28, 46, 0.96);
+  --bg-overlay: rgba(11, 20, 34, 0.97);
+
+  --accent-primary: #ffd859;
+  --neon-yellow: #ffd859;
+  --neon-cyan: #f5dfbc;
+  --neon-magenta: #ff4769;
+  --neon-purple: #d49b35;
+  --neon-green: #38f2a0;
+  --text-muted: #d6c3a5;
+}
+
+/* ESTILO 4: MANGA HALFTONE NOIR & CRIMSON SLASH */
+:root[data-style-theme="manga"] {
+  --bg-deep: #060609;
+  --bg-card: #101118;
+  --bg-card-alt: rgba(14, 15, 22, 0.96);
+  --bg-overlay: rgba(6, 6, 9, 0.97);
+
+  --accent-primary: #ff1738;
+  --neon-yellow: #a3f53b;
+  --neon-cyan: #ffffff;
+  --neon-magenta: #ff1738;
+  --neon-purple: #ff1738;
+  --neon-green: #9be548;
+  --text-muted: #a6adbf;
+}
+
+/* ESTILO 5: PUNK GRAFFITI ZINE & ACID SPRAY */
+:root[data-style-theme="punk"] {
+  --bg-deep: #11061c;
+  --bg-card: #1c0b2e;
+  --bg-card-alt: rgba(24, 9, 39, 0.96);
+  --bg-overlay: rgba(17, 6, 28, 0.97);
+
+  --accent-primary: #9ce635;
+  --neon-yellow: #9ce635;
+  --neon-cyan: #ff4db8;
+  --neon-magenta: #f035a8;
+  --neon-purple: #7b2cbf;
+  --neon-green: #a8ff35;
+  --text-muted: #dfb5f5;
+}
+
+/* ESTILO 6: ELECTRIC MINT BUBBLE & STARBURST */
+:root[data-style-theme="bubble"] {
+  --bg-deep: #091921;
+  --bg-card: #102633;
+  --bg-card-alt: rgba(13, 32, 43, 0.96);
+  --bg-overlay: rgba(8, 22, 30, 0.97);
+
+  --accent-primary: #23f79b;
+  --neon-yellow: #ffd93d;
+  --neon-cyan: #23f79b;
+  --neon-magenta: #ff3ea5;
+  --neon-purple: #9b30ff;
+  --neon-green: #23f79b;
+  --text-muted: #b5e3de;
 }
 
 * {
@@ -49,69 +206,266 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
-}
-
-/* Background Scanlines & Grid Noise Effect */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: 
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
-    linear-gradient(90deg, rgba(255, 0, 127, 0.03), rgba(0, 242, 254, 0.03));
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.2;
-}
-
-/* Background Glitch Ambient Orbs */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse at 10% 20%, rgba(255, 0, 127, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 90% 80%, rgba(0, 242, 254, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.08) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: -1;
+  transition: background-color 0.45s ease, color 0.35s ease;
 }
 
 /* ==========================================================================
-   TOP NAVIGATION BAR (Fortnite Game Menu Style)
+   SOFT PAPER-WHITE CENTER + CORNER-ONLY MULTICOLOR HALFTONE VIGNETTE SHADOW
+   ========================================================================== */
+.multiverse-bg-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+
+.bg-layer-art,
+.bg-layer-halftone {
+  position: absolute;
+  inset: 0;
+}
+
+/* Hide unused layers & large decorative SVGs to avoid extra compositor layers */
+.bg-layer-panels,
+.bg-layer-decor,
+.bg-compass-svg,
+.bg-starburst-svg,
+.bg-punk-svg {
+  display: none !important;
+}
+
+/* Corner-Only Masks: Halftone dots appear ONLY in the 4 corners like a comic/manga corner shadow */
+.bg-layer-halftone {
+  -webkit-mask-image:
+    radial-gradient(circle at 0% 0%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%);
+  mask-image:
+    radial-gradient(circle at 0% 0%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 18%, transparent 38%);
+}
+
+/* 1. TREASURE HUNTERS: Soft Warm Pearl Paper Center + Ocean/Gold Corner Vignette & Dots */
+:root[data-style-theme="treasure"] .bg-layer-art,
+:root:not([data-style-theme]) .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(11, 26, 54, 0.24) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(18, 120, 168, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(196, 138, 18, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(11, 26, 54, 0.24) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #f4f1ea 0%, #eae5da 75%, #dfd8c8 100%);
+}
+
+:root[data-style-theme="treasure"] .bg-layer-halftone,
+:root:not([data-style-theme]) .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(11, 30, 64, 0.45) 2px, transparent 2.6px),
+    radial-gradient(circle, rgba(0, 168, 214, 0.42) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(235, 164, 12, 0.45) 1.7px, transparent 2.3px);
+  background-size: 18px 18px, 18px 18px, 18px 18px;
+  background-position: 0 0, 9px 9px, 4px 13px;
+  opacity: 0.85;
+}
+
+/* 2. POP-ART Y2K: Soft Cream-Lilac Paper Center + CMYK Corner Print Shading */
+:root[data-style-theme="popart"] .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(214, 34, 196, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(0, 168, 224, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(0, 168, 224, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(214, 34, 196, 0.22) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #f5f1f7 0%, #ebe4f0 75%, #dfd5e8 100%);
+}
+
+:root[data-style-theme="popart"] .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(224, 32, 188, 0.48) 2px, transparent 2.6px),
+    radial-gradient(circle, rgba(0, 168, 232, 0.45) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(240, 152, 0, 0.42) 1.7px, transparent 2.3px);
+  background-size: 16px 16px, 16px 16px, 16px 16px;
+  background-position: 0 0, 8px 8px, 4px 12px;
+  opacity: 0.85;
+}
+
+/* 3. PARCHMENT MAP: Soft Antique Ivory Paper Center + Warm Amber/Teal Corner Halftone */
+:root[data-style-theme="parchment"] .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(148, 96, 20, 0.24) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(16, 118, 138, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(16, 118, 138, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(148, 96, 20, 0.24) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #f5efe2 0%, #ebe1cd 75%, #ded0b6 100%);
+}
+
+:root[data-style-theme="parchment"] .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(138, 86, 12, 0.46) 1.9px, transparent 2.5px),
+    radial-gradient(circle, rgba(214, 138, 18, 0.42) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(14, 138, 160, 0.38) 1.6px, transparent 2.2px);
+  background-size: 19px 19px, 19px 19px, 19px 19px;
+  background-position: 0 0, 9.5px 9.5px, 5px 14px;
+  opacity: 0.85;
+}
+
+/* 4. MANGA HALFTONE NOIR: Soft Manga Paper White Center + Ink/Crimson/Lime Corner Screentone */
+:root[data-style-theme="manga"] .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(18, 20, 28, 0.26) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(220, 20, 52, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(104, 178, 24, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(18, 20, 28, 0.26) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #f1f2f5 0%, #e5e7ed 75%, #d6d9e2 100%);
+}
+
+:root[data-style-theme="manga"] .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(20, 22, 30, 0.48) 1.9px, transparent 2.5px),
+    radial-gradient(circle, rgba(235, 20, 54, 0.45) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(110, 190, 24, 0.42) 1.6px, transparent 2.2px);
+  background-size: 15px 15px, 15px 15px, 15px 15px;
+  background-position: 0 0, 7.5px 7.5px, 4px 11px;
+  opacity: 0.88;
+}
+
+/* 5. PUNK GRAFFITI ZINE: Soft Zine Paper Center + Risograph Lime/Pink/Violet Corner Dots */
+:root[data-style-theme="punk"] .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(108, 32, 168, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(220, 38, 148, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(112, 186, 20, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(108, 32, 168, 0.22) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #f3f0f6 0%, #e8e2ee 75%, #dbd2e4 100%);
+}
+
+:root[data-style-theme="punk"] .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(218, 34, 146, 0.48) 1.9px, transparent 2.5px),
+    radial-gradient(circle, rgba(108, 184, 18, 0.46) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(104, 30, 168, 0.42) 1.6px, transparent 2.2px);
+  background-size: 17px 17px, 17px 17px, 17px 17px;
+  background-position: 0 0, 8.5px 8.5px, 4px 13px;
+  opacity: 0.86;
+}
+
+/* 6. COMIC BUBBLE STARBURST: Soft Mint-Pearl Paper Center + Mint/Pink/Gold Corner Dots */
+:root[data-style-theme="bubble"] .bg-layer-art {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(14, 178, 118, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(232, 42, 142, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(232, 42, 142, 0.2) 0%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(14, 178, 118, 0.22) 0%, transparent 36%),
+    radial-gradient(ellipse at 50% 50%, #eff5f3 0%, #e3ede9 75%, #d4e2dc 100%);
+}
+
+:root[data-style-theme="bubble"] .bg-layer-halftone {
+  background-image:
+    radial-gradient(circle, rgba(12, 176, 114, 0.46) 1.9px, transparent 2.5px),
+    radial-gradient(circle, rgba(235, 42, 142, 0.46) 1.8px, transparent 2.4px),
+    radial-gradient(circle, rgba(228, 158, 12, 0.42) 1.6px, transparent 2.2px);
+  background-size: 18px 18px, 18px 18px, 18px 18px;
+  background-position: 0 0, 9px 9px, 5px 14px;
+  opacity: 0.86;
+}
+
+/* ==========================================================================
+   TOP NAVIGATION BAR
    ========================================================================== */
 .fortnite-nav {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(6, 9, 19, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 242, 254, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-  padding: 0.75rem 2rem;
+  background: var(--bg-overlay);
+  border-bottom: 2px solid var(--accent-primary);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.75);
+  padding: 0.65rem 1.5rem;
 }
 
 .nav-container {
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.mudo-brand-logo {
+  font-family: var(--font-fortnite);
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  text-shadow:
+    2px 2px 0px #000000,
+    -1.5px 0px 0px var(--neon-magenta),
+    1.5px 0px 0px var(--neon-cyan);
+  transition: transform 0.2s ease;
+}
+
+.mudo-brand-logo:hover {
+  transform: scale(1.04);
+}
+
+.nav-katakana-tag {
+  font-family: var(--font-katakana);
+  font-size: 0.7rem;
+  background: var(--neon-magenta);
+  color: #ffffff;
+  padding: 0.16rem 0.5rem;
+  border: 1.5px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+  transform: skewX(-8deg);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-season-pill {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #050811;
+  background: var(--accent-primary);
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  padding: 0.24rem 0.75rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: background-color 0.35s ease;
 }
 
 .lang-switcher {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  background: rgba(12, 18, 34, 0.85);
-  border: 1px solid rgba(0, 242, 254, 0.35);
-  padding: 0.2rem 0.5rem;
+  gap: 0.25rem;
+  background: rgba(5, 8, 17, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.45rem;
   border-radius: 4px;
   font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .lang-btn {
@@ -124,17 +478,13 @@ body::after {
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
-.lang-btn.active, .lang-btn:hover {
-  color: #ffffff;
-  background: rgba(0, 242, 254, 0.2);
-  text-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
-}
-
-.lang-btn.active {
-  border: 1px solid var(--neon-cyan);
+.lang-btn.active,
+.lang-btn:hover {
+  color: #050811;
+  background: var(--accent-primary);
 }
 
 .lang-divider {
@@ -142,341 +492,371 @@ body::after {
   font-size: 0.75rem;
 }
 
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.mudo-brand-logo {
-  font-family: var(--font-fortnite);
-  font-size: 1.8rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-transform: lowercase;
-  color: #ffffff;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-  text-shadow: 
-    2px 0 var(--neon-magenta), 
-    -2px 0 var(--neon-cyan),
-    0 0 15px rgba(0, 242, 254, 0.6);
-  animation: glitch-skew 9s infinite ease-in-out alternate-reverse;
-}
-
-.mudo-brand-logo::before,
-.mudo-brand-logo::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.mudo-brand-logo::before {
-  left: 2px;
-  text-shadow: -2px 0 var(--neon-magenta);
-  animation: glitch-anim-1 7s infinite ease-in-out alternate-reverse;
-}
-
-.mudo-brand-logo::after {
-  left: -2px;
-  text-shadow: -2px 0 var(--neon-cyan), 1px 1px var(--neon-yellow);
-  animation: glitch-anim-2 8.5s infinite ease-in-out alternate-reverse;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-
-.nav-link {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  text-decoration: none;
-  padding: 0.5rem 0;
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.nav-link:hover, .nav-link.active {
-  color: var(--text-main);
-}
-
-.nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--neon-cyan);
-  box-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.nav-status {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
 /* ==========================================================================
-   HERO BANNER - OVERRIDE GLITCH TITLE & SLOGAN
+   HERO BANNER: MONUMENTAL TREASURE HUNTERS LOCKUP (SINGLE-LINE, ZERO COLLISION)
    ========================================================================== */
 .hero-banner {
-  text-align: center;
-  padding: 3.5rem 1.5rem 2.5rem;
   position: relative;
+  z-index: 5;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2.2rem 1rem 1.25rem;
+  text-align: center;
+}
+
+.hero-identity-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .fn-chapter-title {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
+  color: #0b1324;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.fortnite-logo-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: #050811;
+  border: 2px solid var(--accent-primary);
+  padding: 0.12rem 0.8rem;
+  box-shadow: 3px 3px 0px #000000;
+  transition: border-color 0.35s ease;
 }
 
 .fortnite-logo-text {
   font-family: var(--font-fortnite);
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #ffffff;
 }
 
-.fn-chapter-title::before, .fn-chapter-title::after {
-  content: "";
-  display: inline-block;
-  width: 40px;
-  height: 2px;
-  background: var(--neon-cyan);
-  box-shadow: 0 0 8px var(--neon-cyan);
+.fn-katakana-slash {
+  position: absolute;
+  bottom: -7px;
+  right: -10px;
+  font-family: var(--font-katakana);
+  font-size: 0.58rem;
+  color: #ffffff;
+  background: #ff1738;
+  padding: 0.04rem 0.35rem;
+  border: 1.5px solid #000;
+  transform: rotate(-4deg);
+  letter-spacing: 0.5px;
+  box-shadow: 2px 2px 0px #000;
 }
 
-/* GLITCH OVERRIDE TITLE EFFECT */
-.glitch-wrapper {
+.chapter-dot {
+  color: #0b1324;
+  font-size: 1rem;
+}
+
+/* ==========================================================================
+   OFFICIAL TREASURE HUNTERS / トレジャーハンターズ LOCKUP
+   ========================================================================== */
+.treasure-lockup {
   position: relative;
-  display: inline-block;
-  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.15rem 0 0.85rem;
+  width: 100%;
 }
 
-.glitch-title {
-  font-family: var(--font-hero);
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
+.katakana-gold-top,
+.katakana-gold-bottom {
+  font-family: var(--font-katakana);
+  font-size: clamp(1.75rem, 3.8vw, 2.95rem);
   font-weight: 900;
+  line-height: 1;
+  letter-spacing: 6px;
+  color: #ffd026;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 5px #071020;
+  text-shadow: 0px 3px 0px #000000;
+  user-select: none;
+  z-index: 4;
+  position: relative;
+}
+
+.katakana-gold-top {
+  margin-bottom: 0.3rem;
+  transform: skewX(-6deg);
+}
+
+.katakana-gold-bottom {
+  margin-top: 0.3rem;
+  transform: skewX(-6deg);
+}
+
+.treasure-main-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(2.8rem, 6vw, 4.9rem);
+  font-family: var(--font-fortnite);
+  font-size: clamp(2.1rem, 5.4vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: 3px;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #0b182e;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 6px #ffd026;
+  text-shadow: 0px 5px 0px #000000;
+  z-index: 3;
+  position: relative;
+  padding: 0 0.5rem;
+  transform-origin: center center;
+}
+
+/* Animated Title Morph Keyframe (Compositor-Only Transform — Zero Filter Repaint) */
+.treasure-main-title.is-title-morphing {
+  animation: title-morph-anim 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes title-morph-anim {
+  0% {
+    transform: scale(1) skewX(0deg);
+  }
+  32% {
+    transform: scale(1.05, 0.94) skewX(-6deg) rotate(-0.8deg);
+  }
+  65% {
+    transform: scale(0.98, 1.02) skewX(3deg) rotate(0.4deg);
+  }
+  100% {
+    transform: scale(1) skewX(0deg) rotate(0deg);
+  }
+}
+
+/* 10 Dynamic Font & Visual Style Variants (Using Hardware-Accelerated text-shadow Instead of filter: drop-shadow) */
+.treasure-main-title.title-font-burbank {
+  font-family: 'Burbank Big Condensed', var(--font-fortnite);
+  font-size: clamp(2.1rem, 5.4vw, 4.6rem);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #0b182e;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 6px #ffd026;
+  text-shadow: 0px 5px 0px #000000;
+}
+
+.treasure-main-title.title-font-gold {
+  font-family: 'Thirties Gold', var(--font-fortnite);
+  font-size: clamp(1.3rem, 3.1vw, 2.65rem);
+  line-height: 0.95;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #ffe259;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3.5px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 5px 0px #9c6106;
+}
+
+.treasure-main-title.title-font-halftone {
+  font-family: 'Halftone Nium', var(--font-fortnite);
+  font-size: clamp(1.35rem, 3.2vw, 2.75rem);
+  line-height: 0.95;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3.5px #000000;
+  text-shadow: 0px 4px 0px #000000, 5px 5px 0px #ff1738;
+}
+
+.treasure-main-title.title-font-punk {
+  font-family: 'Anonymous Punk', var(--font-fortnite);
+  font-size: clamp(1.65rem, 4.2vw, 3.65rem);
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--text-main);
-  position: relative;
-  text-shadow: 
-    3px 0 var(--neon-magenta), 
-    -3px 0 var(--neon-cyan),
-    0 0 25px rgba(0, 242, 254, 0.6);
-  animation: glitch-skew 8s infinite ease-in-out alternate-reverse;
+  color: #ffea2e;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 5px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 5px 0px #f035a8;
 }
 
-/* Glitch Pseudo-elements for Chromatic Aberration Slicing on OVERRIDE Title */
-.glitch-title::before,
-.glitch-title::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+.treasure-main-title.title-font-bubble {
+  font-family: 'Game Bubble', var(--font-fortnite);
+  font-size: clamp(1.9rem, 4.9vw, 4.2rem);
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #23f79b;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 7px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 6px 0px #ff2a85;
 }
 
-.glitch-title::before {
-  left: 3px;
-  text-shadow: -2px 0 var(--neon-magenta);
-  animation: glitch-anim-1 6s infinite ease-in-out alternate-reverse;
+.treasure-main-title.title-font-blocks {
+  font-family: 'Abstract Blocks', var(--font-fortnite);
+  font-size: clamp(1.65rem, 4.1vw, 3.55rem);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4ddbff;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 4.5px #000000;
+  text-shadow: 0px 4px 0px #000000;
 }
 
-.glitch-title::after {
-  left: -3px;
-  text-shadow: -2px 0 var(--neon-cyan), 2px 2px var(--neon-yellow);
-  animation: glitch-anim-2 7.5s infinite ease-in-out alternate-reverse;
+.treasure-main-title.title-font-popart {
+  font-family: 'PopArt', var(--font-fortnite);
+  font-size: clamp(1.85rem, 4.7vw, 4.05rem);
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #ffe81f;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 5px 0px #ff2a85;
 }
 
-@keyframes glitch-anim-1 {
-  0% { clip-path: inset(20% 0 60% 0); transform: skew(0.2deg); }
-  25% { clip-path: inset(75% 0 8% 0); transform: skew(-0.3deg); }
-  50% { clip-path: inset(12% 0 68% 0); transform: skew(0.4deg); }
-  75% { clip-path: inset(48% 0 32% 0); transform: skew(-0.2deg); }
-  100% { clip-path: inset(8% 0 82% 0); transform: skew(0.1deg); }
+.treasure-main-title.title-font-verypunk {
+  font-family: 'Very Punk', var(--font-fortnite);
+  font-size: clamp(1.8rem, 4.6vw, 3.95rem);
+  letter-spacing: 4px;
+  text-transform: none;
+  color: #a8ff35;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 5px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 5px 0px #ff1738;
 }
 
-@keyframes glitch-anim-2 {
-  0% { clip-path: inset(68% 0 12% 0); transform: skew(-0.2deg); }
-  25% { clip-path: inset(18% 0 62% 0); transform: skew(0.3deg); }
-  50% { clip-path: inset(42% 0 42% 0); transform: skew(-0.4deg); }
-  75% { clip-path: inset(82% 0 8% 0); transform: skew(0.2deg); }
-  100% { clip-path: inset(32% 0 58% 0); transform: skew(-0.1deg); }
+.treasure-main-title.title-font-graffiti {
+  font-family: 'Attack Graffiti', var(--font-fortnite);
+  font-size: clamp(1.8rem, 4.6vw, 3.95rem);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #ff47a3;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 7px #000000;
+  text-shadow: 0px 4px 0px #000000, 4px 6px 0px #ffe81f;
 }
 
-@keyframes glitch-skew {
-  0% { transform: skew(0deg); }
-  20% { transform: skew(-0.5deg); }
-  50% { transform: skew(0.5deg); }
-  80% { transform: skew(-0.2deg); }
-  100% { transform: skew(0deg); }
+.treasure-main-title.title-font-cubic {
+  font-family: 'Cubic Block', var(--font-fortnite);
+  font-size: clamp(1.75rem, 4.4vw, 3.8rem);
+  letter-spacing: 3.5px;
+  text-transform: lowercase;
+  color: #00f0ff;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3px #000000;
+  text-shadow: 0px 4px 0px #000000, 3px 5px 0px #000000;
 }
 
-/* Decorative Color Glitch Blocks over Title */
-.glitch-block-1 {
-  position: absolute;
-  top: 15%;
-  left: 28%;
-  width: 14px;
-  height: 14px;
-  background: var(--neon-yellow);
-  z-index: 5;
-  box-shadow: 0 0 10px var(--neon-yellow);
+/* Slogan Brush-Stroke Banner ("THE GREATEST ADVENTURE OF ALL TIME") */
+.slogan-banner-wrapper {
+  margin-top: 0.25rem;
 }
 
-.glitch-block-2 {
-  position: absolute;
-  bottom: 20%;
-  right: 18%;
-  width: 20px;
-  height: 10px;
-  background: var(--neon-green);
-  z-index: 5;
-  box-shadow: 0 0 10px var(--neon-green);
-}
-
-/* Slogan Pill Badge (Inspired by reference image "ROMPE LAS REGLAS • CAMBIA EL JUEGO") */
 .slogan-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--neon-magenta), #d6006b);
+  background: rgba(5, 9, 18, 0.95);
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+  font-size: clamp(0.8rem, 1.8vw, 1.02rem);
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  padding: 0.6rem 2.5rem;
-  margin-top: 0.75rem;
-  clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
-  box-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
+  padding: 0.55rem 2.2rem;
+  border: 2px solid var(--accent-primary);
+  box-shadow: 4px 4px 0px #000000, 0 0 20px rgba(0, 0, 0, 0.5);
+  clip-path: polygon(14px 0, 100% 2px, calc(100% - 14px) 100%, 0 calc(100% - 2px));
   position: relative;
-}
-
-.slogan-pill::before {
-  content: "";
-  position: absolute;
-  right: -8px;
-  top: 0;
-  width: 6px;
-  height: 100%;
-  background: var(--neon-cyan);
-  box-shadow: 0 0 10px var(--neon-cyan);
+  transition: border-color 0.35s ease;
 }
 
 /* ==========================================================================
-   BUTTONS & ACTION CONTROLS (CYBERPUNK CUT CORNERS)
+   BUTTONS & ACTION CONTROLS
    ========================================================================== */
 .btn-cyber {
   font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 0.8rem 1.8rem;
-  color: #ffffff;
-  background: linear-gradient(135deg, rgba(255, 0, 127, 0.9), rgba(214, 0, 107, 0.9));
-  border: none;
+  padding: 0.68rem 1.35rem;
+  color: #050811;
+  background: linear-gradient(135deg, var(--neon-yellow) 0%, #ff9d00 100%);
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  border-radius: 4px;
   cursor: pointer;
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-  transition: all 0.2s ease;
-  box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+  gap: 0.5rem;
+  transition: all 0.18s ease;
 }
 
 .btn-cyber:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 30px rgba(255, 0, 127, 0.8), 0 0 10px var(--neon-cyan);
-  background: linear-gradient(135deg, var(--neon-magenta), var(--neon-purple));
-}
-
-.btn-cyber-cyan {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.9), rgba(0, 168, 255, 0.9));
-  color: #040914;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
-}
-
-.btn-cyber-cyan:hover {
-  background: linear-gradient(135deg, var(--neon-cyan), #00d2ff);
-  box-shadow: 0 0 30px rgba(0, 242, 254, 0.8);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000, 0 0 18px rgba(255, 208, 38, 0.5);
+  background: linear-gradient(135deg, #ffe066 0%, var(--neon-yellow) 100%);
 }
 
 .btn-cyber-dark {
-  background: rgba(18, 24, 38, 0.8);
-  border: 1px solid rgba(0, 242, 254, 0.4);
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(10, 18, 34, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
   color: var(--text-main);
-  box-shadow: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
 }
 
 .btn-cyber-dark:hover {
-  background: rgba(255, 0, 127, 0.2);
-  border-color: var(--neon-magenta);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+  transform: translate(-1px, -1px);
+  background: var(--neon-magenta);
+  border-color: #000000;
+  color: #ffffff;
+  box-shadow: 3px 3px 0px #000000;
 }
 
 /* ==========================================================================
-   PROGRESS STATS BAR
+   STICKY FLOATING HUD CONTROL BAR (BALANCED 2-ROW LAYOUT)
    ========================================================================== */
-/* STICKY FLOATING HUD CONTROL BAR */
 .sticky-controls-wrapper {
   position: sticky;
-  top: 4.5rem;
+  top: 4.1rem;
   z-index: 150;
   max-width: 1200px;
-  margin: 1rem auto 1.5rem;
+  margin: 0.5rem auto 1.5rem;
   padding: 0 0.5rem;
 }
 
 .sticky-controls-container {
-  background: rgba(6, 9, 19, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 242, 254, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 242, 254, 0.15);
-  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-  padding: 0.85rem 1.25rem;
+  background: var(--bg-overlay);
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.75), 4px 4px 0px #000000;
+  border-radius: 6px;
+  padding: 0.85rem 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.sticky-controls-container:hover {
-  border-color: rgba(0, 242, 254, 0.6);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 242, 254, 0.25);
+  gap: 0.7rem;
 }
 
 .cyber-stats-bar {
@@ -484,9 +864,9 @@ body::after {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1.2rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+  gap: 1.15rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .cyber-progress-box {
@@ -498,171 +878,336 @@ body::after {
   display: flex;
   justify-content: space-between;
   font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.32rem;
 }
 
 .cyber-bar-bg {
   width: 100%;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(0, 242, 254, 0.4);
+  height: 12px;
+  background: #050811;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
   position: relative;
   overflow: hidden;
 }
 
 .cyber-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan));
-  box-shadow: 0 0 12px var(--neon-cyan);
+  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-yellow), var(--neon-green));
   width: 0%;
   transition: width 0.4s ease;
 }
 
 .cyber-stats-count {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.15rem;
   font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
 }
 
 /* ==========================================================================
-   FILTER TOOLBAR & SEARCH
+   SEASON FILTER BAR (C7S5 / C7S4 / TODAS)
+   ========================================================================== */
+.cyber-season-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  background: rgba(5, 10, 20, 0.65);
+  border: 1.5px solid rgba(0, 242, 254, 0.22);
+  border-radius: 5px;
+}
+
+.season-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.season-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.cyber-season-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.cyber-season-tab {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0.42rem 0.85rem;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #000000;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.18s ease;
+}
+
+.cyber-season-tab:hover {
+  color: #ffffff;
+  border-color: var(--neon-cyan);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
+}
+
+.cyber-season-tab.active {
+  color: #050811;
+  background: var(--neon-cyan);
+  border-color: #000000;
+  box-shadow: 3px 3px 0px #000000;
+}
+
+.cyber-season-tab[data-season="c7s5"].active {
+  background: var(--neon-yellow);
+  color: #050811;
+}
+
+.season-pill-new {
+  background: var(--neon-magenta);
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-weight: 900;
+  padding: 0.1rem 0.38rem;
+  border-radius: 3px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  box-shadow: 1px 1px 0px #000;
+}
+
+.cyber-season-tab.active .season-pill-new {
+  background: #050811;
+  color: var(--neon-yellow);
+}
+
+.season-tab-count {
+  font-size: 0.74rem;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   CYBER EMPTY STATE (C7S5 / COMING SOON)
+   ========================================================================== */
+.cyber-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: rgba(7, 16, 32, 0.85);
+  border: 2px dashed rgba(0, 242, 254, 0.38);
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: inset 0 0 35px rgba(0, 242, 254, 0.06), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.empty-state-badge {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--neon-yellow);
+  background: rgba(221, 255, 0, 0.12);
+  border: 1.5px solid var(--neon-yellow);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.empty-state-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 16px rgba(0, 242, 254, 0.4));
+  animation: floatEmptyIcon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatEmptyIcon {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-8px) scale(1.05); }
+}
+
+.empty-state-title {
+  font-family: var(--font-hero);
+  font-size: 1.6rem;
+  color: #ffffff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+.empty-state-desc {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 540px;
+  line-height: 1.5;
+  margin: 0 auto 1.5rem;
+}
+
+/* ==========================================================================
+   FILTER TOOLBAR & SEARCH (SINGLE SLEEK ROW ON DESKTOP)
    ========================================================================== */
 .cyber-toolbar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.6rem;
 }
 
 .cyber-filters {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
 
 .cyber-tab {
   font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 0.6rem 1.25rem;
-  background: rgba(12, 18, 34, 0.8);
+  padding: 0.48rem 0.85rem;
+  background: var(--bg-card);
   color: var(--text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #000000;
   cursor: pointer;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-  transition: all 0.2s ease;
+  white-space: nowrap;
+  transition: all 0.18s ease;
 }
 
-.cyber-tab:hover, .cyber-tab.active {
-  color: var(--text-main);
-  border-color: var(--neon-cyan);
-  background: rgba(0, 242, 254, 0.15);
-  box-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
+.cyber-tab:hover,
+.cyber-tab.active {
+  color: #050811;
+  background: var(--neon-cyan);
+  border-color: #000000;
+  box-shadow: 3px 3px 0px #000000;
 }
 
 .cyber-tab.active.unmarked-tab {
-  border-color: var(--neon-magenta);
-  background: rgba(255, 0, 127, 0.2);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+  background: var(--neon-magenta);
+  color: #ffffff;
 }
 
 .cyber-tab.active.maxed-tab {
-  border-color: var(--neon-yellow);
-  background: rgba(221, 255, 0, 0.2);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(221, 255, 0, 0.4);
+  background: var(--neon-yellow);
+  color: #050811;
+}
+
+.quick-buttons-box {
+  display: flex;
+  gap: 0.35rem;
+  flex-shrink: 0;
 }
 
 .cyber-search-box {
   position: relative;
-  min-width: 260px;
+  flex: 1;
+  min-width: 155px;
+  max-width: 225px;
 }
 
 .cyber-search-input {
   width: 100%;
-  background: rgba(12, 18, 34, 0.9);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  padding: 0.65rem 1rem 0.65rem 2.5rem;
-  color: #fff;
+  background: #050811;
+  border: 1.5px solid var(--accent-primary);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #000000;
+  padding: 0.46rem 0.75rem;
+  color: #ffffff;
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
   outline: none;
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cyber-search-input:focus {
   border-color: var(--neon-magenta);
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+  box-shadow: 3px 3px 0px var(--neon-magenta);
 }
 
 .pwa-install-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(0, 242, 254, 0.12);
-  border: 1px solid var(--neon-cyan);
-  color: var(--neon-cyan);
+  background: var(--neon-green);
+  border: 2px solid #000000;
+  color: #050811;
   font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 0.35rem 0.75rem;
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 0.3rem 0.7rem;
   border-radius: 4px;
   cursor: pointer;
   letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
-}
-
-.pwa-install-btn:hover {
-  background: var(--neon-cyan);
-  color: #04070e;
-  box-shadow: 0 0 16px var(--neon-cyan);
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.18s ease;
 }
 
 /* ==========================================================================
-   TEMPLATE CONTAINER & CYBERPUNK SPRITE CARDS
+   TEMPLATE CONTAINER & TREASURE / POP-ART SPRITE CARDS
    ========================================================================== */
-.template-card-container {
-  background: rgba(10, 14, 28, 0.95);
-  border: 2px solid rgba(0, 242, 254, 0.3);
-  border-radius: 4px;
-  padding: 2rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+main {
   position: relative;
+  z-index: 5;
 }
 
-.template-card-container::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: 30px;
-  width: 120px;
-  height: 4px;
-  background: var(--neon-magenta);
-  box-shadow: 0 0 10px var(--neon-magenta);
+.template-card-container {
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px) 0 0 / 18px 18px,
+    var(--bg-card-alt);
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 6px 6px 0px #000000;
+  border-radius: 8px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.template-card-container::after {
-  content: "";
+.template-top-rainbow-bar {
   position: absolute;
-  bottom: -2px;
-  right: 30px;
-  width: 120px;
-  height: 4px;
-  background: var(--neon-cyan);
-  box-shadow: 0 0 10px var(--neon-cyan);
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--neon-yellow) 0%, var(--neon-magenta) 50%, var(--neon-cyan) 100%);
+  z-index: 10;
 }
 
 .template-watermark-header {
@@ -670,220 +1215,396 @@ body::after {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px stroke rgba(255, 255, 255, 0.1);
-  border-bottom-style: dashed;
+  margin-bottom: 1.85rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.template-season-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  letter-spacing: 1.5px;
+  margin-bottom: 0.3rem;
+}
+
+.eyebrow-katakana {
+  font-family: var(--font-katakana);
+  background: var(--neon-magenta);
+  color: #ffffff;
+  padding: 0.08rem 0.45rem;
+  border: 1.5px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+  font-size: 0.68rem;
 }
 
 .template-info h2 {
-  font-family: var(--font-hero);
-  font-size: 1.6rem;
+  font-family: var(--font-fortnite);
+  font-size: 1.95rem;
   font-weight: 900;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--neon-cyan);
-  text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+  color: var(--neon-yellow);
+  text-shadow: 2px 2px 0px #000000;
 }
 
 .template-brand-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 0.85rem;
+  margin-top: 0.45rem;
   flex-wrap: wrap;
 }
 
 .mudo-template-brand {
   font-family: var(--font-fortnite);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 900;
   letter-spacing: 1.5px;
   color: #ffffff;
   text-decoration: none;
   display: inline-block;
   text-transform: lowercase;
-  text-shadow: 2px 0 var(--neon-magenta), -2px 0 var(--neon-cyan), 0 0 12px rgba(0, 242, 254, 0.4);
-  transition: transform 0.2s ease, text-shadow 0.2s ease;
+  text-shadow: 2px 2px 0px #000000, -1.5px 0px 0px var(--neon-magenta), 1.5px 0px 0px var(--neon-cyan);
+  transition: transform 0.2s ease;
 }
 
 .mudo-template-brand:hover {
   transform: scale(1.04);
-  text-shadow: 3px 0 var(--neon-magenta), -3px 0 var(--neon-cyan), 0 0 18px rgba(0, 242, 254, 0.8);
 }
 
 .epic-partner-pill {
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 700;
   color: var(--text-main);
-  background: rgba(0, 242, 254, 0.08);
-  border: 1px solid rgba(0, 242, 254, 0.35);
-  padding: 0.35rem 0.85rem;
+  background: rgba(5, 8, 17, 0.9);
+  border: 1.5px solid var(--accent-primary);
+  box-shadow: 2px 2px 0px #000000;
+  padding: 0.3rem 0.85rem;
   border-radius: 4px;
-  letter-spacing: 0.5px;
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+  letter-spacing: 0.4px;
 }
 
 .epic-tag {
-  color: var(--neon-cyan);
-  font-weight: 800;
+  color: var(--neon-yellow);
+  font-weight: 900;
   margin-left: 0.25rem;
 }
 
-/* SPRITE GRID */
+/* ==========================================================================
+   SPRITE GRID & 3-STATE COMIC / TREASURE CARDS
+   ========================================================================== */
 .sprite-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 1.65rem;
 }
 
-/* SPRITE CARD BASE */
 .sprite-card {
   position: relative;
   background: var(--bg-card);
-  border: 2px solid rgba(0, 242, 254, 0.25);
-  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+  border: 2.5px solid #000000;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0px #000000;
   cursor: pointer;
   user-select: none;
   display: flex;
   flex-direction: column;
-  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background-image: linear-gradient(180deg, rgba(0, 242, 254, 0.03) 0%, rgba(0, 0, 0, 0.4) 100%);
+  overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 265px;
+  contain: layout paint;
+  transition: transform 0.18s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .sprite-card:hover {
-  transform: translateY(-4px);
+  transform: translate(-2px, -4px);
+  box-shadow: 7px 7px 0px #000000;
 }
 
-/* RESALTE LIMPIO Y PROMINENTE PARA CARDS NO MARCADAS (SIN GLITCH PARPADEANTE CANSADO) */
+/* ==========================================================================
+   1. UNMARKED CARDS (POR CAZAR -> PIRATE / WESTERN "SE BUSCA / WANTED" POSTER)
+   ========================================================================== */
+.wanted-poster-top,
+.wanted-dead-alive,
+.wanted-bounty-footer {
+  display: none;
+}
+
 .sprite-card.unmarked {
-  border: 2px solid var(--neon-magenta);
-  box-shadow: 0 4px 20px rgba(255, 0, 127, 0.3);
-  background-image: linear-gradient(180deg, rgba(255, 0, 127, 0.1) 0%, rgba(12, 18, 34, 0.95) 100%);
+  border: 2.5px solid #362413;
+  border-radius: 3px;
+  background-color: #decba8;
+  background-image:
+    radial-gradient(ellipse at 50% 45%, rgba(247, 238, 218, 0.65) 0%, rgba(212, 190, 148, 0.4) 65%, rgba(158, 128, 82, 0.55) 100%);
+  box-shadow: 4px 4px 0px #1c1208;
+  padding-bottom: 0.25rem;
 }
 
 .sprite-card.unmarked:hover {
-  border-color: #ff3399;
-  box-shadow: 0 6px 25px rgba(255, 0, 127, 0.5);
+  transform: translate(-2px, -4px) rotate(-0.6deg);
+  box-shadow: 7px 7px 0px #1c1208;
 }
 
-.sprite-card.unmarked .sprite-badge {
-  background: var(--neon-magenta);
-  color: #ffffff;
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow: 0 0 12px var(--neon-magenta);
+/* Top "SE BUSCA / WANTED" Header */
+.sprite-card.unmarked .wanted-poster-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.48rem 0.65rem 0.22rem;
+  width: 100%;
 }
 
+.sprite-card.unmarked .wanted-header-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.72rem;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #362413;
+  text-shadow: 0 1px 0 rgba(255, 248, 230, 0.65);
+  white-space: nowrap;
+}
+
+/* Signature Highlight Color Wash per Spirit Variant on Wanted Posters */
+.sprite-card.unmarked {
+  --poster-tint-center: #e8dac0;
+  --poster-tint-mid: #bfa77c;
+  --poster-tint-edge: #8c734b;
+  --poster-ink-shadow: rgba(42, 26, 10, 0.5);
+}
+
+/* Tier 2: Dorado / Gold -> Warm Antique Gold Tint */
+.sprite-card.unmarked[data-tier="2"] {
+  --poster-tint-center: #f5e2a8;
+  --poster-tint-mid: #d6ac54;
+  --poster-tint-edge: #8f6314;
+  --poster-ink-shadow: rgba(120, 78, 8, 0.55);
+}
+
+/* Tier 3: Hacker / Cheatmaster -> Vintage Matrix Emerald Tint */
+.sprite-card.unmarked[data-tier="3"] {
+  --poster-tint-center: #d4e8cb;
+  --poster-tint-mid: #96ba88;
+  --poster-tint-edge: #4d7341;
+  --poster-ink-shadow: rgba(20, 78, 34, 0.55);
+}
+
+/* Tier 4: Hacker de Botín / Loot Hacker -> Vintage Cyan-Violet Ink Tint */
+.sprite-card.unmarked[data-tier="4"] {
+  --poster-tint-center: #cfe3e8;
+  --poster-tint-mid: #8fb4bf;
+  --poster-tint-edge: #496e7d;
+  --poster-ink-shadow: rgba(18, 62, 88, 0.55);
+}
+
+/* Tier 5: Cazarrecompensas / Bounty Hunter -> Vintage Crimson-Bronze Ink Tint */
+.sprite-card.unmarked[data-tier="5"] {
+  --poster-tint-center: #ecd0c5;
+  --poster-tint-mid: #c48c7b;
+  --poster-tint-edge: #824435;
+  --poster-ink-shadow: rgba(98, 22, 22, 0.55);
+}
+
+/* Tier 6: Dulce o Truco / Trick or Treat -> Vintage Pumpkin-Violet Ink Tint */
+.sprite-card.unmarked[data-tier="6"] {
+  --poster-tint-center: #edd6be;
+  --poster-tint-mid: #c7966d;
+  --poster-tint-edge: #7d485e;
+  --poster-ink-shadow: rgba(88, 32, 68, 0.55);
+}
+
+/* Tier 7: Cuac / Quack -> Warm Sunburst Amber Tint */
+.sprite-card.unmarked[data-tier="7"] {
+  --poster-tint-center: #f7dfa4;
+  --poster-tint-mid: #d9a34a;
+  --poster-tint-edge: #915812;
+  --poster-ink-shadow: rgba(115, 58, 6, 0.55);
+}
+
+/* Framed Portrait Box inside the Wanted Poster (with Old Paper & Variant Color Tone) */
 .sprite-card.unmarked .sprite-image-wrapper {
-  background: radial-gradient(circle at center, rgba(255, 0, 127, 0.18) 0%, transparent 70%);
+  width: calc(100% - 1.3rem);
+  margin: 0.1rem auto 0;
+  height: 158px;
+  padding: 0.65rem;
+  border: 2px solid #362413;
+  background:
+    radial-gradient(circle at 50% 52%, var(--poster-tint-center) 0%, var(--poster-tint-mid) 65%, var(--poster-tint-edge) 100%);
+  box-shadow: inset 0 0 14px rgba(38, 23, 8, 0.38);
 }
 
-.sprite-card.unmarked .checkbox-custom {
-  border-color: var(--neon-magenta);
-  background: rgba(255, 0, 127, 0.2);
-  box-shadow: 0 0 10px var(--neon-magenta);
+
+/* Zero-Blur Image Rendering (Eliminates 162 Offscreen Alpha-Shadow FBO Textures) */
+.sprite-card.unmarked .sprite-img {
+  opacity: 0.92;
 }
 
-/* MARKED CARDS (OBTENIDO / COMPLETADO) */
-.sprite-card.marked {
-  border-color: rgba(0, 255, 136, 0.4);
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+.sprite-card.unmarked:hover .sprite-img {
+  opacity: 1;
+}
+
+/* Hide "¡POR CAZAR!" Badge & Checkbox on Wanted Poster */
+.sprite-card.unmarked .card-header-overlay {
+  display: none;
+}
+
+/* Lower Wanted Poster Details (DEAD OR ALIVE, Name & HUNTERS Stamp) */
+.sprite-card.unmarked .sprite-info {
+  position: relative;
+  background: transparent;
+  border-top: none;
+  padding: 0.42rem 1rem 0.48rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sprite-card.unmarked .wanted-dead-alive {
+  display: block;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #362413;
+  margin-bottom: 0.14rem;
+}
+
+.sprite-card.unmarked .sprite-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.96rem;
+  font-weight: 900;
+  line-height: 1.14;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #291a0c;
+  margin: 0.1rem 0 0.3rem;
+  word-break: break-word;
+}
+
+.sprite-card.unmarked .wanted-bounty-footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 0.2rem;
+}
+
+.sprite-card.unmarked .wanted-footer-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  width: 100%;
+  margin-top: 0.05rem;
+}
+
+.sprite-card.unmarked .wanted-stamp-lines {
+  flex: 1;
+  height: 0;
+  border-top: 1.5px solid #362413;
   opacity: 0.85;
+}
+
+.sprite-card.unmarked .wanted-stamp-label {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: #362413;
+  text-transform: uppercase;
+}
+
+/* 2. MARKED CARDS (OBTENIDO / CAPTURADO) */
+.sprite-card.marked {
+  border-color: var(--neon-green);
+  box-shadow: 4px 4px 0px #000000;
+  background-image:
+    radial-gradient(rgba(35, 247, 155, 0.1) 1.5px, transparent 1.5px),
+    linear-gradient(180deg, rgba(35, 247, 155, 0.08) 0%, var(--bg-card) 100%);
+  background-size: 14px 14px, 100% 100%;
+  opacity: 0.92;
 }
 
 .sprite-card.marked:hover {
   opacity: 1;
-  border-color: var(--neon-green);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  box-shadow: 6px 6px 0px #000000, 0 0 18px rgba(35, 247, 155, 0.35);
 }
 
 .sprite-card.marked .sprite-badge {
-  background: rgba(0, 255, 136, 0.2);
-  color: var(--neon-green);
-  border: 1px solid rgba(0, 255, 136, 0.4);
+  background: var(--neon-green);
+  color: #050811;
+  border: 1.5px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+  font-weight: 900;
 }
 
 .sprite-card.marked .checkbox-custom {
   background: var(--neon-green);
-  border-color: var(--neon-green);
-  color: #040914;
+  border: 1.5px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+  color: #050811;
 }
 
-/* MAXED / MASTERED CARDS (NIVEL MÁXIMO / MAXIADO) */
+/* 3. MAXED / MASTERED CARDS (TESORO LEGENDARIO / MAXIADO) */
 .sprite-card.maxed {
   border-color: var(--neon-yellow);
-  box-shadow: 0 4px 22px rgba(221, 255, 0, 0.4);
-  background-image: linear-gradient(180deg, rgba(221, 255, 0, 0.12) 0%, rgba(12, 18, 34, 0.95) 100%);
+  box-shadow: 4px 4px 0px #000000, 0 0 22px rgba(255, 208, 38, 0.4);
+  background-image:
+    radial-gradient(rgba(255, 208, 38, 0.16) 1.5px, transparent 1.5px),
+    linear-gradient(180deg, rgba(255, 208, 38, 0.18) 0%, var(--bg-card) 100%);
+  background-size: 14px 14px, 100% 100%;
   opacity: 1;
 }
 
 .sprite-card.maxed:hover {
-  border-color: #ffff33;
-  box-shadow: 0 6px 30px rgba(221, 255, 0, 0.65);
+  box-shadow: 6px 6px 0px #000000, 0 0 28px rgba(255, 208, 38, 0.65);
 }
 
 .sprite-card.maxed .sprite-badge {
-  background: var(--neon-yellow);
-  color: #040914;
+  background: linear-gradient(135deg, #fff3a1 0%, var(--neon-yellow) 60%, #e09000 100%);
+  color: #050811;
+  border: 1.5px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow: 0 0 14px var(--neon-yellow);
+  font-weight: 900;
+  letter-spacing: 0.8px;
 }
 
 .sprite-card.maxed .sprite-image-wrapper {
-  background: radial-gradient(circle at center, rgba(221, 255, 0, 0.22) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(255, 208, 38, 0.25) 0%, transparent 72%);
 }
 
 .sprite-card.maxed .checkbox-custom {
   background: var(--neon-yellow);
-  border-color: var(--neon-yellow);
-  color: #040914;
-  box-shadow: 0 0 10px var(--neon-yellow);
+  border: 1.5px solid #000000;
+  color: #050811;
+  box-shadow: 2px 2px 0px #000000;
 }
 
-/* CLICK GLITCH ANIMATION ON CARDS */
+/* CLICK POP-ART / MANGA SLASH ANIMATION ON CARDS */
 .sprite-card.is-glitching {
-  animation: card-glitch-anim 0.38s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  animation: card-glitch-anim 0.32s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
   z-index: 30 !important;
 }
 
 @keyframes card-glitch-anim {
   0% {
-    transform: translate(0, 0) scale(0.97);
-    box-shadow: 0 0 30px var(--neon-magenta), -8px 0 var(--neon-cyan);
-    filter: contrast(180%) hue-rotate(90deg);
+    transform: scale(0.96) rotate(-1deg);
   }
-  20% {
-    transform: translate(-6px, 4px) scale(1.03);
-    box-shadow: -10px 0 var(--neon-magenta), 10px 0 var(--neon-cyan);
-    filter: contrast(220%) hue-rotate(-90deg);
-    clip-path: polygon(0 15%, 100% 15%, 100% 85%, 0 85%);
-  }
-  40% {
-    transform: translate(6px, -4px) scale(0.98);
-    box-shadow: 10px 0 var(--neon-cyan), -10px 0 var(--neon-magenta);
-    filter: contrast(200%) invert(30%);
-    clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%);
-  }
-  60% {
-    transform: translate(-3px, -2px) scale(1.02);
-    box-shadow: 0 0 35px var(--neon-yellow);
-    filter: contrast(160%) hue-rotate(45deg);
-    clip-path: polygon(0 5%, 100% 5%, 100% 95%, 0 95%);
-  }
-  80% {
-    transform: translate(3px, 2px) scale(1.01);
-    box-shadow: -4px 0 var(--neon-cyan), 4px 0 var(--neon-magenta);
-    filter: contrast(120%);
+  45% {
+    transform: scale(1.03) rotate(1deg);
+    box-shadow: 6px 6px 0 var(--neon-magenta), 0 0 25px var(--neon-cyan);
   }
   100% {
-    transform: translate(0, 0) scale(1);
-    box-shadow: none;
-    filter: none;
-    clip-path: none;
+    transform: scale(1) rotate(0deg);
   }
 }
 
@@ -892,90 +1613,10 @@ body::after {
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, var(--neon-yellow) 60%, transparent 100%);
-  box-shadow: 0 0 10px var(--neon-yellow), 0 0 18px #ffdd00, 0 0 25px rgba(255, 221, 0, 0.8);
+  background: var(--neon-yellow);
   z-index: 99;
-  animation: spark-fly 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
-}
-
-/* PWA INSTALL TOAST NOTIFICATION BANNER */
-.cyber-toast-banner {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 9999;
-  max-width: 380px;
-  width: calc(100% - 3rem);
-  background: rgba(10, 14, 28, 0.98);
-  border: 1px solid var(--neon-cyan);
-  box-shadow: 0 10px 35px rgba(0, 242, 254, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
-  border-radius: 6px;
-  padding: 1.1rem 1.25rem;
-  opacity: 0;
-  transform: translateY(30px) scale(0.95);
-  pointer-events: none;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-}
-
-.cyber-toast-banner.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.toast-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.4rem;
-}
-
-.toast-title {
-  font-family: var(--font-hero);
-  font-size: 1.05rem;
-  color: var(--neon-cyan);
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-.toast-close-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0 0.3rem;
-  line-height: 1;
-  transition: color 0.2s ease;
-}
-
-.toast-close-btn:hover {
-  color: var(--neon-magenta);
-}
-
-.toast-body {
-  font-family: var(--font-display);
-  font-size: 0.84rem;
-  color: var(--text-main);
-  line-height: 1.4;
-  margin-bottom: 0.85rem;
-}
-
-.toast-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-@media (max-width: 768px) {
-  .cyber-toast-banner {
-    bottom: 5.5rem;
-    right: 0.75rem;
-    left: 0.75rem;
-    width: auto;
-    max-width: none;
-  }
+  will-change: transform, opacity;
+  animation: spark-fly 0.5s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
 }
 
 @keyframes spark-fly {
@@ -995,29 +1636,24 @@ body::after {
 /* HOVER TOOLTIP ON SPRITE CARDS */
 .card-hover-tip {
   position: absolute;
-  bottom: 3.25rem;
-  left: 0.6rem;
-  right: 0.6rem;
-  background: rgba(6, 9, 19, 0.95);
-  border: 1px solid var(--neon-cyan);
-  box-shadow: 0 0 16px rgba(0, 242, 254, 0.5);
+  bottom: 3.35rem;
+  left: 0.55rem;
+  right: 0.55rem;
+  background: rgba(5, 8, 17, 0.96);
+  border: 1.5px solid var(--accent-primary);
+  box-shadow: 2px 2px 0px #000000;
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: 0.73rem;
-  font-weight: 700;
-  padding: 0.35rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.32rem 0.5rem;
   border-radius: 4px;
   text-align: center;
   opacity: 0;
   transform: translateY(8px);
-  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.22s ease;
   pointer-events: none;
   z-index: 25;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  backdrop-filter: blur(8px);
 }
 
 .sprite-card:hover .card-hover-tip {
@@ -1025,12 +1661,12 @@ body::after {
   transform: translateY(0);
 }
 
-/* CARD DETAILS */
+/* CARD HEADER & INFO DETAILS */
 .card-header-overlay {
   position: absolute;
-  top: 0.85rem;
-  left: 0.85rem;
-  right: 0.85rem;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1041,8 +1677,8 @@ body::after {
   font-family: var(--font-display);
   font-size: 0.72rem;
   text-transform: uppercase;
-  padding: 0.3rem 0.65rem;
-  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -1051,15 +1687,15 @@ body::after {
 .checkbox-custom {
   width: 26px;
   height: 26px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
   transition: all 0.2s ease;
 }
 
 .sprite-image-wrapper {
-  padding: 2.8rem 1.2rem 1.2rem;
+  padding: 2.8rem 1.2rem 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1067,30 +1703,6 @@ body::after {
   width: 100%;
   position: relative;
   overflow: hidden;
-  background: rgba(4, 7, 14, 0.4);
-}
-
-/* CYBERPUNK SKELETON LOADING SCANNER ANIMATION */
-.sprite-image-wrapper.is-loading::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 242, 254, 0.02) 0%,
-    rgba(0, 242, 254, 0.22) 50%,
-    rgba(255, 0, 127, 0.18) 75%,
-    rgba(0, 242, 254, 0.02) 100%
-  );
-  background-size: 200% 100%;
-  animation: cyber-skeleton-scan 1.2s infinite ease-in-out;
-  z-index: 2;
-  pointer-events: none;
-}
-
-@keyframes cyber-skeleton-scan {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }
 
 .sprite-img {
@@ -1102,72 +1714,35 @@ body::after {
   flex-shrink: 0;
   display: block;
   margin: 0 auto;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.sprite-img.is-loaded {
-  opacity: 1;
-  animation: glitch-image-reveal 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes glitch-image-reveal {
-  0% {
-    opacity: 0;
-    transform: scale(1.06) skewX(8deg);
-    filter: drop-shadow(6px 0 var(--neon-magenta)) drop-shadow(-6px 0 var(--neon-cyan)) contrast(180%);
-    clip-path: polygon(0 20%, 100% 20%, 100% 80%, 0 80%);
-  }
-  30% {
-    opacity: 0.7;
-    transform: scale(0.97) skewX(-5deg);
-    filter: drop-shadow(-4px 0 var(--neon-magenta)) drop-shadow(4px 0 var(--neon-cyan)) contrast(140%);
-    clip-path: polygon(0 50%, 100% 50%, 100% 90%, 0 90%);
-  }
-  60% {
-    opacity: 0.9;
-    transform: scale(1.02) skewX(2deg);
-    filter: drop-shadow(3px 0 var(--neon-cyan)) drop-shadow(0 0 15px rgba(0, 242, 254, 0.8));
-    clip-path: polygon(0 5%, 100% 5%, 100% 95%, 0 95%);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) skewX(0deg);
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
-    clip-path: none;
-  }
 }
 
 .sprite-info {
-  padding: 1rem 1.1rem;
-  background: rgba(6, 9, 19, 0.9);
-  border-top: 1px solid rgba(0, 242, 254, 0.15);
+  padding: 0.85rem 1rem;
+  background: rgba(5, 8, 17, 0.92);
+  border-top: 2px solid #000000;
   margin-top: auto;
 }
 
 .sprite-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   color: #ffffff;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
-.sprite-subtitle {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  margin-top: 0.15rem;
-}
-
-/* MODAL EXPORT */
+/* ==========================================================================
+   MODAL EXPORT & PWA TOAST BANNER
+   ========================================================================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 7, 14, 0.92);
-  backdrop-filter: blur(16px);
+  background: rgba(5, 8, 17, 0.92);
+  backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1184,23 +1759,23 @@ body::after {
 
 .modal-box {
   background: var(--bg-card);
-  border: 2px solid var(--neon-magenta);
-  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
-  padding: 2.5rem;
+  border: 2px solid var(--accent-primary);
+  box-shadow: 8px 8px 0px #000000;
+  border-radius: 6px;
+  padding: 2.25rem;
   max-width: 460px;
   width: 90%;
-  box-shadow: 0 0 40px rgba(255, 0, 127, 0.5);
   text-align: center;
 }
 
 .cyber-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(0, 242, 254, 0.2);
+  border: 4px solid rgba(255, 208, 38, 0.25);
   border-left-color: var(--neon-magenta);
-  border-top-color: var(--neon-cyan);
+  border-top-color: var(--neon-yellow);
   border-radius: 50%;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.25rem;
   animation: spin 0.8s linear infinite;
 }
 
@@ -1208,163 +1783,81 @@ body::after {
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
-  .fortnite-nav {
-    padding: 0.6rem 0.85rem;
-  }
-
-  .mudo-brand-logo {
-    font-size: 1.45rem;
-  }
-
-  #nav-season-text {
-    font-size: 0.75rem;
-    white-space: nowrap;
-  }
-
-  @media (max-width: 520px) {
-    #nav-season-text {
-      display: none;
-    }
-  }
-
-  .hero-banner {
-    padding: 1.25rem 0.85rem;
-  }
-
-  .fn-chapter-title {
-    flex-direction: column;
-    gap: 0.25rem;
-    font-size: 0.82rem;
-    letter-spacing: 1.5px;
-    text-align: center;
-  }
-
-  .fn-chapter-title .chapter-dot,
-  .fn-chapter-title::before,
-  .fn-chapter-title::after {
-    display: none;
-  }
-
-  .fortnite-logo-text {
-    font-size: 1.45rem;
-    letter-spacing: 2.5px;
-  }
-
-  #hero-subtitle-text {
-    color: var(--neon-cyan);
-    font-weight: 800;
-    white-space: nowrap;
-  }
-
-  .glitch-title {
-    font-size: 2.3rem;
-  }
-
-  .slogan-pill {
-    font-size: 0.72rem;
-    padding: 0.35rem 0.85rem;
-  }
-
-  /* MOBILE STICKY FLOATING BAR: 2-TIER COMPACT LAYOUT */
-  .sticky-controls-wrapper {
-    top: 3.2rem;
-    padding: 0 0.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .sticky-controls-container {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0.55rem 0.7rem;
-    gap: 0.45rem;
-    clip-path: none;
-    border-radius: 8px;
-    background: rgba(6, 9, 19, 0.95);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85), 0 0 15px rgba(0, 242, 254, 0.25);
-  }
-
-  .sticky-controls-container .cyber-progress-box,
-  .sticky-controls-container .cyber-stats-count,
-  .sticky-controls-container .quick-buttons-box,
-  .sticky-controls-container .cyber-search-box {
-    display: none !important;
-  }
-
-  .cyber-stats-bar {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin: 0;
-    width: 100%;
-  }
-
-  .cyber-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 0.45rem;
-  }
-
-  .cyber-filters {
-    display: flex;
-    gap: 0.3rem;
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .cyber-filters::-webkit-scrollbar {
-    display: none;
-  }
-
-  .cyber-tab {
-    flex: 1;
-    min-width: max-content;
-    text-align: center;
-    padding: 0.45rem 0.55rem;
-    font-size: 0.7rem;
-    letter-spacing: 0;
-    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
-  }
-
-  #btn-download-png {
-    width: 100%;
-    justify-content: center;
-    padding: 0.55rem 1rem;
-    font-size: 0.82rem;
-    letter-spacing: 1px;
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-  }
-
-  .template-watermark-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.85rem;
-  }
-
-  .cyber-hint-pill {
-    font-size: 0.75rem;
-    padding: 0.35rem 0.65rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .sprite-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 0.85rem;
-  }
+.cyber-toast-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  max-width: 380px;
+  width: calc(100% - 3rem);
+  background: var(--bg-card);
+  border: 2px solid var(--accent-primary);
+  box-shadow: 6px 6px 0px #000000;
+  border-radius: 6px;
+  padding: 1.1rem 1.25rem;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* FOOTER STYLING */
+.cyber-toast-banner.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.toast-title {
+  font-family: var(--font-fortnite);
+  font-size: 1.2rem;
+  color: var(--neon-yellow);
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.toast-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  line-height: 1;
+}
+
+.toast-body {
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  color: var(--text-main);
+  line-height: 1.4;
+  margin-bottom: 0.85rem;
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* ==========================================================================
+   FOOTER STYLING
+   ========================================================================== */
 .cyber-footer {
   width: 100%;
-  background: rgba(4, 7, 14, 0.95);
-  border-top: 1px solid rgba(0, 242, 254, 0.2);
+  background: rgba(5, 8, 17, 0.96);
+  border-top: 2px solid var(--accent-primary);
   padding: 1.75rem 1rem;
   margin-top: 3rem;
   font-family: var(--font-display);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 5;
 }
 
 .footer-container {
@@ -1380,16 +1873,14 @@ body::after {
 }
 
 .footer-author-link {
-  color: var(--neon-cyan);
+  color: var(--accent-primary);
   text-decoration: none;
-  font-weight: 700;
-  transition: all 0.2s ease;
-  border-bottom: 1px dashed rgba(0, 242, 254, 0.4);
+  font-weight: 800;
+  border-bottom: 1px dashed var(--accent-primary);
 }
 
 .footer-author-link:hover {
   color: #ffffff;
-  text-shadow: 0 0 10px var(--neon-cyan);
   border-bottom-style: solid;
 }
 
@@ -1401,7 +1892,7 @@ body::after {
 }
 
 .social-label {
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-main);
@@ -1417,38 +1908,581 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  background: rgba(12, 18, 34, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--bg-card);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 2px 2px 0px #000000;
   color: #ffffff;
   text-decoration: none;
   padding: 0.35rem 0.75rem;
   border-radius: 4px;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 800;
   transition: all 0.2s ease;
-  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
 .social-badge:hover {
   transform: translateY(-2px);
+  border-color: var(--accent-primary);
 }
 
-.social-badge.tiktok:hover {
-  border-color: #ff0050;
-  color: #ff0050;
-  box-shadow: 0 0 12px rgba(255, 0, 80, 0.5);
+/* ==========================================================================
+   TREASURE HUNTERS MULTIVERSE PRELOADER
+   ========================================================================== */
+.cyber-preloader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background:
+    radial-gradient(rgba(255, 208, 38, 0.14) 2px, transparent 2px) 0 0 / 16px 16px,
+    linear-gradient(135deg, #071021 0%, #170b29 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-.social-badge.twitter:hover {
-  border-color: #1da1f2;
-  color: #1da1f2;
-  box-shadow: 0 0 12px rgba(29, 161, 242, 0.5);
+.cyber-preloader-overlay.preloader-hidden {
+  opacity: 0;
+  transform: scale(1.06);
+  pointer-events: none;
 }
 
-.social-badge.instagram:hover {
-  border-color: #e1306c;
-  color: #e1306c;
-  box-shadow: 0 0 12px rgba(225, 48, 108, 0.5);
+.terminal-box {
+  width: 100%;
+  max-width: 600px;
+  background: #0a1426;
+  border: 2px solid var(--neon-yellow);
+  box-shadow: 8px 8px 0px #000000;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  z-index: 20;
+}
+
+.terminal-header {
+  background: linear-gradient(90deg, #f3a833 0%, #ffd026 55%, #ee4be8 100%);
+  border-bottom: 2px solid #000000;
+  padding: 0.55rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terminal-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #050811;
+}
+
+.retro-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.win-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  background: #ff52d9;
+  color: #000000;
+  border: 2px solid #000000;
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.win-btn.win-close {
+  background: #ff2a55;
+  color: #ffffff;
+}
+
+.terminal-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.preloader-logo-stage {
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(5, 8, 17, 0.75);
+  border: 2px solid #000000;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.preloader-katakana {
+  display: block;
+  font-family: var(--font-katakana);
+  font-size: 0.78rem;
+  color: var(--neon-yellow);
+  letter-spacing: 2px;
+  margin-bottom: 0.2rem;
+}
+
+.preloader-style-word {
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0.15rem 0;
+  transition: all 0.12s ease;
+}
+
+.preloader-style-word.style-step-1 {
+  font-family: 'Thirties Gold', var(--font-fortnite);
+  color: #ffd026;
+  filter: drop-shadow(3px 3px 0 #000);
+}
+
+.preloader-style-word.style-step-2 {
+  font-family: 'Halftone Nium', var(--font-fortnite);
+  color: #ffffff;
+  filter: drop-shadow(4px 4px 0 #ff1738);
+}
+
+.preloader-style-word.style-step-3 {
+  font-family: 'Anonymous Punk', var(--font-fortnite);
+  color: #9ce635;
+  filter: drop-shadow(4px 4px 0 #f53699);
+}
+
+.preloader-style-word.style-step-4 {
+  font-family: 'Game Bubble', var(--font-fortnite);
+  color: #23f79b;
+  filter: drop-shadow(4px 4px 0 #ee4be8);
+}
+
+.preloader-style-word.style-step-5 {
+  font-family: var(--font-fortnite);
+  color: #ffd026;
+  filter: drop-shadow(4px 4px 0 #000);
+}
+
+.preloader-sub-pill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: #ff2a85;
+  color: #ffffff;
+  padding: 0.18rem 0.65rem;
+  border: 1.5px solid #000;
+  margin-top: 0.25rem;
+}
+
+.terminal-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-height: 110px;
+}
+
+.term-line {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.term-prefix {
+  color: var(--neon-yellow);
+}
+
+.term-text {
+  color: #e2eeff;
+}
+
+.term-status-ok {
+  color: var(--neon-green);
+  font-weight: 900;
+  margin-left: auto;
+}
+
+.terminal-progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--neon-yellow);
+  margin-bottom: 0.3rem;
+}
+
+.terminal-progress-bar-bg {
+  width: 100%;
+  height: 12px;
+  background: #050811;
+  border: 2px solid #000000;
+  overflow: hidden;
+}
+
+.terminal-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--neon-yellow), var(--neon-magenta), var(--neon-cyan));
+  transition: width 0.2s ease;
+}
+
+/* ==========================================================================
+   RESPONSIVE TABLET & MOBILE ADAPTATIONS
+   ========================================================================== */
+@media (max-width: 1060px) {
+  .cyber-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .cyber-search-box {
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* TOP NAVBAR ON MOBILE: CLEAN, SLEEK & COMPACT */
+  .fortnite-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    padding: 0 0.85rem;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    background: #060f1e;
+    border-bottom: 2px solid var(--accent-primary);
+  }
+
+  .nav-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .mudo-brand-logo {
+    font-size: 1.22rem;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+  }
+
+  .nav-katakana-tag {
+    display: none;
+  }
+
+  .nav-season-pill {
+    display: none;
+  }
+
+  .lang-switcher {
+    flex-shrink: 0;
+    padding: 0.15rem 0.35rem;
+    font-size: 0.72rem;
+  }
+
+  .lang-btn {
+    padding: 0.12rem 0.3rem;
+  }
+
+  .hero-banner {
+    padding: 1.35rem 0.5rem 1rem;
+  }
+
+  .katakana-gold-top,
+  .katakana-gold-bottom {
+    font-size: 1.55rem;
+  }
+
+  .treasure-main-title {
+    font-size: clamp(1.35rem, 5.6vw, 2.15rem);
+    height: 2.5rem;
+    letter-spacing: 1.5px;
+  }
+
+  .treasure-main-title.title-font-gold,
+  .treasure-main-title.title-font-halftone {
+    font-size: clamp(1.05rem, 4.1vw, 1.55rem);
+  }
+
+  .treasure-main-title.title-font-burbank {
+    -webkit-text-stroke: 4px #ffd026;
+  }
+
+  .slogan-pill {
+    font-size: 0.7rem;
+    padding: 0.42rem 0.95rem;
+    letter-spacing: 1px;
+  }
+
+  .sticky-controls-wrapper {
+    position: sticky;
+    top: 48px;
+    z-index: 150;
+    margin: 0 0 1rem;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sticky-controls-container {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid var(--accent-primary);
+    background: #060f1e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
+    padding: 0.45rem 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .sticky-controls-container .cyber-progress-box,
+  .sticky-controls-container .cyber-stats-count,
+  .sticky-controls-container .quick-buttons-box {
+    display: none !important;
+  }
+
+  .cyber-stats-bar {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  #btn-download-png {
+    width: 100%;
+    justify-content: center;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+
+  .cyber-season-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .season-filter-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cyber-season-tabs {
+    width: 100%;
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .cyber-season-tab {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.72rem;
+  }
+
+  .cyber-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.35rem;
+  }
+
+  .cyber-filters {
+    display: flex;
+    gap: 0.3rem;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.15rem 0.1rem;
+  }
+
+  .cyber-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cyber-tab {
+    flex: 1 1 auto;
+    min-width: fit-content;
+    white-space: nowrap;
+    text-align: center;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.68rem;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+  }
+
+  .cyber-search-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cyber-search-input {
+    font-size: 0.78rem;
+    padding: 0.38rem 0.65rem;
+  }
+
+  /* TEMPLATE CONTAINER ON MOBILE */
+  main {
+    padding: 0 0.5rem 3rem !important;
+  }
+
+  .template-card-container {
+    padding: 0.85rem 0.65rem;
+    border-radius: 6px;
+  }
+
+  .template-watermark-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 1.15rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .template-info h2 {
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+  }
+
+  .template-brand-row {
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .mudo-template-brand {
+    font-size: 1.15rem;
+  }
+
+  .epic-partner-pill {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .template-legend-row {
+    font-size: 0.68rem !important;
+    gap: 0.5rem 0.75rem !important;
+  }
+
+  /* 2-COLUMN BALANCED MOBILE SPRITE GRID */
+  .sprite-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .sprite-card {
+    border-width: 2px;
+  }
+
+  /* COMPACT & BEAUTIFUL WANTED POSTERS ON MOBILE */
+  .sprite-card.unmarked .wanted-poster-top {
+    padding: 0.35rem 0.4rem 0.15rem;
+  }
+
+  .sprite-card.unmarked .wanted-header-text {
+    font-size: 1.15rem;
+    letter-spacing: 1.8px;
+    line-height: 1;
+  }
+
+  .sprite-card.unmarked .sprite-image-wrapper {
+    height: 118px;
+    padding: 0.35rem;
+    width: calc(100% - 0.9rem);
+    margin-top: 0.1rem;
+  }
+
+  .sprite-image-wrapper {
+    height: 118px;
+    padding: 1.35rem 0.4rem 0.4rem;
+  }
+
+  .sprite-card.unmarked .sprite-info {
+    padding: 0.35rem 0.45rem 0.4rem;
+  }
+
+  .sprite-card.unmarked .wanted-dead-alive {
+    font-size: 0.56rem;
+    letter-spacing: 1.4px;
+    margin-bottom: 0.08rem;
+  }
+
+  .sprite-card.unmarked .sprite-title {
+    font-size: 0.76rem;
+    line-height: 1.15;
+    letter-spacing: 0.1px;
+    margin: 0.08rem 0 0.2rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  .sprite-card.unmarked .wanted-stamp-lines {
+    height: 0;
+    border-top: 1.5px solid #362413;
+  }
+
+  .sprite-card.unmarked .wanted-stamp-label {
+    font-size: 0.52rem;
+    letter-spacing: 0.8px;
+  }
+
+  /* MARKED & MAXED CARDS ON MOBILE */
+  .sprite-card.marked .sprite-info,
+  .sprite-card.maxed .sprite-info {
+    padding: 0.45rem 0.55rem;
+  }
+
+  .sprite-card.marked .sprite-title,
+  .sprite-card.maxed .sprite-title {
+    font-size: 0.78rem;
+    line-height: 1.15;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .card-header-overlay {
+    top: 0.4rem;
+    left: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .sprite-badge {
+    font-size: 0.6rem;
+    padding: 0.18rem 0.4rem;
+  }
+
+  .checkbox-custom {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cyber-toast-banner {
+    bottom: 5.5rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    max-width: none;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1457,180 +2491,4 @@ body::after {
     align-items: center;
     text-align: center;
   }
-}
-
-/* ==========================================================================
-   CYBERPUNK HACKING TERMINAL PRELOADER
-   ========================================================================== */
-.cyber-preloader-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  background: #03060c;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  overflow: hidden;
-  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cyber-preloader-overlay.preloader-hidden {
-  opacity: 0;
-  transform: scale(1.08) skewX(4deg);
-  filter: drop-shadow(0 0 30px var(--neon-magenta)) contrast(200%);
-  pointer-events: none;
-}
-
-.terminal-scanline {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0),
-    rgba(255,255,255,0) 50%,
-    rgba(0, 0, 0, 0.4) 50%,
-    rgba(0, 0, 0, 0.4)
-  );
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0.65;
-}
-
-.terminal-box {
-  width: 100%;
-  max-width: 620px;
-  background: rgba(8, 12, 24, 0.96);
-  border: 1px solid var(--neon-cyan);
-  box-shadow: 0 0 35px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.15);
-  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-  font-family: 'Courier New', Courier, monospace;
-  overflow: hidden;
-  position: relative;
-  z-index: 20;
-}
-
-.terminal-header {
-  background: rgba(4, 7, 14, 0.95);
-  border-bottom: 1px solid rgba(0, 242, 254, 0.3);
-  padding: 0.65rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.terminal-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.terminal-dots .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-red { background: #ff5f56; box-shadow: 0 0 6px #ff5f56; }
-.dot-yellow { background: #ffbd2e; box-shadow: 0 0 6px #ffbd2e; }
-.dot-green { background: #27c93f; box-shadow: 0 0 6px #27c93f; }
-
-.terminal-title {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--neon-cyan);
-  text-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.terminal-badge {
-  font-family: var(--font-display);
-  font-size: 0.65rem;
-  font-weight: 900;
-  background: var(--neon-magenta);
-  color: #fff;
-  padding: 0.15rem 0.45rem;
-  border-radius: 3px;
-  letter-spacing: 1px;
-  animation: pulse 1s infinite alternate;
-}
-
-.terminal-body {
-  padding: 1.25rem 1.25rem 1.5rem;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.terminal-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  font-size: 0.88rem;
-  line-height: 1.4;
-  color: #00ff66;
-  text-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
-  margin-bottom: 1.25rem;
-}
-
-.term-line {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  word-break: break-all;
-}
-
-.term-prefix {
-  color: var(--neon-magenta);
-  font-weight: bold;
-}
-
-.term-text {
-  color: #00ff66;
-}
-
-.term-status-ok {
-  color: var(--neon-cyan);
-  font-weight: bold;
-  text-shadow: 0 0 8px var(--neon-cyan);
-  margin-left: auto;
-}
-
-.terminal-progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  border-top: 1px dashed rgba(0, 242, 254, 0.2);
-  padding-top: 0.85rem;
-}
-
-.terminal-progress-text {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--neon-cyan);
-  letter-spacing: 1px;
-}
-
-.terminal-progress-bar-bg {
-  width: 100%;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--neon-cyan);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-  overflow: hidden;
-  position: relative;
-}
-
-.terminal-progress-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan), #00ff66);
-  box-shadow: 0 0 14px #00ff66;
-  transition: width 0.15s ease-out;
 }
