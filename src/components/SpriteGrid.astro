@@ -935,6 +935,12 @@ const c7s5Count = sprites.filter((s) => s.season === 'c7s5').length;
     const twDescEl = document.querySelector('meta[name="twitter:description"]');
     if (twDescEl && t.metaDesc) twDescEl.setAttribute('content', t.metaDesc);
 
+    const ogImgAltEl = document.querySelector('meta[property="og:image:alt"]');
+    if (ogImgAltEl) ogImgAltEl.setAttribute('content', lang === 'es' ? 'Plantilla interactiva de Espíritus de Fortnite: Cazatesoros' : 'Interactive Fortnite Treasure Hunters Sprites Template & Tracker');
+
+    const twImgAltEl = document.querySelector('meta[name="twitter:image:alt"]');
+    if (twImgAltEl) twImgAltEl.setAttribute('content', lang === 'es' ? 'Plantilla interactiva de Espíritus de Fortnite: Cazatesoros' : 'Interactive Fortnite Treasure Hunters Sprites Template & Tracker');
+
     // Update JSON-LD Structured Data script
     const jsonLdEl = document.querySelector('script[type="application/ld+json"]');
     if (jsonLdEl && t.docTitle && t.metaDesc) {
