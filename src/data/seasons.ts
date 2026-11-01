@@ -170,10 +170,52 @@ export const C7S4_FILENAMES = new Set<string>([
 ]);
 
 /**
+ * List of all 35 sprites from Fortnite Chapter 7 Mini Season: Cazatesoros (C7S5).
+ */
+export const C7S5_FILENAMES = new Set<string>([
+  'T_Icon_BR_Creature_Sprite_BarrelOfFish_L.webp',
+  'T_Icon_BR_Creature_Sprite_BarrelOfFish_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_BarrelOfFish_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_CoinPile_L.webp',
+  'T_Icon_BR_Creature_Sprite_CoinPile_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_CoinPile_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_Compass_L.webp',
+  'T_Icon_BR_Creature_Sprite_Compass_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_Compass_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_FeedJet_L.webp',
+  'T_Icon_BR_Creature_Sprite_Parrot_L.webp',
+  'T_Icon_BR_Creature_Sprite_Parrot_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_Parrot_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_PeelyBones_L.webp',
+  'T_Icon_BR_Creature_Sprite_PeelyBones_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_PeelyBones_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_L.webp',
+  'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_RookGecko_L.webp',
+  'T_Icon_BR_Creature_Sprite_RookGecko_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_RookGecko_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_SquibblySprite_L.webp',
+  'T_Icon_BR_Creature_Sprite_SquibblySprite_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_SquibblySprite_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_StarLight_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureChest_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureChest_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureChest_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureMap_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureMap_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_TreasureMap_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_UnbotheredFish_L.webp',
+  'T_Icon_BR_Creature_Sprite_UnbotheredFish_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_UnbotheredFish_Cursed_L.webp',
+]);
+
+/**
  * Determines whether a sprite belongs to C7S4 or C7S5.
  * - Explicit check for c7s5 / s5 in path or filename -> 'c7s5'
  * - Explicit check for c7s4 / s4 in path or filename -> 'c7s4'
  * - Match in existing C7S4_FILENAMES -> 'c7s4'
+ * - Match in C7S5_FILENAMES -> 'c7s5'
  * - Any newly added sprite -> defaults to 'c7s5'
  */
 export function getSpriteSeason(filename: string, path: string = ''): SeasonId {
@@ -182,6 +224,7 @@ export function getSpriteSeason(filename: string, path: string = ''): SeasonId {
   if (lower.includes('c7s4') || lower.includes('season4') || lower.includes('season-4')) return 'c7s4';
 
   if (C7S4_FILENAMES.has(filename)) return 'c7s4';
+  if (C7S5_FILENAMES.has(filename)) return 'c7s5';
 
   // Default for all new additions
   return 'c7s5';
