@@ -170,7 +170,7 @@ export const C7S4_FILENAMES = new Set<string>([
 ]);
 
 /**
- * List of all 35 sprites from Fortnite Chapter 7 Mini Season: Cazatesoros (C7S5).
+ * List of all 42 sprites from Fortnite Chapter 7 Mini Season: Cazatesoros (C7S5).
  */
 export const C7S5_FILENAMES = new Set<string>([
   'T_Icon_BR_Creature_Sprite_BarrelOfFish_L.webp',
@@ -183,12 +183,18 @@ export const C7S5_FILENAMES = new Set<string>([
   'T_Icon_BR_Creature_Sprite_Compass_Jeweled_L.webp',
   'T_Icon_BR_Creature_Sprite_Compass_Cursed_L.webp',
   'T_Icon_BR_Creature_Sprite_FeedJet_L.webp',
+  'T_Icon_BR_Creature_Sprite_LushlyZest_ui_v2_1_Alpha_L.webp',
+  'T_Icon_BR_Creature_Sprite_LushlyZest_Jeweled_ui_v1_1_Alpha_L.webp',
+  'T_Icon_BR_Creature_Sprite_LushlyZest_Cursed_ui_v1_1_Alpha_L.webp',
   'T_Icon_BR_Creature_Sprite_Parrot_L.webp',
   'T_Icon_BR_Creature_Sprite_Parrot_Jeweled_L.webp',
   'T_Icon_BR_Creature_Sprite_Parrot_Cursed_L.webp',
   'T_Icon_BR_Creature_Sprite_PeelyBones_L.webp',
   'T_Icon_BR_Creature_Sprite_PeelyBones_Jeweled_L.webp',
   'T_Icon_BR_Creature_Sprite_PeelyBones_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_PirateCalamari_L.webp',
+  'T_Icon_BR_Creature_Sprite_PirateCalamari_Jeweled_L.webp',
+  'T_Icon_BR_Creature_Sprite_PirateCalamari_Cursed_L.webp',
   'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_L.webp',
   'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_Jeweled_L.webp',
   'T_Icon_BR_Creature_Sprite_PlaymakerBrewery_Cursed_L.webp',
@@ -208,6 +214,7 @@ export const C7S5_FILENAMES = new Set<string>([
   'T_Icon_BR_Creature_Sprite_UnbotheredFish_L.webp',
   'T_Icon_BR_Creature_Sprite_UnbotheredFish_Jeweled_L.webp',
   'T_Icon_BR_Creature_Sprite_UnbotheredFish_Cursed_L.webp',
+  'T_Icon_BR_Creature_Sprite_ZeroPointPiece_ui_v3_1_Alpha_L.webp',
 ]);
 
 /**
